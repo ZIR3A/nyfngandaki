@@ -1,26 +1,168 @@
 @import "tailwindcss";
 
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ===== Official NYFN Brand ===== */
+
+  --primary: #1546B0;
+  --primary-hover: #0D2E78;
+  --primary-light: #2D63D8;
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #D71920;
+  --secondary-hover: #B31218;
+  --secondary-foreground: #FFFFFF;
+
+  --accent: #F53B45;
+  --accent-hover: #DC2626;
+  --accent-light: #FFE8EA;
+  --accent-foreground: #FFFFFF;
+
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --card: #FFFFFF;
+  --card-hover: #F4F8FF;
+
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+
+  --border: #DCE3EF;
+  --ring: #0B1FA8;
+
+  --success: #16A34A;
+  --warning: #D97706;
+  --destructive: #DC2626;
+  
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --foreground: #0F172A;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --input: #DCE3EF;
+  
+  --radius: 0.5rem;
+}
+
+.dark {
+  --primary: #1546B0;
+  --primary-foreground: #FFFFFF;
+  --primary-hover: #0D2E78;
+  --primary-light: #2D63D8;
+
+  --secondary: #D71920;
+  --secondary-hover: #B31218;
+  --secondary-foreground: #FFFFFF;
+
+  --accent: #F53B45;
+  --accent-hover: #DC2626;
+  --accent-light: #4A1A1A;
+  --accent-foreground: #FFFFFF;
+  
+  --background: #081224;
+  --surface: #0E1B34;
+  --card: #132443;
+  --card-hover: #182B4E;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+
+  --border: #22314D;
+  
+  --foreground: #F8FAFC;
+  --card-foreground: #F8FAFC;
+  --popover: #132443;
+  --popover-foreground: #F8FAFC;
+  --muted: #132443;
+  --muted-foreground: #94A3B8;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --input: #22314D;
+  --ring: #0B1FA8;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-light: var(--accent-light);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.05);
+  --shadow-md: 0 8px 24px rgba(0,0,0,.08);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,.12);
+  --font-sans: var(--font-inter), var(--font-noto-sans-devanagari), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary/20;
+  }
+  
+  /* Typography System */
+  h1 {
+    @apply text-[48px] font-bold tracking-tight;
+  }
+  h2 {
+    @apply text-[40px] font-bold tracking-tight;
+  }
+  h3 {
+    @apply text-[32px] font-semibold tracking-tight;
+  }
+  h4 {
+    @apply text-[28px] font-semibold tracking-tight;
+  }
+  h5 {
+    @apply text-[24px] font-semibold tracking-tight;
+  }
+  h6 {
+    @apply text-[20px] font-semibold tracking-tight;
+  }
+  p {
+    @apply text-[16px] leading-7;
+  }
+  small {
+    @apply text-[14px];
+  }
+  .caption {
+    @apply text-sm text-muted-foreground;
+  }
+  .label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
 }
