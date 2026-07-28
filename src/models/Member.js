@@ -21,8 +21,14 @@ const MemberSchema = new mongoose.Schema(
     biography: {
       type: LocalizedStringSchema,
     },
-    photo: {
-      type: String,
+    profilePhotoId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
+      default: null,
+    },
+    coverPhotoId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
       default: null,
     },
     phone: {

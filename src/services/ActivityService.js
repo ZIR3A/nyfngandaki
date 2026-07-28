@@ -1,5 +1,10 @@
 import { DatabaseService } from "./DatabaseService";
 import Activity from "../models/Activity";
+import { resolveAssets } from "@/modules/storage/helpers/resolver.helper";
+
+const ACTIVITY_ASSET_MAPPING = [
+  { idField: 'imageId', urlField: 'image' }
+];
 
 export class ActivityService {
   static async getFeaturedActivities(limit = 3) {
@@ -9,7 +14,7 @@ export class ActivityService {
         .sort({ createdAt: -1 })
         .limit(limit)
         .lean();
-      return activities;
+      return resolveAssets(activities, ACTIVITY_ASSET_MAPPING);
     } catch (error) {
       console.error("Error fetching featured activities:", error);
       throw error;
@@ -23,7 +28,7 @@ export class ActivityService {
       const activities = await Activity.find(query)
         .sort({ createdAt: -1 })
         .lean();
-      return activities;
+      return resolveAssets(activities, ACTIVITY_ASSET_MAPPING);
     } catch (error) {
       console.error("Error fetching all activities:", error);
       throw error;
@@ -34,7 +39,7 @@ export class ActivityService {
     try {
       await DatabaseService.connect();
       const activity = await Activity.findById(id).lean();
-      return activity;
+      return resolveAssets(activity, ACTIVITY_ASSET_MAPPING);
     } catch (error) {
       console.error(`Error fetching activity ${id}:`, error);
       throw error;

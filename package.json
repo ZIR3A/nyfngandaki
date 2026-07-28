@@ -17,6 +17,7 @@
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.42.2",
+    "googleapis": "^173.0.0",
     "jose": "^6.2.4",
     "lucide-react": "^1.27.0",
     "mongodb": "^7.5.0",

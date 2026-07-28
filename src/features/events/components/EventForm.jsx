@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Save, Loader2, Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
 import { createEvent, updateEvent } from "../actions/event.actions";
+import { MediaPicker } from "@/features/storage/components/MediaPicker";
 
 export function EventForm({ initialData = null }) {
   const router = useRouter();
@@ -156,13 +157,23 @@ export function EventForm({ initialData = null }) {
             </div>
 
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Cover Image URL</label>
-                <div className="flex gap-2">
-                  <span className="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500 rounded-l-lg">
-                    <ImageIcon className="w-4 h-4" />
-                  </span>
-                  <input type="url" name="coverImage" defaultValue={initialData?.coverImage || ""} className="flex-1 min-w-0 px-4 py-2 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="https://example.com/image.jpg" />
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-1">Banner Image (Cover)</label>
+                  <MediaPicker name="bannerImageId" module="events" />
+                  <p className="text-xs text-gray-500 mt-1">Wide image displayed at the top of the event page.</p>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-1">Featured Image</label>
+                  <MediaPicker name="featuredImageId" module="events" />
+                  <p className="text-xs text-gray-500 mt-1">Square/thumbnail image for event listings.</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-1">Event Gallery</label>
+                  <MediaPicker name="galleryImageIds" module="events" multiple={true} />
+                  <p className="text-xs text-gray-500 mt-1">Select multiple images for the post-event gallery.</p>
                 </div>
               </div>
 

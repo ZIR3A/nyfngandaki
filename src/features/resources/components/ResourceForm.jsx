@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Save, Loader2, Link as LinkIcon } from "lucide-react";
 import Link from "next/link";
 import { createResource, updateResource } from "../actions/resource.actions";
+import { MediaPicker } from "@/features/storage/components/MediaPicker";
 
 export function ResourceForm({ initialData = null }) {
   const router = useRouter();
@@ -112,15 +113,18 @@ export function ResourceForm({ initialData = null }) {
           <div className="p-6 grid md:grid-cols-2 gap-6">
             
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">File URL *</label>
-                <div className="flex gap-2">
-                  <span className="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500 rounded-l-lg">
-                    <LinkIcon className="w-4 h-4" />
-                  </span>
-                  <input required type="url" name="fileUrl" defaultValue={initialData?.fileUrl || ""} className="flex-1 min-w-0 px-4 py-2 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="https://example.com/document.pdf" />
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-1">Resource File *</label>
+                  <MediaPicker name="fileId" module="resources" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" />
+                  <p className="text-xs text-gray-500 mt-1">Upload the document or PDF file.</p>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">Provide a direct link to the document.</p>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-1">Thumbnail (Optional)</label>
+                  <MediaPicker name="thumbnailId" module="resources" accept="image/*" />
+                  <p className="text-xs text-gray-500 mt-1">Cover image for the resource list.</p>
+                </div>
               </div>
 
               <div>

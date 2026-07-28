@@ -22,6 +22,7 @@ export async function updateHomepageSettings(formData) {
     }
 
     const rawData = {
+      heroImageId: formData.get("heroImageId") || null,
       heroTitle: {
         en: formData.get("heroTitle.en"),
         np: formData.get("heroTitle.np"),
@@ -38,7 +39,7 @@ export async function updateHomepageSettings(formData) {
         en: formData.get("chairpersonMessage.en"),
         np: formData.get("chairpersonMessage.np"),
       },
-      chairpersonImage: formData.get("chairpersonImage") || null,
+      chairpersonImageId: formData.get("chairpersonImageId") || null,
       mission: {
         en: formData.get("mission.en"),
         np: formData.get("mission.np"),

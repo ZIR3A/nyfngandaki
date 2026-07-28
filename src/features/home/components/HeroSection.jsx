@@ -97,9 +97,19 @@ export default function HeroSection({ dictionary, settings }) {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="absolute inset-0 rounded-[32px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)]"
           >
-            <div className="w-full h-full bg-blue-800 flex items-center justify-center">
-               <span className="text-blue-400 opacity-50 text-xl font-medium">Hero Image (CMS Editable)</span>
-            </div>
+            {settings?.banner ? (
+              <Image 
+                src={settings.banner} 
+                alt="Hero Banner" 
+                fill 
+                className="object-cover" 
+                priority
+              />
+            ) : (
+              <div className="w-full h-full bg-blue-800 flex items-center justify-center">
+                 <span className="text-blue-400 opacity-50 text-xl font-medium">Hero Image (CMS Editable)</span>
+              </div>
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-[#102C69] via-transparent to-transparent"></div>
           </motion.div>
 

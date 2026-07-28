@@ -1,6 +1,13 @@
 import { DatabaseService } from "./DatabaseService";
 import Event from "../models/Event";
 import mongoose from "mongoose";
+import { resolveAssets } from "@/modules/storage/helpers/resolver.helper";
+
+const EVENT_ASSET_MAPPING = [
+  { idField: 'bannerImageId', urlField: 'coverImage' },
+  { idField: 'featuredImageId', urlField: 'featuredImage' },
+  { idField: 'galleryImageIds', urlField: 'galleryImages' }
+];
 
 export class EventService {
   static async getFeaturedEvents(limit = 3) {
@@ -10,7 +17,7 @@ export class EventService {
         .sort({ date: 1 })
         .limit(limit)
         .lean();
-      return events;
+      return resolveAssets(events, EVENT_ASSET_MAPPING);
     } catch (error) {
       console.error("Error fetching featured events:", error);
       throw error;
@@ -23,7 +30,7 @@ export class EventService {
       const events = await Event.find()
         .sort({ date: 1 })
         .lean();
-      return events;
+      return resolveAssets(events, EVENT_ASSET_MAPPING);
     } catch (error) {
       console.error("Error fetching all events:", error);
       throw error;
@@ -34,7 +41,7 @@ export class EventService {
     try {
       await DatabaseService.connect();
       const event = await Event.findById(id).lean();
-      return event;
+      return resolveAssets(event, EVENT_ASSET_MAPPING);
     } catch (error) {
       console.error(`Error fetching event ${id}:`, error);
       throw error;

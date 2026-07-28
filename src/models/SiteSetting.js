@@ -17,7 +17,11 @@ const SiteSettingSchema = new mongoose.Schema(
     // Chairperson details
     chairpersonName: { type: LocalizedStringSchema },
     chairpersonMessage: { type: LocalizedStringSchema },
-    chairpersonImage: { type: String, default: null },
+    chairpersonImageId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
+      default: null,
+    },
 
     mission: { type: LocalizedStringSchema },
     vision: { type: LocalizedStringSchema },
@@ -51,12 +55,14 @@ const SiteSettingSchema = new mongoose.Schema(
       instagram: { type: String, trim: true },
       youtube: { type: String, trim: true },
     },
-    logo: {
-      type: String,
+    logoId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
       default: null,
     },
-    banner: {
-      type: String,
+    heroImageId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
       default: null,
     },
   },

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Save, Loader2, Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
 import { createActivity, updateActivity } from "../actions/activity.actions";
+import { MediaPicker } from "@/features/storage/components/MediaPicker";
 
 export function ActivityForm({ initialData = null }) {
   const router = useRouter();
@@ -127,14 +128,9 @@ export function ActivityForm({ initialData = null }) {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Image URL</label>
-                <div className="flex gap-2">
-                  <span className="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500 rounded-l-lg">
-                    <ImageIcon className="w-4 h-4" />
-                  </span>
-                  <input type="url" name="image" defaultValue={initialData?.image || ""} className="flex-1 min-w-0 px-4 py-2 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="https://example.com/image.jpg" />
-                </div>
-                <p className="text-xs text-gray-500 mt-1">Provide a direct URL to the image for now.</p>
+                <label className="block text-sm font-bold text-gray-700 mb-1">Image</label>
+                <MediaPicker name="imageId" module="temp" />
+                <p className="text-xs text-gray-500 mt-1">Upload an image for this activity.</p>
               </div>
 
               <div className="pt-4 space-y-3 border-t border-gray-100">

@@ -17,9 +17,15 @@ const ResourceSchema = new mongoose.Schema(
     description: {
       type: LocalizedStringSchema,
     },
-    fileUrl: {
-      type: String,
+    fileId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
       required: true,
+    },
+    thumbnailId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
+      default: null,
     },
     fileSize: {
       type: String,

@@ -2,6 +2,7 @@ import { MemberService } from "@/services/MemberService";
 import Link from "next/link";
 import { Plus, Search, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DeleteMemberButton } from "@/features/members/components/DeleteMemberButton";
 
 export const metadata = {
   title: "Manage Members | NYFN Admin",
@@ -80,13 +81,11 @@ export default async function AdminMembersPage() {
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link href={`/admin/members/${member._id.toString()}/edit`}>
-                          <Button variant="ghost" size="icon" className="text-gray-500 hover:text-blue-600">
+                          <Button variant="ghost" size="icon" className="text-gray-500 hover:text-blue-600" title="Edit Member">
                             <Edit className="h-4 w-4" />
                           </Button>
                         </Link>
-                        <Button variant="ghost" size="icon" className="text-gray-500 hover:text-red-600">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <DeleteMemberButton id={member._id.toString()} name={member.name?.en || "this member"} />
                       </div>
                     </td>
                   </tr>

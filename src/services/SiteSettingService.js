@@ -1,5 +1,12 @@
 import { DatabaseService } from "./DatabaseService";
 import SiteSetting from "../models/SiteSetting";
+import { resolveAssets } from "@/modules/storage/helpers/resolver.helper";
+
+const SETTING_ASSET_MAPPING = [
+  { idField: 'chairpersonImageId', urlField: 'chairpersonImage' },
+  { idField: 'logoId', urlField: 'logo' },
+  { idField: 'heroImageId', urlField: 'banner' }
+];
 
 export class SiteSettingService {
   static async getSettings() {
@@ -14,7 +21,7 @@ export class SiteSettingService {
         settings = settings.toObject();
       }
       
-      return settings;
+      return resolveAssets(settings, SETTING_ASSET_MAPPING);
     } catch (error) {
       console.error("Error fetching site settings:", error);
       throw error;

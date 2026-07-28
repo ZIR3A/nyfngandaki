@@ -32,13 +32,20 @@ const EventSchema = new mongoose.Schema(
       ref: "District",
       default: null,
     },
-    coverImage: {
-      type: String,
+    bannerImageId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
       default: null,
     },
-    galleryImages: [
+    featuredImageId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
+      default: null,
+    },
+    galleryImageIds: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Storage",
       },
     ],
     status: {

@@ -21,8 +21,9 @@ const ActivitySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    image: {
-      type: String,
+    imageId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
       default: null,
     },
     statistics: {

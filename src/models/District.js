@@ -17,8 +17,14 @@ const DistrictSchema = new mongoose.Schema(
     description: {
       type: LocalizedStringSchema,
     },
-    coverImage: {
-      type: String,
+    coverImageId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
+      default: null,
+    },
+    officeImageId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
       default: null,
     },
     officeAddress: {

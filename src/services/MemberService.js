@@ -1,5 +1,12 @@
 import connectToDatabase from "@/lib/mongodb";
 import Member from "@/models/Member";
+import "@/models/District"; // Required: ensures District schema is registered before populate()
+import { resolveAssets } from "@/modules/storage/helpers/resolver.helper";
+
+const MEMBER_ASSET_MAPPING = [
+  { idField: 'profilePhotoId', urlField: 'photo' },
+  { idField: 'coverPhotoId', urlField: 'coverPhoto' }
+];
 
 export class MemberService {
   /**
@@ -7,7 +14,8 @@ export class MemberService {
    */
   static async getAllMembers(filters = {}, sort = { displayOrder: 1, createdAt: -1 }) {
     await connectToDatabase();
-    return Member.find(filters).populate("district").sort(sort).lean();
+    const members = await Member.find(filters).populate("district").sort(sort).lean();
+    return resolveAssets(members, MEMBER_ASSET_MAPPING);
   }
 
   /**
@@ -15,11 +23,12 @@ export class MemberService {
    */
   static async getFeaturedMembers(limit = 6) {
     await connectToDatabase();
-    return Member.find({ isFeaturedOnHome: true, status: "Active" })
+    const members = await Member.find({ isFeaturedOnHome: true, status: "Active" })
       .populate("district")
       .sort({ displayOrder: 1, createdAt: -1 })
       .limit(limit)
       .lean();
+    return resolveAssets(members, MEMBER_ASSET_MAPPING);
   }
 
   /**
@@ -27,7 +36,8 @@ export class MemberService {
    */
   static async getMemberById(id) {
     await connectToDatabase();
-    return Member.findById(id).populate("district").lean();
+    const member = await Member.findById(id).populate("district").lean();
+    return resolveAssets(member, MEMBER_ASSET_MAPPING);
   }
 
   /**

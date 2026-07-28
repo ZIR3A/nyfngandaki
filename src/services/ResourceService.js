@@ -1,5 +1,11 @@
 import { DatabaseService } from "./DatabaseService";
 import Resource from "../models/Resource";
+import { resolveAssets } from "@/modules/storage/helpers/resolver.helper";
+
+const RESOURCE_ASSET_MAPPING = [
+  { idField: 'fileId', urlField: 'fileUrl' },
+  { idField: 'thumbnailId', urlField: 'thumbnailUrl' }
+];
 
 export class ResourceService {
   static async getFeaturedResources(limit = 4) {
@@ -9,7 +15,7 @@ export class ResourceService {
         .sort({ createdAt: -1 })
         .limit(limit)
         .lean();
-      return resources;
+      return resolveAssets(resources, RESOURCE_ASSET_MAPPING);
     } catch (error) {
       console.error("Error fetching featured resources:", error);
       throw error;
@@ -23,7 +29,7 @@ export class ResourceService {
       const resources = await Resource.find(query)
         .sort({ createdAt: -1 })
         .lean();
-      return resources;
+      return resolveAssets(resources, RESOURCE_ASSET_MAPPING);
     } catch (error) {
       console.error("Error fetching all resources:", error);
       throw error;
@@ -34,7 +40,7 @@ export class ResourceService {
     try {
       await DatabaseService.connect();
       const resource = await Resource.findById(id).lean();
-      return resource;
+      return resolveAssets(resource, RESOURCE_ASSET_MAPPING);
     } catch (error) {
       console.error(`Error fetching resource ${id}:`, error);
       throw error;

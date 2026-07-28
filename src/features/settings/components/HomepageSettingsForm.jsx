@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Save, Loader2, Link as LinkIcon, Image as ImageIcon, MapPin, TrendingUp, Info, User, Zap } from "lucide-react";
 import { updateHomepageSettings } from "../actions/setting.actions";
+import { MediaPicker } from "@/features/storage/components/MediaPicker";
 
 export function HomepageSettingsForm({ initialData = {} }) {
   const router = useRouter();
@@ -146,6 +147,23 @@ export function HomepageSettingsForm({ initialData = {} }) {
                     </div>
                   </div>
                 </div>
+
+                <div className="pt-4 border-t border-gray-100">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Background Banner Image</label>
+                  <MediaPicker 
+                    name="heroImageId" 
+                    module="homepage" 
+                    initialData={
+                      initialData?.heroImageId && initialData?.banner
+                        ? { 
+                            _id: initialData.heroImageId, 
+                            publicUrl: initialData.banner, 
+                            mimeType: "image/jpeg" 
+                          } 
+                        : null
+                    }
+                  />
+                </div>
               </div>
             </div>
 
@@ -186,13 +204,20 @@ export function HomepageSettingsForm({ initialData = {} }) {
                 </div>
 
                 <div className="pt-4 border-t border-gray-100">
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Chairperson Image URL</label>
-                  <div className="flex gap-2 max-w-lg">
-                    <span className="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500 rounded-l-lg">
-                      <ImageIcon className="w-4 h-4" />
-                    </span>
-                    <input type="url" name="chairpersonImage" defaultValue={initialData?.chairpersonImage || ""} className="flex-1 min-w-0 px-4 py-2 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="https://example.com/image.jpg" />
-                  </div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Chairperson Photo</label>
+                  <MediaPicker 
+                    name="chairpersonImageId" 
+                    module="homepage" 
+                    initialData={
+                      initialData?.chairpersonImageId && initialData?.chairpersonImage 
+                        ? { 
+                            _id: initialData.chairpersonImageId, 
+                            publicUrl: initialData.chairpersonImage, 
+                            mimeType: "image/jpeg" 
+                          } 
+                        : null
+                    }
+                  />
                 </div>
               </div>
             </div>
