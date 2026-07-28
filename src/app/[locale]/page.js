@@ -5,6 +5,7 @@ import { ActivityService } from "@/services/ActivityService";
 import { EventService } from "@/services/EventService";
 import { ResourceService } from "@/services/ResourceService";
 import { DistrictService } from "@/services/DistrictService";
+import { BannerService } from "@/services/BannerService";
 
 export default async function Home({ params }) {
   // Extract locale from params or default to 'en'
@@ -16,6 +17,7 @@ export default async function Home({ params }) {
   let events = [];
   let resources = [];
   let districts = [];
+  let banners = [];
 
   try {
     const rawMembers = await MemberService.getFeaturedMembers(6);
@@ -43,6 +45,9 @@ export default async function Home({ params }) {
     const rawDistricts = await DistrictService.getAll();
     districts = rawDistricts.map(d => ({ ...d, _id: d._id.toString() }));
 
+    const rawBanners = await BannerService.getActive();
+    banners = rawBanners.map(b => ({ ...b, _id: b._id.toString() }));
+
   } catch (error) {
     console.error("Error fetching homepage data:", error);
   }
@@ -57,6 +62,7 @@ export default async function Home({ params }) {
         events={events}
         resources={resources}
         districts={districts}
+        banners={banners}
       />
     </main>
   );

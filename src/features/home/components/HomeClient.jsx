@@ -25,7 +25,8 @@ export default function HomeClient({
   events, 
   activities,
   resources,
-  districts
+  districts,
+  banners
 }) {
   const { language } = useLanguage();
   
@@ -35,7 +36,7 @@ export default function HomeClient({
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 overflow-hidden">
       {/* 1. Immersive Hero Experience */}
-      <HeroSection dictionary={dictionary} settings={settings} />
+      <HeroSection dictionary={dictionary} settings={settings} banners={banners} />
 
       {/* 2. Organization Overview */}
       <OrganizationOverview dictionary={dictionary} settings={settings} />
@@ -46,10 +47,7 @@ export default function HomeClient({
       {/* 4. Mission, Vision & Core Values */}
       <MissionVisionValues dictionary={dictionary} settings={settings} />
 
-      {/* 5. Statistics & Scale */}
-      <StatisticsSection dictionary={dictionary} settings={settings} />
-
-      {/* 6. Organization Structure */}
+      {/* 5. Organization Structure */}
       <OrganizationStructure dictionary={dictionary} />
 
       {/* 7. Featured Leadership */}

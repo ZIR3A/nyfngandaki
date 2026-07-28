@@ -1,0 +1,57 @@
+ValidationError: Banner validation failed: image: Path `image` is required.
+    at model.validate (D:\YSN\nyfn-gandaki\node_modules\mongoose\lib\document.js:2880:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async model.$__save (D:\YSN\nyfn-gandaki\node_modules\mongoose\lib\model.js:399:7)
+    at async maybeTracedSave (D:\YSN\nyfn-gandaki\node_modules\mongoose\lib\model.js:675:7)
+    at async BannerService.create (D:\YSN\nyfn-gandaki\.next\dev\server\chunks\ssr\[root-of-the-server]__1bx5uhb._.js:1050:9)
+    at async createBannerAction (D:\YSN\nyfn-gandaki\.next\dev\server\chunks\ssr\[root-of-the-server]__006l044._.js:373:27)
+    at async executeActionAndPrepareForRender (D:\YSN\nyfn-gandaki\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:66:5248)
+    at async D:\YSN\nyfn-gandaki\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:66:1986
+    at async handleAction (D:\YSN\nyfn-gandaki\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:64:26472)
+    at async renderToHTMLOrFlightImpl (D:\YSN\nyfn-gandaki\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:70:55695)
+    at async doRender (D:\YSN\nyfn-gandaki\.next\dev\server\chunks\ssr\node_modules_0jbzneq._.js:4056:28)
+    at async AppPageRouteModule.handleResponse (D:\YSN\nyfn-gandaki\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:72:67020)
+    at async handleResponse (D:\YSN\nyfn-gandaki\.next\dev\server\chunks\ssr\node_modules_0jbzneq._.js:4367:32)
+    at async Module.handler (D:\YSN\nyfn-gandaki\.next\dev\server\chunks\ssr\node_modules_0jbzneq._.js:4773:20)
+    at async DevServer.renderToResponseWithComponentsImpl (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\base-server.js:1462:9)
+    at async DevServer.renderPageComponent (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\base-server.js:1514:24)
+    at async DevServer.renderToResponseImpl (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\base-server.js:1564:32)
+    at async DevServer.pipeImpl (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\base-server.js:1044:25)
+    at async NextNodeServer.handleCatchallRenderRequest (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\next-server.js:338:17)
+    at async DevServer.handleRequestImpl (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\base-server.js:935:17)
+    at async D:\YSN\nyfn-gandaki\node_modules\next\dist\server\dev\next-dev-server.js:394:20
+    at async Span.traceAsyncFn (D:\YSN\nyfn-gandaki\node_modules\next\dist\trace\trace.js:164:20)
+    at async DevServer.handleRequest (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\dev\next-dev-server.js:390:24)
+    at async invokeRender (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\lib\router-server.js:266:21)
+    at async handleRequest (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\lib\router-server.js:465:24)
+    at async requestHandlerImpl (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\lib\router-server.js:514:13)
+    at async Server.requestListener (D:\YSN\nyfn-gandaki\node_modules\next\dist\server\lib\start-server.js:225:13)
+
+Data received:
+{
+  "title": {
+    "en": "Youth Leadership",
+    "np": "युवा नेतृत्व"
+  },
+  "subtitle": {
+    "en": "Building the Future",
+    "np": "भविष्यको निर्माण"
+  },
+  "description": {
+    "en": "Working for democracy, social justice, and economic prosperity.",
+    "np": "लोकतन्त्र, सामाजिक न्याय र आर्थिक समृद्धिका लागि काम गर्दै।"
+  },
+  "primaryButtonText": {
+    "en": "About Us",
+    "np": "हाम्रो बारे"
+  },
+  "primaryButtonLink": "/about",
+  "secondaryButtonText": {
+    "en": "Our Vision",
+    "np": "हाम्रो दृष्टिकोण"
+  },
+  "secondaryButtonLink": "/about#vision",
+  "order": 1,
+  "isActive": true,
+  "imageId": "6a687541340a45499536e9ff"
+}

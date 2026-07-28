@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { 
   LayoutDashboard, Users, UserCog, LogOut, Menu, X, Search, 
   Bell, MessageSquare, Plus, Sun, Moon, ChevronRight, Home, ChevronDown,
-  HeartPulse, Calendar, FileText, Settings, HardDrive
+  HeartPulse, Calendar, FileText, Settings, HardDrive, Image as ImageIcon
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
@@ -50,6 +50,7 @@ export function AdminShell({ children, user }) {
     {
       label: "Content Management",
       items: [
+        { name: "Banners", href: `/admin/banners`, icon: ImageIcon },
         { name: "Media Library", href: `/admin/storage`, icon: HardDrive },
         { name: "Activities", href: `/admin/activities`, icon: HeartPulse },
         { name: "Events", href: `/admin/events`, icon: Calendar },
