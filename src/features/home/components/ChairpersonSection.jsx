@@ -42,9 +42,14 @@ export default function ChairpersonSection({ dictionary, settings }) {
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center"
             >
-              <div className="w-64 h-64 md:w-full md:h-80 relative rounded-2xl overflow-hidden shadow-lg bg-slate-100 mb-6">
+              <div className="w-64 h-64 md:w-full md:h-80 relative rounded-2xl overflow-hidden shadow-lg bg-slate-100 mb-6 group">
                 {chairpersonImage ? (
-                  <img src={chairpersonImage} alt={chairpersonName} className="w-full h-full object-cover" />
+                  <Image 
+                    src={chairpersonImage} 
+                    alt={chairpersonName} 
+                    fill
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out" 
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <span className="text-slate-400 font-medium">Portrait (CMS)</span>

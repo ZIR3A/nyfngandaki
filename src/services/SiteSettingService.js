@@ -5,7 +5,8 @@ import { resolveAssets } from "@/modules/storage/helpers/resolver.helper";
 const SETTING_ASSET_MAPPING = [
   { idField: 'chairpersonImageId', urlField: 'chairpersonImage' },
   { idField: 'logoId', urlField: 'logo' },
-  { idField: 'heroImageId', urlField: 'banner' }
+  { idField: 'heroImageId', urlField: 'banner' },
+  { idField: 'aboutImageId', urlField: 'aboutImage' }
 ];
 
 export class SiteSettingService {

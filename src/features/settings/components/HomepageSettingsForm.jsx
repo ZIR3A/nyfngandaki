@@ -254,6 +254,23 @@ export function HomepageSettingsForm({ initialData = {} }) {
                     <textarea name="vision.np" defaultValue={initialData?.vision?.np || ""} rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500"></textarea>
                   </div>
                 </div>
+
+                <div className="pt-4 border-t border-gray-100">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">About Section Image</label>
+                  <MediaPicker 
+                    name="aboutImageId" 
+                    module="homepage" 
+                    initialData={
+                      initialData?.aboutImageId && initialData?.aboutImage 
+                        ? { 
+                            _id: initialData.aboutImageId, 
+                            publicUrl: initialData.aboutImage, 
+                            mimeType: "image/jpeg" 
+                          } 
+                        : null
+                    }
+                  />
+                </div>
                 
               </div>
             </div>

@@ -27,6 +27,12 @@ const SiteSettingSchema = new mongoose.Schema(
     vision: { type: LocalizedStringSchema },
     objectives: { type: LocalizedStringSchema },
 
+    aboutImageId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Storage",
+      default: null,
+    },
+
     // Statistics
     stats: [
       {

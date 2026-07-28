@@ -48,6 +48,7 @@ export async function updateHomepageSettings(formData) {
         en: formData.get("vision.en"),
         np: formData.get("vision.np"),
       },
+      aboutImageId: formData.get("aboutImageId") || null,
       googleMapEmbedUrl: formData.get("googleMapEmbedUrl") || null,
       ctaTitle: {
         en: formData.get("ctaTitle.en"),

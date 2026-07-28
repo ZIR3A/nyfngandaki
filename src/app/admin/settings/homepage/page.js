@@ -14,6 +14,7 @@ export default async function AdminHomepageSettingsPage() {
     if (settings.chairpersonImageId) settings.chairpersonImageId = settings.chairpersonImageId.toString();
     if (settings.heroImageId) settings.heroImageId = settings.heroImageId.toString();
     if (settings.logoId) settings.logoId = settings.logoId.toString();
+    if (settings.aboutImageId) settings.aboutImageId = settings.aboutImageId.toString();
   }
 
   return (

@@ -31,9 +31,20 @@ export default function OrganizationOverview({ dictionary, settings }) {
             className="relative order-2 lg:order-1"
           >
             <div className="relative aspect-[4/5] md:aspect-[4/3] lg:aspect-[4/5] w-full rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(15,45,90,0.12)]">
-               <div className="w-full h-full bg-slate-100 flex items-center justify-center">
-                 <span className="text-slate-400 font-medium">Editorial Image (CMS Editable)</span>
-               </div>
+               {settings?.aboutImage ? (
+                 <div className="w-full h-full relative overflow-hidden group">
+                   <Image 
+                     src={settings.aboutImage} 
+                     alt={dict.heading || "About Organization"} 
+                     fill
+                     className="object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out" 
+                   />
+                 </div>
+               ) : (
+                 <div className="w-full h-full bg-slate-100 flex items-center justify-center">
+                   <span className="text-slate-400 font-medium">Editorial Image (CMS Editable)</span>
+                 </div>
+               )}
             </div>
             
             {/* Decorative background blob */}
