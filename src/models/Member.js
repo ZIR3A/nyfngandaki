@@ -56,6 +56,18 @@ const MemberSchema = new mongoose.Schema(
       enum: ["Active", "Inactive"],
       default: "Active",
     },
+    isFeaturedOnHome: {
+      type: Boolean,
+      default: false,
+    },
+    showPhonePublic: {
+      type: Boolean,
+      default: false,
+    },
+    showEmailPublic: {
+      type: Boolean,
+      default: false,
+    },
     slug: {
       type: String,
       unique: true,

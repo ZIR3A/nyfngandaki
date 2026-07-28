@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { 
   LayoutDashboard, Users, UserCog, LogOut, Menu, X, Search, 
-  Bell, MessageSquare, Plus, Sun, Moon, ChevronRight, Home, ChevronDown
+  Bell, MessageSquare, Plus, Sun, Moon, ChevronRight, Home, ChevronDown,
+  HeartPulse, Calendar, FileText, Settings
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
@@ -45,9 +46,18 @@ export function AdminShell({ children, user }) {
       ]
     },
     {
+      label: "Content Management",
+      items: [
+        { name: "Activities", href: `/admin/activities`, icon: HeartPulse },
+        { name: "Events", href: `/admin/events`, icon: Calendar },
+        { name: "Resources", href: `/admin/resources`, icon: FileText },
+      ]
+    },
+    {
       label: "System",
       items: [
         { name: "Users", href: `/admin/users`, icon: UserCog },
+        { name: "Homepage Settings", href: `/admin/settings/homepage`, icon: Settings },
       ]
     }
   ];

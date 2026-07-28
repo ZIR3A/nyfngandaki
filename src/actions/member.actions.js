@@ -29,6 +29,7 @@ export async function createMemberAction(formData) {
     // Revalidate public and admin pages
     revalidatePath("/admin/members");
     revalidatePath("/[locale]/members", "page");
+    revalidatePath("/", "layout");
     
     return apiResponse(true, newMember, "Member created successfully.");
   } catch (error) {
@@ -44,6 +45,7 @@ export async function updateMemberAction(id, formData) {
     revalidatePath("/admin/members");
     revalidatePath(`/[locale]/members/${updatedMember.slug}`, "page");
     revalidatePath("/[locale]/members", "page");
+    revalidatePath("/", "layout");
     
     return apiResponse(true, updatedMember, "Member updated successfully.");
   } catch (error) {

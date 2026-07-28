@@ -72,7 +72,9 @@ export const en = {
       label: "PROVINCIAL LEADERSHIP",
       heading: "Meet Our Leadership Team",
       subheading: "Dedicated youth leaders committed to social transformation and regional development across Gandaki.",
-      button: "View Full Committee"
+      button: "View Full Committee",
+      emptyTitle: "No Featured Members",
+      emptyDesc: "Member directory is currently empty."
     },
     districts: {
       label: "GANDAKI PROVINCE DISTRICTS",

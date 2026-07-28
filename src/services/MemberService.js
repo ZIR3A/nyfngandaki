@@ -11,6 +11,18 @@ export class MemberService {
   }
 
   /**
+   * Fetch featured members for the homepage
+   */
+  static async getFeaturedMembers(limit = 6) {
+    await connectToDatabase();
+    return Member.find({ isFeaturedOnHome: true, status: "Active" })
+      .populate("district")
+      .sort({ displayOrder: 1, createdAt: -1 })
+      .limit(limit)
+      .lean();
+  }
+
+  /**
    * Fetch a single member by ID
    */
   static async getMemberById(id) {

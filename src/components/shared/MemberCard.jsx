@@ -34,12 +34,12 @@ export function MemberCard({ member }) {
           
           {/* Social Links (Optional) */}
           <div className="flex space-x-3 mb-6">
-            {member.phone && (
+            {member.showPhonePublic && member.phone && (
               <a href={`tel:${member.phone}`} className="text-muted-foreground hover:text-primary transition-colors">
                 <Phone className="w-4 h-4" />
               </a>
             )}
-            {member.email && (
+            {member.showEmailPublic && member.email && (
               <a href={`mailto:${member.email}`} className="text-muted-foreground hover:text-primary transition-colors">
                 <Mail className="w-4 h-4" />
               </a>

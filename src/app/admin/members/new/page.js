@@ -23,7 +23,11 @@ export default function NewMemberPage() {
     email: "",
     phone: "",
     facebook: "",
-    status: "Active"
+    status: "Active",
+    isFeaturedOnHome: false,
+    showPhonePublic: false,
+    showEmailPublic: false,
+    displayOrder: 0
   });
 
   const handleSubmit = async (e) => {
@@ -164,6 +168,52 @@ export default function NewMemberPage() {
                 value={formData.biography.np}
                 onChange={(e) => setFormData({...formData, biography: { ...formData.biography, np: e.target.value }})}
               />
+            </div>
+          </div>
+        </div>
+        
+        {/* Visibility & Ordering Section */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Visibility & Ordering</h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
+                <input 
+                  type="checkbox" 
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  checked={formData.isFeaturedOnHome}
+                  onChange={(e) => setFormData({...formData, isFeaturedOnHome: e.target.checked})}
+                />
+                Feature on Homepage
+              </label>
+              <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
+                <input 
+                  type="checkbox" 
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  checked={formData.showPhonePublic}
+                  onChange={(e) => setFormData({...formData, showPhonePublic: e.target.checked})}
+                />
+                Show Phone Number Publicly
+              </label>
+              <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
+                <input 
+                  type="checkbox" 
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  checked={formData.showEmailPublic}
+                  onChange={(e) => setFormData({...formData, showEmailPublic: e.target.checked})}
+                />
+                Show Email Address Publicly
+              </label>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-gray-700">Display Order (Ascending)</label>
+              <Input 
+                type="number"
+                placeholder="0"
+                value={formData.displayOrder}
+                onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
+              />
+              <p className="text-xs text-gray-500">Lower numbers appear first on the homepage and directory.</p>
             </div>
           </div>
         </div>
