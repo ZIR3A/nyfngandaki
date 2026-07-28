@@ -1,22 +1,18 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Users, Building, ArrowRight, MousePointerClick } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import GandakiMap from "@/components/maps/GandakiMap";
 import { useLanguage } from "@/localization/LanguageContext";
-import { useTheme } from "next-themes";
 
 export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
   const { language } = useLanguage();
-  const { theme, systemTheme } = useTheme();
   
   const [mounted, setMounted] = useState(false);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
-  const [hoveredDistrict, setHoveredDistrict] = useState(null);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setMounted(true);
@@ -27,44 +23,15 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
       setSelectedDistrict({
         _id: "KASKI",
         slug: "kaski",
-        name: { en: "Kaski", np: "Kaski" },
+        name: { en: "Kaski", np: "कास्की" },
         status: "Inactive",
         isFallback: true
       });
     }
   }, [districts]);
 
-  const currentTheme = theme === "system" ? systemTheme : theme;
-  const isDark = currentTheme === "dark";
-
-  // Map settings
-  const geoUrl = "/gandaki-districts.geojson";
-  
-  const handleMouseMove = (e) => {
-    setTooltipPos({ x: e.clientX, y: e.clientY });
-  };
-
-  // Find DB district by geo properties or return a fallback
-  const getDbDistrict = (geoName) => {
-    const found = districts.find(d => 
-      d.name?.en?.toLowerCase() === geoName.toLowerCase() ||
-      d.slug?.toLowerCase() === geoName.toLowerCase()
-    );
-    if (found) return found;
-
-    // Fallback if DB doesn't have the district yet
-    const formattedName = geoName.charAt(0).toUpperCase() + geoName.slice(1).toLowerCase();
-    return {
-      _id: geoName,
-      slug: geoName.toLowerCase(),
-      name: { en: formattedName, np: formattedName },
-      status: "Inactive",
-      isFallback: true
-    };
-  };
-
   return (
-    <section className="py-24 bg-slate-50 dark:bg-[#0A0F1C] transition-colors relative overflow-hidden" onMouseMove={handleMouseMove}>
+    <section className="py-24 bg-slate-50 dark:bg-[#0A0F1C] transition-colors relative overflow-hidden">
       
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
@@ -96,76 +63,31 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
         {/* Layout */}
         <div className="flex flex-col lg:flex-row gap-12 items-stretch">
           
-          {/* Left: SVG Map (65%) */}
+          {/* Left: Interactive Map (65%) */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="w-full lg:w-[65%] bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl p-4 lg:p-8 relative flex items-center justify-center min-h-[500px] shadow-sm"
+            className="w-full lg:w-[65%] bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl p-4 lg:p-4 relative flex flex-col min-h-[550px] shadow-sm overflow-hidden"
           >
             {/* Instruction badge */}
-            <div className="absolute top-6 left-6 z-10 flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium text-slate-600 dark:text-slate-400">
+            <div className="absolute top-6 left-6 z-10 flex items-center gap-2 px-3 py-1.5 bg-white/80 dark:bg-slate-800/80 backdrop-blur rounded-full text-xs font-medium text-slate-600 dark:text-slate-300 shadow-sm border border-slate-100 dark:border-slate-700">
               <MousePointerClick className="w-4 h-4" />
               {language === 'en' ? 'Click on a district' : 'जिल्लामा क्लिक गर्नुहोस्'}
             </div>
 
             {mounted && (
-              <ComposableMap
-                projection="geoMercator"
-                projectionConfig={{
-                  scale: 15000,
-                  center: [83.9, 28.5] // Roughly center of Gandaki
-                }}
-                className="w-full h-full max-h-[600px] outline-none drop-shadow-sm"
-              >
-                <Geographies geography={geoUrl}>
-                  {({ geographies }) =>
-                    geographies.map((geo) => {
-                      const geoName = geo.properties.DISTRICT || geo.properties.id;
-                      const dbDistrict = getDbDistrict(geoName);
-                      const isSelected = selectedDistrict?._id === dbDistrict?._id && dbDistrict != null;
-                      
-                      return (
-                        <Geography
-                          key={geo.rsmKey}
-                          geography={geo}
-                          onClick={() => {
-                            if (dbDistrict) setSelectedDistrict(dbDistrict);
-                          }}
-                          onMouseEnter={() => setHoveredDistrict(dbDistrict || { name: { en: geoName } })}
-                          onMouseLeave={() => setHoveredDistrict(null)}
-                          className="outline-none cursor-pointer transition-all duration-300"
-                          style={{
-                            default: {
-                              fill: isSelected 
-                                ? (isDark ? "#2563EB" : "#3B82F6") // Selected Fill
-                                : (isDark ? "#1F2937" : "#F1F5F9"), // Default Fill
-                              stroke: isSelected 
-                                ? "#EF4444" // Secondary Red Outline when selected
-                                : (isDark ? "#374151" : "#CBD5E1"), // Default Stroke
-                              strokeWidth: isSelected ? 2 : 1,
-                              outline: "none",
-                            },
-                            hover: {
-                              fill: isSelected 
-                                ? (isDark ? "#2563EB" : "#3B82F6") 
-                                : (isDark ? "#1D4ED8" : "#93C5FD"), // Hover Fill (Primary Blue)
-                              stroke: isSelected ? "#EF4444" : (isDark ? "#60A5FA" : "#2563EB"),
-                              strokeWidth: 2,
-                              outline: "none",
-                            },
-                            pressed: {
-                              fill: "#1D4ED8",
-                              outline: "none",
-                            },
-                          }}
-                        />
-                      );
-                    })
-                  }
-                </Geographies>
-              </ComposableMap>
+              <div className="w-full h-full absolute inset-0 pt-16 pb-4 px-4 rounded-[inherit]">
+                <GandakiMap 
+                  interactive={true} 
+                  showTooltip={true} 
+                  selectedDistrict={selectedDistrict} 
+                  onDistrictClick={(dist) => setSelectedDistrict(dist)} 
+                  language={language}
+                  districts={districts}
+                />
+              </div>
             )}
           </motion.div>
 
@@ -179,7 +101,7 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl p-8 flex flex-col h-full shadow-lg"
+                  className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl p-8 flex flex-col h-full shadow-lg min-h-[550px]"
                 >
                   <div className="mb-6">
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-2">
@@ -206,7 +128,6 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
                     <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 text-center">
                       <Users className="w-6 h-6 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
                       <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                        {/* Mock data for now as member counts might come from aggregation */}
                         {Math.floor(Math.random() * 500) + 100}
                       </div>
                       <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold">
@@ -249,38 +170,6 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
 
         </div>
       </div>
-
-      {/* Floating Tooltip */}
-      <AnimatePresence>
-        {hoveredDistrict && mounted && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.15 }}
-            className="fixed z-50 pointer-events-none bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-700 shadow-xl rounded-xl p-4 min-w-[160px]"
-            style={{ 
-              left: tooltipPos.x + 20, 
-              top: tooltipPos.y + 20 
-            }}
-          >
-            <h4 className="font-bold text-slate-900 dark:text-white mb-1">
-              {hoveredDistrict.name?.[language] || hoveredDistrict.name?.en}
-            </h4>
-            {hoveredDistrict._id ? (
-              <div className="flex items-center gap-1.5 text-xs font-medium text-green-600 dark:text-green-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                {language === 'en' ? 'Active Committee' : 'सक्रिय कमिटी'}
-              </div>
-            ) : (
-              <div className="text-xs text-slate-500">
-                {language === 'en' ? 'Data unavailable' : 'डाटा उपलब्ध छैन'}
-              </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
     </section>
   );
 }
