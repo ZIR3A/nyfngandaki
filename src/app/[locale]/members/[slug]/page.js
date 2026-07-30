@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Mail, MapPin, Phone, FileText, Building2, User, Globe } from "lucide-react";
 import connectToDatabase from "@/lib/mongodb";
 import Member from "@/models/Member";
+import { resolveAssets } from "@/modules/storage/helpers/resolver.helper";
 
 export async function generateMetadata({ params }) {
   const { slug, locale } = await params;
@@ -28,7 +29,18 @@ export default async function MemberProfilePage({ params }) {
   const isNepali = locale === "np";
 
   await connectToDatabase();
-  const member = await Member.findOne({ slug }).populate("district").lean();
+  const rawMember = await Member.findOne({ slug }).populate("district").lean();
+
+  if (!rawMember) {
+    notFound();
+  }
+
+  // Resolve Storage Asset IDs to Public URLs
+  const resolved = await resolveAssets([rawMember], [
+    { idField: 'profilePhotoId', urlField: 'photo' },
+    { idField: 'coverPhotoId', urlField: 'coverPhoto' }
+  ]);
+  const member = resolved[0];
 
   if (!member) {
     notFound();

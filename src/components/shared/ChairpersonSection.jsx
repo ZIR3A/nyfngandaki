@@ -6,16 +6,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/localization/LanguageContext";
 
-export default function ChairpersonSection({ dictionary, settings }) {
+export default function ChairpersonSection({ dictionary, chairperson, hideLink = false }) {
   const { language } = useLanguage();
   const dict = dictionary.home.chairperson;
 
-  const chairpersonName = settings?.chairpersonName?.[language] || dict.name;
-  const chairpersonMessage = settings?.chairpersonMessage?.[language] || null;
-  const chairpersonImage = settings?.chairpersonImage || null;
+  const chairpersonName = chairperson?.name?.[language] || dict.name;
+  const rawMessage = chairperson?.biography?.[language] || null;
+  const isTruncated = rawMessage && rawMessage.length > 250;
+  const chairpersonMessage = isTruncated
+    ? rawMessage.substring(0, 250).trim() + "..."
+    : rawMessage;
+  const chairpersonImage = chairperson?.photo || null;
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden bg-gradient-to-br from-[#F8FAFC] to-[#EAF1FF]">
+    <section id="chairperson" className="py-24 md:py-32 relative overflow-hidden bg-gradient-to-br from-[#F8FAFC] to-[#EAF1FF]">
       {/* Decorative Quote Watermark */}
       <div className="absolute top-10 left-10 opacity-5 pointer-events-none">
         <Quote className="w-[400px] h-[400px] text-[#153E90]" />
@@ -91,10 +95,12 @@ export default function ChairpersonSection({ dictionary, settings }) {
               </div>
 
               <div className="pt-6">
-                <Link href="/about#chairperson" className="inline-flex items-center text-[#153E90] font-semibold hover:text-[#D81E27] transition-colors group">
-                  {dict.button}
-                  <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
-                </Link>
+                {!hideLink && (
+                  <Link href={`/${language}/about#leadership`} className="inline-flex items-center text-[#153E90] font-semibold hover:text-[#D81E27] transition-colors group">
+                    {dict.button}
+                    <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+                  </Link>
+                )}
               </div>
             </motion.div>
 

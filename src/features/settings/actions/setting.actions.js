@@ -31,23 +31,8 @@ export async function updateHomepageSettings(formData) {
         en: formData.get("heroSubtitle.en"),
         np: formData.get("heroSubtitle.np"),
       },
-      chairpersonName: {
-        en: formData.get("chairpersonName.en"),
-        np: formData.get("chairpersonName.np"),
-      },
-      chairpersonMessage: {
-        en: formData.get("chairpersonMessage.en"),
-        np: formData.get("chairpersonMessage.np"),
-      },
-      chairpersonImageId: formData.get("chairpersonImageId") || null,
-      mission: {
-        en: formData.get("mission.en"),
-        np: formData.get("mission.np"),
-      },
-      vision: {
-        en: formData.get("vision.en"),
-        np: formData.get("vision.np"),
-      },
+
+
       aboutImageId: formData.get("aboutImageId") || null,
       googleMapEmbedUrl: formData.get("googleMapEmbedUrl") || null,
       ctaTitle: {

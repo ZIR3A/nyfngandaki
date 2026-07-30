@@ -9,8 +9,7 @@ export default async function LocaleLayout({ children, params }) {
   try {
     const rawSettings = await SiteSettingService.getSettings();
     if (rawSettings) {
-      rawSettings._id = rawSettings._id.toString();
-      settings = rawSettings;
+      settings = JSON.parse(JSON.stringify(rawSettings));
     }
   } catch (error) {
     console.error("Error fetching site settings for layout:", error);

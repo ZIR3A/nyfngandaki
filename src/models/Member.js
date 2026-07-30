@@ -66,6 +66,10 @@ const MemberSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isChairperson: {
+      type: Boolean,
+      default: false,
+    },
     showPhonePublic: {
       type: Boolean,
       default: false,
@@ -89,6 +93,9 @@ const MemberSchema = new mongoose.Schema(
   }
 );
 
-const Member = mongoose.models.Member || mongoose.model("Member", MemberSchema);
+if (mongoose.models.Member) {
+  delete mongoose.models.Member;
+}
+const Member = mongoose.model("Member", MemberSchema);
 
 export default Member;

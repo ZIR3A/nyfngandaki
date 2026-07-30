@@ -59,8 +59,8 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
       },
       primaryButtonText: { en: "About Us", np: "हाम्रो बारे" },
       primaryButtonLink: "/about",
-      secondaryButtonText: { en: "Our Vision", np: "हाम्रो दृष्टिकोण" },
-      secondaryButtonLink: "/about#vision",
+      secondaryButtonText: { en: "Our History", np: "हाम्रो इतिहास" },
+      secondaryButtonLink: "/about#history",
     }
   ];
 
@@ -211,8 +211,8 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
                 {language === 'en' ? "About Us" : "हाम्रो बारे"}
                 <ArrowRight className="ml-1.5 w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/about#vision" className="inline-flex items-center justify-center px-4 py-2 bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700 rounded-full text-xs font-semibold transition-all">
-                {language === 'en' ? "Our Vision" : "हाम्रो दृष्टिकोण"}
+              <Link href="/about#history" className="inline-flex items-center justify-center px-4 py-2 bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700 rounded-full text-xs font-semibold transition-all">
+                {language === 'en' ? "Our History" : "हाम्रो इतिहास"}
                 <ArrowRight className="ml-1.5 w-3.5 h-3.5 text-gray-400" />
               </Link>
             </div>

@@ -23,8 +23,7 @@ const SiteSettingSchema = new mongoose.Schema(
       default: null,
     },
 
-    mission: { type: LocalizedStringSchema },
-    vision: { type: LocalizedStringSchema },
+
     objectives: { type: LocalizedStringSchema },
 
     aboutImageId: {

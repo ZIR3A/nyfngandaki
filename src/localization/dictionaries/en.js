@@ -27,7 +27,7 @@ export const en = {
       heading: "National Youth Federation Nepal Gandaki Province Committee",
       desc1: "The National Youth Federation Nepal (NYFN) is the largest and most influential youth organization in Nepal, dedicated to uniting the energetic and creative youth force.",
       desc2: "We focus on youth empowerment, leadership development, social transformation, and the institutionalization of democratic values across all districts in Gandaki Province.",
-      desc3: "Join us in our mission to build a prosperous and equitable society through active youth participation in policy-making and community development.",
+      desc3: "Join us in our journey to build a prosperous and equitable society through active youth participation in policy-making and community development.",
       button: "Read More"
     },
     chairperson: {
@@ -39,14 +39,8 @@ export const en = {
       position: "Chairperson, NYFN Gandaki",
       button: "Read Full Message"
     },
-    mission: {
-      title: "Our Mission",
-      desc: "To mobilize and unite the youth force across Gandaki Province for sustainable development, social justice, and national prosperity."
-    },
-    vision: {
-      title: "Our Vision",
-      desc: "A progressive and equitable society where empowered youth are leading the socioeconomic transformation of the nation."
-    },
+
+
     objectives: {
       title: "Our Objectives",
       desc: "Develop youth leadership, promote volunteerism, defend democratic rights, and advocate for youth-friendly state policies."
@@ -101,4 +95,23 @@ export const en = {
       btn3: "Contact Us"
     }
   },
+  about: {
+    banner: {
+      title: "About Our Organization",
+      description: "Learn more about the National Youth Federation Nepal, our history, and the core values that drive our organization forward in Gandaki Province."
+    },
+    history: {
+      label: "OUR HISTORY",
+      heading: "A Legacy of Youth Empowerment",
+      content1: "The National Youth Federation Nepal (NYFN) was established with a vision to unite the creative and energetic youth force of the nation. Over the years, it has played a pivotal role in various democratic movements and social transformations.",
+      content2: "In Gandaki Province, our organization has been actively working across all districts, mobilizing youth for community development, leadership training, and volunteerism. We remain committed to building a prosperous and equitable society."
+    },
+    constitution: {
+      label: "OFFICIAL DOCUMENT",
+      heading: "Organization Constitution",
+      description: "Download and read the official constitution of the National Youth Federation Nepal to understand our governing principles, organizational structure, and core policies.",
+      downloadButton: "Download Constitution",
+      sizeInfo: "PDF Document"
+    }
+  }
 };

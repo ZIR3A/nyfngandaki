@@ -488,7 +488,7 @@ export class GoogleDriveProvider extends StorageProvider {
    */
   buildPublicUrl(fileId, mimeType = "") {
     if (mimeType.startsWith("image/")) {
-      return `https://drive.google.com/uc?export=view&id=${fileId}`;
+      return `https://lh3.googleusercontent.com/d/${fileId}`;
     }
     return `https://drive.google.com/file/d/${fileId}/view`;
   }

@@ -20,4 +20,8 @@ export const memberValidationSchema = z.object({
   province: z.string().default("Gandaki"),
   displayOrder: z.coerce.number().default(0),
   status: z.enum(["Active", "Inactive"]).default("Active"),
+  isFeaturedOnHome: z.boolean().default(false),
+  showPhonePublic: z.boolean().default(false),
+  showEmailPublic: z.boolean().default(false),
+  isChairperson: z.boolean().default(false),
 });

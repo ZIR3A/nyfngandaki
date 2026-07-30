@@ -1,7 +1,7 @@
 "use server";
 
 import { MemberService } from "@/services/MemberService";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 /**
  * Standardize API Response
@@ -29,7 +29,10 @@ export async function createMemberAction(formData) {
     // Revalidate public and admin pages
     revalidatePath("/admin/members");
     revalidatePath("/[locale]/members", "page");
+    revalidatePath("/[locale]/about", "page");
+    revalidatePath("/[locale]", "page");
     revalidatePath("/", "layout");
+    revalidateTag("about-page");
     
     return apiResponse(true, newMember, "Member created successfully.");
   } catch (error) {
@@ -45,7 +48,10 @@ export async function updateMemberAction(id, formData) {
     revalidatePath("/admin/members");
     revalidatePath(`/[locale]/members/${updatedMember.slug}`, "page");
     revalidatePath("/[locale]/members", "page");
+    revalidatePath("/[locale]/about", "page");
+    revalidatePath("/[locale]", "page");
     revalidatePath("/", "layout");
+    revalidateTag("about-page");
     
     return apiResponse(true, updatedMember, "Member updated successfully.");
   } catch (error) {
@@ -60,6 +66,9 @@ export async function deleteMemberAction(id) {
     
     revalidatePath("/admin/members");
     revalidatePath("/[locale]/members", "page");
+    revalidatePath("/[locale]/about", "page");
+    revalidatePath("/[locale]", "page");
+    revalidateTag("about-page");
     
     return apiResponse(true, null, "Member deleted successfully.");
   } catch (error) {

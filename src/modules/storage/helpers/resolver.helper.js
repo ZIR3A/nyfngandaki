@@ -41,7 +41,14 @@ export async function resolveAssets(data, fieldMappings) {
   // Create a fast lookup map
   const storageMap = {};
   storageRecords.forEach(record => {
-    storageMap[record._id.toString()] = record.publicUrl;
+    let url = record.publicUrl;
+    if (url && url.includes('drive.google.com/uc')) {
+      const match = url.match(/[?&]id=([^&]+)/);
+      if (match && match[1]) {
+        url = `https://lh3.googleusercontent.com/d/${match[1]}`;
+      }
+    }
+    storageMap[record._id.toString()] = url;
   });
 
   // Inject URLs back into the items

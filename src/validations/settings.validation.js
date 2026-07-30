@@ -9,8 +9,7 @@ export const SiteSettingSchema = z.object({
   organizationName: LocalizedStringSchema.optional(),
   heroTitle: LocalizedStringSchema.optional(),
   heroSubtitle: LocalizedStringSchema.optional(),
-  mission: LocalizedStringSchema.optional(),
-  vision: LocalizedStringSchema.optional(),
+
   objectives: LocalizedStringSchema.optional(),
   footer: LocalizedStringSchema.optional(),
   contact: z.object({

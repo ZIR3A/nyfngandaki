@@ -50,6 +50,7 @@ export function AdminShell({ children, user }) {
     {
       label: "Content Management",
       items: [
+        { name: "About Page Settings", href: `/admin/content/about`, icon: FileText },
         { name: "Banners", href: `/admin/banners`, icon: ImageIcon },
         { name: "Media Library", href: `/admin/storage`, icon: HardDrive },
         { name: "Activities", href: `/admin/activities`, icon: HeartPulse },

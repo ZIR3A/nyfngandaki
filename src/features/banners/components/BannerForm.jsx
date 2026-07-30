@@ -170,16 +170,16 @@ export function BannerForm({ initialData = null }) {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">Text (EN)</label>
-                  <input type="text" name="secondaryButtonText.en" defaultValue={initialData?.secondaryButtonText?.en || "Our Vision"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
+                  <input type="text" name="secondaryButtonText.en" defaultValue={initialData?.secondaryButtonText?.en || "Our History"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">Text (NP)</label>
-                  <input type="text" name="secondaryButtonText.np" defaultValue={initialData?.secondaryButtonText?.np || "हाम्रो दृष्टिकोण"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
+                  <input type="text" name="secondaryButtonText.np" defaultValue={initialData?.secondaryButtonText?.np || "हाम्रो इतिहास"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
                 </div>
               </div>
               <div>
                 <label className="block text-xs font-bold text-gray-700 mb-1">Link URL</label>
-                <input type="text" name="secondaryButtonLink" defaultValue={initialData?.secondaryButtonLink || "/about#vision"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
+                <input type="text" name="secondaryButtonLink" defaultValue={initialData?.secondaryButtonLink || "/about#history"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
               </div>
             </div>
 

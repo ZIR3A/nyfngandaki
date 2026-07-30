@@ -1,5 +1,7 @@
 import HomeClient from "@/features/home/components/HomeClient";
 import { MemberService } from "@/services/MemberService";
+
+export const dynamic = "force-dynamic";
 import { SiteSettingService } from "@/services/SiteSettingService";
 import { ActivityService } from "@/services/ActivityService";
 import { EventService } from "@/services/EventService";
@@ -13,6 +15,7 @@ export default async function Home({ params }) {
   
   let featuredMembers = [];
   let settings = null;
+  let chairperson = null;
   let activities = [];
   let events = [];
   let resources = [];
@@ -26,6 +29,15 @@ export default async function Home({ params }) {
       _id: m._id.toString(),
       district: m.district ? { ...m.district, _id: m.district._id.toString() } : null
     }));
+
+    const rawChairperson = await MemberService.getChairperson();
+    if (rawChairperson) {
+      chairperson = {
+        ...rawChairperson,
+        _id: rawChairperson._id.toString(),
+        district: rawChairperson.district ? { ...rawChairperson.district, _id: rawChairperson.district._id.toString() } : null
+      };
+    }
 
     const rawSettings = await SiteSettingService.getSettings();
     if (rawSettings) {
@@ -57,6 +69,7 @@ export default async function Home({ params }) {
       <HomeClient 
         locale={locale} 
         settings={settings}
+        chairperson={chairperson}
         featuredMembers={featuredMembers} 
         activities={activities}
         events={events}

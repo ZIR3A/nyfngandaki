@@ -7,10 +7,10 @@ import { np } from "@/localization/dictionaries/np";
 // Import all the new modular homepage sections
 import HeroSection from "./HeroSection";
 import OrganizationOverview from "./OrganizationOverview";
-import ChairpersonSection from "./ChairpersonSection";
-import MissionVisionValues from "./MissionVisionValues";
+import ChairpersonSection from "@/components/shared/ChairpersonSection";
+
 import StatisticsSection from "./StatisticsSection";
-import OrganizationStructure from "./OrganizationStructure";
+import OrganizationStructure from "@/components/shared/OrganizationStructure";
 import FeaturedLeadership from "./FeaturedLeadership";
 import InteractiveDistrictMap from "./InteractiveDistrictMap";
 import ActivitiesSection from "./ActivitiesSection";
@@ -21,6 +21,7 @@ import CTASection from "./CTASection";
 export default function HomeClient({ 
   locale, 
   settings,
+  chairperson,
   featuredMembers, 
   events, 
   activities,
@@ -42,10 +43,9 @@ export default function HomeClient({
       <OrganizationOverview dictionary={dictionary} settings={settings} />
 
       {/* 3. Chairperson Message */}
-      <ChairpersonSection dictionary={dictionary} settings={settings} />
+      <ChairpersonSection dictionary={dictionary} chairperson={chairperson} />
 
-      {/* 4. Mission, Vision & Core Values */}
-      <MissionVisionValues dictionary={dictionary} settings={settings} />
+
 
       {/* 5. Organization Structure */}
       <OrganizationStructure dictionary={dictionary} />

@@ -3,6 +3,7 @@ import { MembersDirectoryClient } from "@/features/members/components/MembersDir
 import connectToDatabase from "@/lib/mongodb";
 import Member from "@/models/Member";
 import District from "@/models/District";
+import { MemberService } from "@/services/MemberService";
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
@@ -16,19 +17,20 @@ export default async function MembersDirectoryPage({ params }) {
   const { locale } = await params;
   const isNepali = locale === "np";
   
-  // Fetch active members
-  await connectToDatabase();
-  const membersData = await Member.find({ status: "Active" })
-    .populate("district")
-    .sort({ displayOrder: 1, createdAt: -1 })
-    .lean();
+  // Fetch active members with resolved asset URLs
+  const membersData = await MemberService.getAllMembers({ status: "Active" });
 
-  // We need to convert MongoDB _ids to strings to pass to Client Component
+  // Convert MongoDB ObjectIds to strings to pass to Client Component safely
   const serializedMembers = membersData.map(member => {
     const serialized = { ...member };
-    serialized._id = serialized._id.toString();
+    if (serialized._id) {
+      serialized._id = serialized._id.toString();
+    }
     if (serialized.district) {
-      serialized.district._id = serialized.district._id.toString();
+      serialized.district = {
+        ...serialized.district,
+        _id: serialized.district._id?.toString()
+      };
     }
     return serialized;
   });

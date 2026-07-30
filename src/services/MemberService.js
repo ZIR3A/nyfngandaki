@@ -41,10 +41,26 @@ export class MemberService {
   }
 
   /**
+   * Fetch chairperson member
+   */
+  static async getChairperson() {
+    await connectToDatabase();
+    const chairperson = await Member.findOne({ isChairperson: true, status: "Active" })
+      .populate("district")
+      .lean();
+    if (!chairperson) return null;
+    const resolved = await resolveAssets([chairperson], MEMBER_ASSET_MAPPING);
+    return resolved[0];
+  }
+
+  /**
    * Create a new member
    */
   static async createMember(data) {
     await connectToDatabase();
+    if (data.isChairperson === true) {
+      await Member.updateMany({}, { isChairperson: false });
+    }
     const member = new Member(data);
     await member.save();
     return member.toObject();
@@ -55,6 +71,9 @@ export class MemberService {
    */
   static async updateMember(id, data) {
     await connectToDatabase();
+    if (data.isChairperson === true) {
+      await Member.updateMany({ _id: { $ne: id } }, { isChairperson: false });
+    }
     const updatedMember = await Member.findByIdAndUpdate(
       id,
       { $set: data },

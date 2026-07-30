@@ -27,8 +27,7 @@ export function HomepageSettingsForm({ initialData = {} }) {
 
   const tabs = [
     { id: "hero", label: "Hero Banner", icon: ImageIcon },
-    { id: "chairperson", label: "Chairperson", icon: User },
-    { id: "overview", label: "Overview & Mission", icon: Info },
+    { id: "overview", label: "Overview", icon: Info },
     { id: "map", label: "Map & CTA", icon: MapPin },
     { id: "stats", label: "Statistics", icon: TrendingUp },
   ];
@@ -167,93 +166,16 @@ export function HomepageSettingsForm({ initialData = {} }) {
               </div>
             </div>
 
-            {/* CHAIRPERSON TAB */}
-            <div className={activeTab === "chairperson" ? "block p-6" : "hidden"}>
-              <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center border-b border-gray-100 pb-4">
-                <User className="w-5 h-5 mr-2 text-blue-600" />
-                Chairperson Details
-              </h2>
-              
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  {/* English */}
-                  <div className="space-y-4">
-                    <h4 className="font-bold text-sm text-blue-600 uppercase tracking-wider">English Content</h4>
-                    <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-1">Chairperson Name (EN)</label>
-                      <input type="text" name="chairpersonName.en" defaultValue={initialData?.chairpersonName?.en || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-1">Message (EN)</label>
-                      <textarea name="chairpersonMessage.en" defaultValue={initialData?.chairpersonMessage?.en || ""} rows={5} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"></textarea>
-                    </div>
-                  </div>
-                  
-                  {/* Nepali */}
-                  <div className="space-y-4">
-                    <h4 className="font-bold text-sm text-red-600 uppercase tracking-wider">Nepali Content</h4>
-                    <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-1">Chairperson Name (NP)</label>
-                      <input type="text" name="chairpersonName.np" defaultValue={initialData?.chairpersonName?.np || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-1">Message (NP)</label>
-                      <textarea name="chairpersonMessage.np" defaultValue={initialData?.chairpersonMessage?.np || ""} rows={5} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500"></textarea>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-gray-100">
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Chairperson Photo</label>
-                  <MediaPicker 
-                    name="chairpersonImageId" 
-                    module="homepage" 
-                    initialData={
-                      initialData?.chairpersonImageId && initialData?.chairpersonImage 
-                        ? { 
-                            _id: initialData.chairpersonImageId, 
-                            publicUrl: initialData.chairpersonImage, 
-                            mimeType: "image/jpeg" 
-                          } 
-                        : null
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-
             {/* OVERVIEW & MISSION TAB */}
             <div className={activeTab === "overview" ? "block p-6" : "hidden"}>
               <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center border-b border-gray-100 pb-4">
                 <Info className="w-5 h-5 mr-2 text-blue-600" />
-                Overview, Mission & Vision
+                Overview
               </h2>
               
               <div className="space-y-8">
                 
-                {/* Mission */}
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Mission (EN)</label>
-                    <textarea name="mission.en" defaultValue={initialData?.mission?.en || ""} rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"></textarea>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Mission (NP)</label>
-                    <textarea name="mission.np" defaultValue={initialData?.mission?.np || ""} rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500"></textarea>
-                  </div>
-                </div>
 
-                {/* Vision */}
-                <div className="grid md:grid-cols-2 gap-6 pt-6 border-t border-gray-100">
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Vision (EN)</label>
-                    <textarea name="vision.en" defaultValue={initialData?.vision?.en || ""} rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"></textarea>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Vision (NP)</label>
-                    <textarea name="vision.np" defaultValue={initialData?.vision?.np || ""} rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500"></textarea>
-                  </div>
-                </div>
 
                 <div className="pt-4 border-t border-gray-100">
                   <label className="block text-sm font-bold text-gray-700 mb-2">About Section Image</label>

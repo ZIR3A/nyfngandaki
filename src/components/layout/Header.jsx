@@ -37,12 +37,6 @@ export function Header() {
     { 
       name: isNepali ? "हाम्रो बारे" : "About Us",
       href: `/${locale}/about`,
-      mega: [
-        { name: isNepali ? "परिचय" : "Introduction", href: `/${locale}/about`, desc: isNepali ? "हाम्रो बारेमा विस्तृत जानकारी" : "Learn about NYFN Gandaki" },
-        { name: isNepali ? "इतिहास" : "History", href: `/${locale}/history`, desc: isNepali ? "हाम्रो गौरवशाली इतिहास" : "Our glorious journey" },
-        { name: isNepali ? "दूरदृष्टि र लक्ष्य" : "Vision & Mission", href: `/${locale}/vision-mission`, desc: isNepali ? "हाम्रो उद्देश्य र गन्तव्य" : "Our core goals and path" },
-        { name: isNepali ? "अध्यक्षको मन्तव्य" : "President's Message", href: `/${locale}/president-message`, desc: isNepali ? "नेतृत्वको सन्देश" : "Message from our leader" }
-      ]
     },
     { 
       name: isNepali ? "संगठन" : "Organization",

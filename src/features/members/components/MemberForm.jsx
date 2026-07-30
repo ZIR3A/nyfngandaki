@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createMemberAction, updateMemberAction } from "@/actions/member.actions";
 import { MediaPicker } from "@/features/storage/components/MediaPicker";
+import { LocalizedInput } from "@/features/admin/about/components/shared/LocalizedInput";
+import { LocalizedTextarea } from "@/features/admin/about/components/shared/LocalizedTextarea";
 
 export const MemberForm = ({ initialData = null }) => {
   const router = useRouter();
@@ -25,6 +27,7 @@ export const MemberForm = ({ initialData = null }) => {
     isFeaturedOnHome: initialData?.isFeaturedOnHome || false,
     showPhonePublic: initialData?.showPhonePublic || false,
     showEmailPublic: initialData?.showEmailPublic || false,
+    isChairperson: initialData?.isChairperson || false,
     displayOrder: initialData?.displayOrder || 0,
     profilePhotoId: initialData?.profilePhotoId || null,
     coverPhotoId: initialData?.coverPhotoId || null,
@@ -88,41 +91,21 @@ export const MemberForm = ({ initialData = null }) => {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Basic Information</h3>
           
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Full Name (English) *</label>
-              <Input 
-                required 
-                placeholder="e.g. Ram Bahadur Thapa"
-                value={formData.name.en}
-                onChange={(e) => setFormData({...formData, name: { ...formData.name, en: e.target.value }})}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Full Name (Nepali)</label>
-              <Input 
-                placeholder="e.g. राम बहादुर थापा"
-                value={formData.name.np}
-                onChange={(e) => setFormData({...formData, name: { ...formData.name, np: e.target.value }})}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Position (English) *</label>
-              <Input 
-                required 
-                placeholder="e.g. Member"
-                value={formData.position.en}
-                onChange={(e) => setFormData({...formData, position: { ...formData.position, en: e.target.value }})}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Position (Nepali)</label>
-              <Input 
-                placeholder="e.g. सदस्य"
-                value={formData.position.np}
-                onChange={(e) => setFormData({...formData, position: { ...formData.position, np: e.target.value }})}
-              />
-            </div>
+          <div className="space-y-6">
+            <LocalizedInput
+              label="Full Name"
+              placeholder={{ en: "e.g. Ram Bahadur Thapa", np: "उदा. राम बहादुर थापा" }}
+              value={formData.name}
+              onChange={(val) => setFormData({ ...formData, name: val })}
+              required
+            />
+            <LocalizedInput
+              label="Position"
+              placeholder={{ en: "e.g. Member", np: "उदा. सदस्य" }}
+              value={formData.position}
+              onChange={(val) => setFormData({ ...formData, position: val })}
+              required
+            />
           </div>
         </div>
 
@@ -163,26 +146,13 @@ export const MemberForm = ({ initialData = null }) => {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Biography</h3>
           
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Biography (English)</label>
-              <textarea 
-                className="w-full h-32 p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm"
-                placeholder="Short bio in English..."
-                value={formData.biography.en}
-                onChange={(e) => setFormData({...formData, biography: { ...formData.biography, en: e.target.value }})}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Biography (Nepali)</label>
-              <textarea 
-                className="w-full h-32 p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm"
-                placeholder="Short bio in Nepali..."
-                value={formData.biography.np}
-                onChange={(e) => setFormData({...formData, biography: { ...formData.biography, np: e.target.value }})}
-              />
-            </div>
-          </div>
+          <LocalizedTextarea
+            label="Biography"
+            placeholder={{ en: "Short bio in English...", np: "छोटो जीवनी..." }}
+            value={formData.biography}
+            onChange={(val) => setFormData({ ...formData, biography: val })}
+            rows={5}
+          />
         </div>
         
         {/* Visibility & Ordering Section */}
@@ -190,6 +160,15 @@ export const MemberForm = ({ initialData = null }) => {
           <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Visibility & Ordering</h3>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-4">
+              <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
+                <input 
+                  type="checkbox" 
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  checked={formData.isChairperson}
+                  onChange={(e) => setFormData({...formData, isChairperson: e.target.checked})}
+                />
+                Is Chairperson / Leader
+              </label>
               <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
                 <input 
                   type="checkbox" 
@@ -240,7 +219,15 @@ export const MemberForm = ({ initialData = null }) => {
               <MediaPicker
                 name="profilePhotoId"
                 module="members"
-                initialData={initialData?.profilePhotoId || null}
+                initialData={
+                  initialData?.profilePhotoId && initialData?.photo
+                    ? { 
+                        _id: initialData.profilePhotoId, 
+                        publicUrl: initialData.photo, 
+                        mimeType: "image/jpeg" 
+                      } 
+                    : null
+                }
                 onUpload={(asset) => setFormData((fd) => ({ ...fd, profilePhotoId: asset._id }))}
                 onRemove={() => setFormData((fd) => ({ ...fd, profilePhotoId: null }))}
               />
@@ -251,7 +238,15 @@ export const MemberForm = ({ initialData = null }) => {
               <MediaPicker
                 name="coverPhotoId"
                 module="members"
-                initialData={initialData?.coverPhotoId || null}
+                initialData={
+                  initialData?.coverPhotoId && initialData?.coverPhoto
+                    ? { 
+                        _id: initialData.coverPhotoId, 
+                        publicUrl: initialData.coverPhoto, 
+                        mimeType: "image/jpeg" 
+                      } 
+                    : null
+                }
                 onUpload={(asset) => setFormData((fd) => ({ ...fd, coverPhotoId: asset._id }))}
                 onRemove={() => setFormData((fd) => ({ ...fd, coverPhotoId: null }))}
               />
