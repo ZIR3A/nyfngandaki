@@ -39,6 +39,7 @@ export default auth((req) => {
     pathname.startsWith("/_next") ||
     pathname.startsWith("/login") ||
     pathname.startsWith("/admin") ||
+    pathname.startsWith("/home-v2") ||
     pathname.includes(".")
   ) {
     return null;
