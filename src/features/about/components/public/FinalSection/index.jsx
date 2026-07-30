@@ -4,30 +4,28 @@ import FinalSkeleton from './Skeletons/FinalSkeleton';
 import FinalError from './States/FinalError';
 import FinalEmpty from './States/FinalEmpty';
 
+import connectToDatabase from '@/lib/mongodb';
+import { aboutService } from '@/features/about/services/aboutService';
+
 async function fetchFinalData(provinceId) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/public/about?provinceId=${provinceId}`, { 
-      next: { tags: ['about-page'] } 
-    });
-    
-    if (!response.ok) throw new Error('Failed to fetch data');
-    const json = await response.json();
-    return json.data;
+    await connectToDatabase();
+    const data = await aboutService.getPublicAboutPage(provinceId);
+    return JSON.parse(JSON.stringify(data));
   } catch (error) {
     console.error('Error fetching Final Data:', error);
     return null;
   }
 }
 
-export default async function AboutFinalSection({ provinceId, locale = 'en' }) {
-  const data = await fetchFinalData(provinceId);
+export default async function AboutFinalSection({ provinceId, locale = 'en', data }) {
+  const finalData = data || await fetchFinalData(provinceId);
 
-  if (!data) {
+  if (!finalData) {
     return <FinalError locale={locale} />;
   }
 
-  const hasCta = !!data.cta?.heading;
+  const hasCta = !!finalData.cta?.heading;
 
   if (!hasCta) {
     return null;
@@ -35,7 +33,7 @@ export default async function AboutFinalSection({ provinceId, locale = 'en' }) {
 
   return (
     <Suspense fallback={<FinalSkeleton />}>
-      <FinalClient data={data} locale={locale} />
+      <FinalClient data={finalData} locale={locale} />
     </Suspense>
   );
 }

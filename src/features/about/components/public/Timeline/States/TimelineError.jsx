@@ -1,9 +1,9 @@
-﻿import React from 'react';
+import React from 'react';
 
 export default function TimelineError({ locale = 'en', onRetry }) {
   const isNp = locale === 'np';
-  const message = isNp ? 'à¤®à¤¾à¤« à¤—à¤°à¥à¤¨à¥à¤¹à¥‹à¤²à¤¾, à¤Ÿà¤¾à¤‡à¤®à¤²à¤¾à¤‡à¤¨ à¤²à¥‹à¤¡ à¤—à¤°à¥à¤¨ à¤¸à¤•à¤¿à¤à¤¨ à¥¤' : 'Sorry, the timeline could not be loaded.';
-  const retryText = isNp ? 'à¤ªà¥à¤¨à¤ƒ à¤ªà¥à¤°à¤¯à¤¾à¤¸ à¤—à¤°à¥à¤¨à¥à¤¹à¥‹à¤¸à¥' : 'Try Again';
+  const message = isNp ? 'माफ गर्नुहोला, टाइमलाइन लोड गर्न सकिएन ।' : 'Sorry, the timeline could not be loaded.';
+  const retryText = isNp ? 'पुनः प्रयास गर्नुहोस्' : 'Try Again';
 
   return (
     <div className="w-full max-w-[1200px] mx-auto py-16 lg:py-24 px-6 text-center">

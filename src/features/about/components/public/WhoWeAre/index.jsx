@@ -1,35 +1,33 @@
-﻿import React, { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import WhoWeAreClient from './WhoWeAreClient';
 import WhoWeAreSkeleton from './Skeletons/WhoWeAreSkeleton';
 import WhoWeAreError from './States/WhoWeAreError';
 import WhoWeAreEmpty from './States/WhoWeAreEmpty';
 
+import connectToDatabase from '@/lib/mongodb';
+import { aboutService } from '@/features/about/services/aboutService';
+
 // Note: Using a direct DB call or a fetch to the API route
 async function fetchWhoWeAreData(provinceId) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/public/about?provinceId=${provinceId}`, { 
-      next: { tags: ['about-page'] } 
-    });
-    
-    if (!response.ok) throw new Error('Failed to fetch data');
-    const json = await response.json();
-    return json.data;
+    await connectToDatabase();
+    const data = await aboutService.getPublicAboutPage(provinceId);
+    return JSON.parse(JSON.stringify(data));
   } catch (error) {
     console.error('Error fetching Who We Are Data:', error);
     return null;
   }
 }
 
-export default async function AboutWhoWeAre({ provinceId, locale = 'en' }) {
-  const data = await fetchWhoWeAreData(provinceId);
+export default async function AboutWhoWeAre({ provinceId, locale = 'en', data }) {
+  const finalData = data || await fetchWhoWeAreData(provinceId);
 
-  if (!data) {
+  if (!finalData) {
     return <WhoWeAreError locale={locale} />;
   }
 
   // Graceful empty state if content doesn't exist
-  if (!data.organization || Object.keys(data.organization).length === 0) {
+  if (!finalData.organization || Object.keys(finalData.organization).length === 0) {
     return <WhoWeAreEmpty locale={locale} />;
   }
 
@@ -40,7 +38,7 @@ export default async function AboutWhoWeAre({ provinceId, locale = 'en' }) {
       <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-primary-red/5 rounded-full blur-3xl pointer-events-none" />
 
       <Suspense fallback={<WhoWeAreSkeleton />}>
-        <WhoWeAreClient data={data} locale={locale} />
+        <WhoWeAreClient data={finalData} locale={locale} />
       </Suspense>
     </section>
   );

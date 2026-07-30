@@ -1,9 +1,9 @@
-﻿import React from 'react';
+import React from 'react';
 
 export default function StrategyError({ locale = 'en', onRetry }) {
   const isNp = locale === 'np';
-  const message = isNp ? 'à¤®à¤¾à¤« à¤—à¤°à¥à¤¨à¥à¤¹à¥‹à¤²à¤¾, à¤°à¤£à¤¨à¥€à¤¤à¤¿ à¤µà¤¿à¤µà¤°à¤£ à¤²à¥‹à¤¡ à¤—à¤°à¥à¤¨ à¤¸à¤•à¤¿à¤à¤¨ à¥¤' : 'Sorry, the strategic details could not be loaded.';
-  const retryText = isNp ? 'à¤ªà¥à¤¨à¤ƒ à¤ªà¥à¤°à¤¯à¤¾à¤¸ à¤—à¤°à¥à¤¨à¥à¤¹à¥‹à¤¸à¥' : 'Try Again';
+  const message = isNp ? 'माफ गर्नुहोला, रणनीति विवरण लोड गर्न सकिएन ।' : 'Sorry, the strategic details could not be loaded.';
+  const retryText = isNp ? 'पुनः प्रयास गर्नुहोस्' : 'Try Again';
 
   return (
     <div className="w-full max-w-[1440px] mx-auto py-16 lg:py-24 px-6 text-center">

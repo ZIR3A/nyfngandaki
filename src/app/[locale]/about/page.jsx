@@ -9,16 +9,16 @@ import AboutConnect from '@/features/about/components/public/Connect';
 import AboutDocuments from '@/features/about/components/public/Documents';
 import AboutFinalSection from '@/features/about/components/public/FinalSection';
 
+import connectToDatabase from '@/lib/mongodb';
+import { aboutService } from '@/features/about/services/aboutService';
+
 async function fetchSeoData(provinceId) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/public/about?provinceId=${provinceId}`, { 
-      next: { tags: ['about-page', 'seo'] } 
-    });
-    if (!response.ok) return null;
-    const json = await response.json();
-    return json.data?.seo;
+    await connectToDatabase();
+    const data = await aboutService.getPublicAboutPage(provinceId);
+    return data?.seo || null;
   } catch (error) {
+    console.error('Error fetching SEO Data:', error);
     return null;
   }
 }
@@ -68,6 +68,11 @@ export default async function AboutPage({ params }) {
   // Pre-fetch SEO data to inject JSON-LD
   const seoData = await fetchSeoData(provinceId);
 
+  // Fetch full page data directly from DB to pass to modules, avoiding HTTP fetch loop
+  await connectToDatabase();
+  const rawAboutData = await aboutService.getPublicAboutPage(provinceId);
+  const aboutData = JSON.parse(JSON.stringify(rawAboutData));
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -90,22 +95,22 @@ export default async function AboutPage({ params }) {
       />
 
       {/* Hero Module */}
-      <AboutHero provinceId={provinceId} locale={locale} />
+      <AboutHero provinceId={provinceId} locale={locale} data={aboutData} />
       
       {/* Who We Are (Storytelling) */}
-      <AboutWhoWeAre provinceId={provinceId} locale={locale} />
+      <AboutWhoWeAre provinceId={provinceId} locale={locale} data={aboutData} />
       
       {/* Strategy (Vision/Mission/Values) */}
-      <AboutStrategy provinceId={provinceId} locale={locale} />
+      <AboutStrategy provinceId={provinceId} locale={locale} data={aboutData} />
 
       {/* Connect (Leadership & Excellence) */}
-      <AboutConnect provinceId={provinceId} locale={locale} />
+      <AboutConnect provinceId={provinceId} locale={locale} data={aboutData} />
 
       {/* Documents (Transparency Center) */}
-      <AboutDocuments provinceId={provinceId} locale={locale} />
+      <AboutDocuments provinceId={provinceId} locale={locale} data={aboutData} />
 
       {/* Final Section (Partners, FAQ, CTA) */}
-      <AboutFinalSection provinceId={provinceId} locale={locale} />
+      <AboutFinalSection provinceId={provinceId} locale={locale} data={aboutData} />
 
     </main>
   );

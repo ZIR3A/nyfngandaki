@@ -4,46 +4,38 @@ import HeroError from './States/HeroError';
 import HeroEmpty from './States/HeroEmpty';
 import { PageHeader } from '@/components/shared/PageHeader';
 
+import connectToDatabase from '@/lib/mongodb';
+import { aboutService } from '@/features/about/services/aboutService';
+
 // Note: In Next.js App Router, this Server Component can fetch data directly
 async function fetchAboutData(provinceId) {
   try {
-    // In production, adjust the baseURL or use absolute URL
-    // We assume the API returns { success: true, data: { ... } }
-    // Using dummy URL for now. It should point to the Next.js API route or direct service call.
-    // E.g., const res = await aboutService.getPublicAboutPage(provinceId);
-    
-    // Simulating the API response for the architecture implementation:
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/public/about?provinceId=${provinceId}`, { 
-      next: { tags: ['about-page'] } 
-    });
-    
-    if (!response.ok) throw new Error('Failed to fetch data');
-    const json = await response.json();
-    return json.data;
+    await connectToDatabase();
+    const data = await aboutService.getPublicAboutPage(provinceId);
+    return JSON.parse(JSON.stringify(data));
   } catch (error) {
     console.error('Error fetching About Hero Data:', error);
     return null;
   }
 }
 
-export default async function AboutHero({ provinceId, locale = 'en' }) {
-  const data = await fetchAboutData(provinceId);
+export default async function AboutHero({ provinceId, locale = 'en', data }) {
+  const finalData = data || await fetchAboutData(provinceId);
 
-  if (!data) {
+  if (!finalData) {
     return <HeroError locale={locale} />;
   }
 
   // If hero is explicitly disabled (hypothetical CMS flag) or data is completely empty
-  if (data.hero && data.hero.enableHero === false) {
+  if (finalData.hero && finalData.hero.enableHero === false) {
     return <HeroEmpty locale={locale} />;
   }
 
-  const title = data.hero?.title?.[locale];
-  const subtitle = data.hero?.subtitle?.[locale];
-  const imageSrc = data.hero?.imageId?.publicUrl || data.hero?.media?.[0]?.url || null;
-  const overlayOpacity = data.hero?.overlayOpacity;
-  const overlayColor = data.hero?.overlayColor;
+  const title = finalData.hero?.title?.[locale];
+  const subtitle = finalData.hero?.subtitle?.[locale];
+  const imageSrc = finalData.hero?.imageId?.publicUrl || finalData.hero?.media?.[0]?.url || null;
+  const overlayOpacity = finalData.hero?.overlayOpacity;
+  const overlayColor = finalData.hero?.overlayColor;
 
   const breadcrumbItems = [
     { label: locale === 'np' ? 'गृहपृष्ठ' : 'Home', href: `/${locale}` },

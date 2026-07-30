@@ -1,9 +1,9 @@
-﻿import React from 'react';
+import React from 'react';
 
 export default function HeroError({ locale = 'en', onRetry }) {
   const isNp = locale === 'np';
-  const message = isNp ? 'à¤®à¤¾à¤« à¤—à¤°à¥à¤¨à¥à¤¹à¥‹à¤²à¤¾, à¤µà¤¿à¤µà¤°à¤£ à¤²à¥‹à¤¡ à¤—à¤°à¥à¤¨ à¤¸à¤•à¤¿à¤à¤¨ à¥¤' : 'Sorry, the hero content could not be loaded.';
-  const retryText = isNp ? 'à¤ªà¥à¤¨à¤ƒ à¤ªà¥à¤°à¤¯à¤¾à¤¸ à¤—à¤°à¥à¤¨à¥à¤¹à¥‹à¤¸à¥' : 'Try Again';
+  const message = isNp ? 'माफ गर्नुहोला, विवरण लोड गर्न सकिएन ।' : 'Sorry, the hero content could not be loaded.';
+  const retryText = isNp ? 'पुनः प्रयास गर्नुहोस्' : 'Try Again';
 
   return (
     <div className="w-full min-h-[50vh] flex flex-col items-center justify-center bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-6 text-center shadow-sm">
