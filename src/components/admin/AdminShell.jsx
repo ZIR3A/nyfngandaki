@@ -5,7 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { 
   LayoutDashboard, Users, UserCog, LogOut, Menu, X, Search, 
   Bell, MessageSquare, Plus, Sun, Moon, ChevronRight, Home, ChevronDown,
-  HeartPulse, Calendar, FileText, Settings, HardDrive, Image as ImageIcon
+  HeartPulse, Calendar, FileText, Settings, HardDrive, Image as ImageIcon,
+  Layers, Briefcase, MapPin
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
@@ -45,6 +46,9 @@ export function AdminShell({ children, user }) {
       label: "Organization",
       items: [
         { name: "Members", href: `/admin/members`, icon: Users },
+        { name: "Committees", href: `/admin/committees`, icon: Layers },
+        { name: "Positions", href: `/admin/positions`, icon: Briefcase },
+        { name: "Districts", href: `/admin/districts`, icon: MapPin },
       ]
     },
     {

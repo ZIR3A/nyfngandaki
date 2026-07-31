@@ -14,8 +14,20 @@ const MemberSchema = new mongoose.Schema(
       type: LocalizedStringSchema,
       required: true,
     },
-    position: {
-      type: LocalizedStringSchema,
+    organizationLevel: {
+      type: String,
+      enum: ["PROVINCE", "DISTRICT"],
+      required: true,
+      default: "PROVINCE",
+    },
+    committee_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Committee",
+      default: null,
+    },
+    position_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Position",
       required: true,
     },
     biography: {

@@ -11,14 +11,16 @@ import { MediaPicker } from "@/features/storage/components/MediaPicker";
 import { LocalizedInput } from "@/features/admin/about/components/shared/LocalizedInput";
 import { LocalizedTextarea } from "@/features/admin/about/components/shared/LocalizedTextarea";
 
-export const MemberForm = ({ initialData = null }) => {
+export const MemberForm = ({ initialData = null, districts = [], committees = [], positions = [] }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   
   const [formData, setFormData] = useState({
     name: initialData?.name || { en: "", np: "" },
-    position: initialData?.position || { en: "", np: "" },
+    organizationLevel: initialData?.organizationLevel || "PROVINCE",
+    committee_id: initialData?.committee_id?._id || initialData?.committee_id || "",
+    position_id: initialData?.position_id?._id || initialData?.position_id || "",
     biography: initialData?.biography || { en: "", np: "" },
     email: initialData?.email || "",
     phone: initialData?.phone || "",
@@ -31,6 +33,7 @@ export const MemberForm = ({ initialData = null }) => {
     displayOrder: initialData?.displayOrder || 0,
     profilePhotoId: initialData?.profilePhotoId || null,
     coverPhotoId: initialData?.coverPhotoId || null,
+    district: initialData?.district?._id || initialData?.district || "",
   });
 
   const handleSubmit = async (e) => {
@@ -87,170 +90,252 @@ export const MemberForm = ({ initialData = null }) => {
 
       <form onSubmit={handleSubmit} className="space-y-8">
         
-        {/* Basic Info Section */}
+        {/* Personal Information Section */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Basic Information</h3>
+          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Personal Information</h3>
           
-          <div className="space-y-6">
-            <LocalizedInput
-              label="Full Name"
-              placeholder={{ en: "e.g. Ram Bahadur Thapa", np: "उदा. राम बहादुर थापा" }}
-              value={formData.name}
-              onChange={(val) => setFormData({ ...formData, name: val })}
-              required
-            />
-            <LocalizedInput
-              label="Position"
-              placeholder={{ en: "e.g. Member", np: "उदा. सदस्य" }}
-              value={formData.position}
-              onChange={(val) => setFormData({ ...formData, position: val })}
-              required
-            />
+          <div className="space-y-8">
+            {/* Name */}
+            <div>
+              <LocalizedInput
+                label="Full Name"
+                placeholder={{ en: "e.g. Ram Bahadur Thapa", np: "उदा. राम बहादुर थापा" }}
+                value={formData.name}
+                onChange={(val) => setFormData({ ...formData, name: val })}
+                required
+              />
+            </div>
+
+            {/* Photos */}
+            <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Profile Photo (Optional)</label>
+                <MediaPicker
+                  name="profilePhotoId"
+                  module="members"
+                  initialData={
+                    initialData?.profilePhotoId && initialData?.photo
+                      ? { 
+                          _id: initialData.profilePhotoId, 
+                          publicUrl: initialData.photo, 
+                          mimeType: "image/jpeg" 
+                        } 
+                      : null
+                  }
+                  onUpload={(asset) => setFormData((fd) => ({ ...fd, profilePhotoId: asset._id }))}
+                  onRemove={() => setFormData((fd) => ({ ...fd, profilePhotoId: null }))}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Cover Photo (Optional)</label>
+                <MediaPicker
+                  name="coverPhotoId"
+                  module="members"
+                  initialData={
+                    initialData?.coverPhotoId && initialData?.coverPhoto
+                      ? { 
+                          _id: initialData.coverPhotoId, 
+                          publicUrl: initialData.coverPhoto, 
+                          mimeType: "image/jpeg" 
+                        } 
+                      : null
+                  }
+                  onUpload={(asset) => setFormData((fd) => ({ ...fd, coverPhotoId: asset._id }))}
+                  onRemove={() => setFormData((fd) => ({ ...fd, coverPhotoId: null }))}
+                />
+              </div>
+            </div>
+
+            {/* Contact */}
+            <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Email Address</label>
+                <Input 
+                  type="email"
+                  placeholder="email@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Phone Number</label>
+                <Input 
+                  placeholder="+977 98..."
+                  value={formData.phone}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                />
+              </div>
+              <div className="space-y-2 md:col-span-2">
+                <label className="text-sm font-bold text-gray-700">Facebook URL</label>
+                <Input 
+                  placeholder="https://facebook.com/..."
+                  value={formData.facebook}
+                  onChange={(e) => setFormData({...formData, facebook: e.target.value})}
+                />
+              </div>
+            </div>
+
+            {/* Biography */}
+            <div className="pt-4 border-t border-gray-100">
+              <LocalizedTextarea
+                label="Biography"
+                placeholder={{ en: "Short bio in English...", np: "छोटो जीवनी..." }}
+                value={formData.biography}
+                onChange={(val) => setFormData({ ...formData, biography: val })}
+                rows={5}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Contact Info Section */}
+        {/* Organization Information Section */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Contact Information</h3>
+          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Organization Information</h3>
           
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Email Address</label>
-              <Input 
-                type="email"
-                placeholder="email@example.com"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-              />
+          <div className="space-y-8">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Organization Level <span className="text-red-500">*</span></label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2 text-sm">
+                    <input 
+                      type="radio" 
+                      name="organizationLevel" 
+                      value="PROVINCE" 
+                      checked={formData.organizationLevel === "PROVINCE"}
+                      onChange={(e) => {
+                        setFormData({...formData, organizationLevel: e.target.value, district: ""});
+                      }}
+                      className="text-blue-600 focus:ring-blue-500 h-4 w-4"
+                    />
+                    Province Committee
+                  </label>
+                  <label className="flex items-center gap-2 text-sm">
+                    <input 
+                      type="radio" 
+                      name="organizationLevel" 
+                      value="DISTRICT" 
+                      checked={formData.organizationLevel === "DISTRICT"}
+                      onChange={(e) => setFormData({...formData, organizationLevel: e.target.value})}
+                      className="text-blue-600 focus:ring-blue-500 h-4 w-4"
+                    />
+                    District Committee
+                  </label>
+                </div>
+              </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Phone Number</label>
-              <Input 
-                placeholder="+977 98..."
-                value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
-              />
-            </div>
-            <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-bold text-gray-700">Facebook URL</label>
-              <Input 
-                placeholder="https://facebook.com/..."
-                value={formData.facebook}
-                onChange={(e) => setFormData({...formData, facebook: e.target.value})}
-              />
-            </div>
-          </div>
-        </div>
 
-        {/* Biography Section */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Biography</h3>
-          
-          <LocalizedTextarea
-            label="Biography"
-            placeholder={{ en: "Short bio in English...", np: "छोटो जीवनी..." }}
-            value={formData.biography}
-            onChange={(val) => setFormData({ ...formData, biography: val })}
-            rows={5}
-          />
-        </div>
-        
-        {/* Visibility & Ordering Section */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Visibility & Ordering</h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
-                <input 
-                  type="checkbox" 
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  checked={formData.isChairperson}
-                  onChange={(e) => setFormData({...formData, isChairperson: e.target.checked})}
-                />
-                Is Chairperson / Leader
-              </label>
-              <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
-                <input 
-                  type="checkbox" 
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  checked={formData.isFeaturedOnHome}
-                  onChange={(e) => setFormData({...formData, isFeaturedOnHome: e.target.checked})}
-                />
-                Feature on Homepage
-              </label>
-              <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
-                <input 
-                  type="checkbox" 
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  checked={formData.showPhonePublic}
-                  onChange={(e) => setFormData({...formData, showPhonePublic: e.target.checked})}
-                />
-                Show Phone Number Publicly
-              </label>
-              <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
-                <input 
-                  type="checkbox" 
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  checked={formData.showEmailPublic}
-                  onChange={(e) => setFormData({...formData, showEmailPublic: e.target.checked})}
-                />
-                Show Email Address Publicly
-              </label>
+            <div className="grid md:grid-cols-2 gap-6">
+              {formData.organizationLevel === "DISTRICT" && (
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-700">District Assignment <span className="text-red-500">*</span></label>
+                  <select 
+                    className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    value={formData.district}
+                    onChange={(e) => setFormData({...formData, district: e.target.value})}
+                    required
+                  >
+                    <option value="">-- Select a District --</option>
+                    {districts.map(d => (
+                      <option key={d._id} value={d._id}>{d.name?.en} ({d.name?.np})</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Member Status</label>
+                <select 
+                  className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  value={formData.status}
+                  onChange={(e) => setFormData({...formData, status: e.target.value})}
+                >
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+              </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Display Order (Ascending)</label>
-              <Input 
-                type="number"
-                placeholder="0"
-                value={formData.displayOrder}
-                onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
-              />
-              <p className="text-xs text-gray-500">Lower numbers appear first on the homepage and directory.</p>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Committee (Optional)</label>
+                <select 
+                  className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  value={formData.committee_id}
+                  onChange={(e) => setFormData({...formData, committee_id: e.target.value})}
+                >
+                  <option value="">-- None --</option>
+                  {committees.filter(c => c.organizationLevel === formData.organizationLevel).map(c => (
+                    <option key={c._id} value={c._id}>{c.name?.en} ({c.name?.np})</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Position <span className="text-red-500">*</span></label>
+                <select 
+                  className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  value={formData.position_id}
+                  onChange={(e) => setFormData({...formData, position_id: e.target.value})}
+                  required
+                >
+                  <option value="">-- Select a Position --</option>
+                  {positions.map(p => (
+                    <option key={p._id} value={p._id}>{p.name?.en} ({p.name?.np})</option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-        </div>
-        
-        {/* Photo Upload */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Photos</h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Profile Photo (Optional)</label>
-              <MediaPicker
-                name="profilePhotoId"
-                module="members"
-                initialData={
-                  initialData?.profilePhotoId && initialData?.photo
-                    ? { 
-                        _id: initialData.profilePhotoId, 
-                        publicUrl: initialData.photo, 
-                        mimeType: "image/jpeg" 
-                      } 
-                    : null
-                }
-                onUpload={(asset) => setFormData((fd) => ({ ...fd, profilePhotoId: asset._id }))}
-                onRemove={() => setFormData((fd) => ({ ...fd, profilePhotoId: null }))}
-              />
-              <p className="text-xs text-gray-500 mt-2">Upload a professional headshot for the directory.</p>
-            </div>
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Cover Photo (Optional)</label>
-              <MediaPicker
-                name="coverPhotoId"
-                module="members"
-                initialData={
-                  initialData?.coverPhotoId && initialData?.coverPhoto
-                    ? { 
-                        _id: initialData.coverPhotoId, 
-                        publicUrl: initialData.coverPhoto, 
-                        mimeType: "image/jpeg" 
-                      } 
-                    : null
-                }
-                onUpload={(asset) => setFormData((fd) => ({ ...fd, coverPhotoId: asset._id }))}
-                onRemove={() => setFormData((fd) => ({ ...fd, coverPhotoId: null }))}
-              />
-              <p className="text-xs text-gray-500 mt-2">Cover image for the member's detailed profile page.</p>
+
+            <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+              <div className="space-y-4">
+                <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
+                  <input 
+                    type="checkbox" 
+                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    checked={formData.isChairperson}
+                    onChange={(e) => setFormData({...formData, isChairperson: e.target.checked})}
+                  />
+                  Is Chairperson / Leader
+                </label>
+                <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
+                  <input 
+                    type="checkbox" 
+                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    checked={formData.isFeaturedOnHome}
+                    onChange={(e) => setFormData({...formData, isFeaturedOnHome: e.target.checked})}
+                  />
+                  Feature on Homepage
+                </label>
+                <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
+                  <input 
+                    type="checkbox" 
+                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    checked={formData.showPhonePublic}
+                    onChange={(e) => setFormData({...formData, showPhonePublic: e.target.checked})}
+                  />
+                  Show Phone Number Publicly
+                </label>
+                <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
+                  <input 
+                    type="checkbox" 
+                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    checked={formData.showEmailPublic}
+                    onChange={(e) => setFormData({...formData, showEmailPublic: e.target.checked})}
+                  />
+                  Show Email Address Publicly
+                </label>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Display Order (Ascending)</label>
+                <Input 
+                  type="number"
+                  placeholder="0"
+                  value={formData.displayOrder}
+                  onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
+                />
+                <p className="text-xs text-gray-500">Lower numbers appear first on the homepage and directory.</p>
+              </div>
             </div>
           </div>
         </div>

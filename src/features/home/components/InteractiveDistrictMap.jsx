@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Users, Building, ArrowRight, MousePointerClick } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import GandakiMap from "@/components/maps/GandakiMap";
+import { GandakiMap } from "@/features/members/components/GandakiMap";
 import { useLanguage } from "@/localization/LanguageContext";
+import useSWR from "swr";
+import { fetcher } from "@/lib/fetcher";
 
 export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
   const { language } = useLanguage();
@@ -14,6 +16,14 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
   const [mounted, setMounted] = useState(false);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
 
+  const { data: statsJson } = useSWR("/api/public/districts/explorer", fetcher, {
+    revalidateOnFocus: false,
+    dedupingInterval: 300000,
+  });
+
+  // Get live stats if available
+  const liveStats = statsJson?.success ? statsJson.data.find(d => d.slug === selectedDistrict?.slug)?.stats : null;
+  
   useEffect(() => {
     setMounted(true);
     // Auto-select first district if available, otherwise fallback to Kaski
@@ -80,12 +90,13 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
             {mounted && (
               <div className="w-full h-full absolute inset-0 pt-16 pb-4 px-4 rounded-[inherit]">
                 <GandakiMap 
-                  interactive={true} 
-                  showTooltip={true} 
-                  selectedDistrict={selectedDistrict} 
-                  onDistrictClick={(dist) => setSelectedDistrict(dist)} 
-                  language={language}
-                  districts={districts}
+                  isNepali={language === 'np'}
+                  className="w-full h-full object-contain mix-blend-multiply dark:mix-blend-normal mt-10" 
+                  selectedDistrict={selectedDistrict?.slug} 
+                  onSelect={(slug) => {
+                    const found = districts.find(d => d.slug === slug);
+                    if (found) setSelectedDistrict(found);
+                  }} 
                 />
               </div>
             )}
@@ -107,10 +118,15 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-2">
                       {selectedDistrict.name?.[language] || selectedDistrict.name?.en}
                     </h3>
-                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 font-medium">
+                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 font-medium mb-3">
                       <MapPin className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                       <span>{language === 'en' ? 'Gandaki Province, Nepal' : 'गण्डकी प्रदेश, नेपाल'}</span>
                     </div>
+                    {(selectedDistrict.shortDescription?.[language] || selectedDistrict.shortDescription?.en) && (
+                      <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        {selectedDistrict.shortDescription?.[language] || selectedDistrict.shortDescription?.en}
+                      </p>
+                    )}
                   </div>
 
                   {selectedDistrict.coverImage && (
@@ -124,30 +140,21 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
                     </div>
                   )}
 
-                  <div className="grid grid-cols-2 gap-4 mb-8">
-                    <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 text-center">
+                  <div className="mb-8">
+                    <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-700/50 text-center">
                       <Users className="w-6 h-6 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                        {Math.floor(Math.random() * 500) + 100}
+                      <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                        {liveStats?.totalMembers ?? selectedDistrict.stats?.totalMembers ?? 0}
                       </div>
                       <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold">
                         {language === 'en' ? 'Members' : 'सदस्यहरू'}
-                      </div>
-                    </div>
-                    <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 text-center">
-                      <Building className="w-6 h-6 text-red-500 dark:text-red-400 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                        {selectedDistrict.status === 'Active' ? '1' : '0'}
-                      </div>
-                      <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold">
-                        {language === 'en' ? 'Committee' : 'कमिटी'}
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800">
                     <Link 
-                      href={`/districts/${selectedDistrict.slug}`} 
+                      href={`/${language}/members?district=${selectedDistrict.slug}#district-explorer`} 
                       className="flex items-center justify-center w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors group"
                     >
                       {language === 'en' ? 'Explore District' : 'जिल्ला अन्वेषण गर्नुहोस्'}

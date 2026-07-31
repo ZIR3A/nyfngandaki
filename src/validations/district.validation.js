@@ -10,6 +10,7 @@ export const DistrictSchema = z.object({
     message: "Name is required in at least one language",
   }),
   description: LocalizedStringSchema.optional(),
+  shortDescription: LocalizedStringSchema.optional(),
   coverImage: z.string().url("Invalid image URL").optional().or(z.literal("")),
   officeAddress: LocalizedStringSchema.optional(),
   phone: z.string().optional(),

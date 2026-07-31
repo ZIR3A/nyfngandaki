@@ -14,6 +14,9 @@ const DistrictSchema = new mongoose.Schema(
       type: LocalizedStringSchema,
       required: true,
     },
+    shortDescription: {
+      type: LocalizedStringSchema,
+    },
     description: {
       type: LocalizedStringSchema,
     },
@@ -53,12 +56,21 @@ const DistrictSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
+    stats: {
+      totalMembers: { type: Number, default: 0 },
+      activeMembers: { type: Number, default: 0 },
+      officeBearers: { type: Number, default: 0 },
+      committeeMembers: { type: Number, default: 0 },
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const District = mongoose.models.District || mongoose.model("District", DistrictSchema);
+if (mongoose.models.District) {
+  delete mongoose.models.District;
+}
+const District = mongoose.model("District", DistrictSchema);
 
 export default District;
