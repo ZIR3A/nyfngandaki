@@ -11,33 +11,33 @@ export default function FeaturedLeadership({ dictionary, featuredMembers = [] })
   const { language } = useLanguage();
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
+    <section className="py-24 bg-white dark:bg-[#0A0F1C] relative overflow-hidden">
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#153E90 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
       
       <div className="container mx-auto px-6 max-w-[1320px] relative z-10">
         
         <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-[#153E90] text-sm font-bold uppercase tracking-[0.2em] mb-4">
+          <span className="text-[#153E90] dark:text-blue-400 text-sm font-bold uppercase tracking-[0.2em] mb-4">
             {dict.label}
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-gray-900 max-w-2xl mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-gray-900 dark:text-white max-w-2xl mb-4">
             {dict.heading}
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl">
             {dict.subheading}
           </p>
         </div>
 
         {featuredMembers.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-300">
-             <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 text-slate-400">
+          <div className="flex flex-col items-center justify-center py-20 bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
+             <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-sm mb-4 text-slate-400 dark:text-slate-500">
                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                </svg>
              </div>
-             <h3 className="text-xl font-bold text-slate-700">{dict.emptyTitle}</h3>
-             <p className="text-slate-500">{dict.emptyDesc}</p>
+             <h3 className="text-xl font-bold text-slate-700 dark:text-slate-300">{dict.emptyTitle}</h3>
+             <p className="text-slate-500 dark:text-slate-400">{dict.emptyDesc}</p>
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -48,13 +48,13 @@ export default function FeaturedLeadership({ dictionary, featuredMembers = [] })
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group relative bg-white/60 backdrop-blur-sm border-2 border-transparent hover:border-blue-100 rounded-[24px] overflow-hidden shadow-[0_10px_35px_rgba(15,45,90,0.04)] hover:shadow-[0_20px_50px_rgba(15,45,90,0.1)] transition-all duration-500 hover:-translate-y-2 flex flex-col"
+                className="group relative bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border-2 border-transparent hover:border-blue-100 dark:hover:border-blue-900 rounded-[24px] overflow-hidden shadow-[0_10px_35px_rgba(15,45,90,0.04)] hover:shadow-[0_20px_50px_rgba(15,45,90,0.1)] transition-all duration-500 hover:-translate-y-2 flex flex-col"
               >
                 {/* Premium Gradient Border on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[#153E90]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
                 {/* Portrait */}
-                <div className="relative h-72 w-full bg-slate-100 overflow-hidden">
+                <div className="relative h-72 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
                    {member.photo ? (
                       <Image 
                         src={member.photo} 
@@ -88,21 +88,21 @@ export default function FeaturedLeadership({ dictionary, featuredMembers = [] })
                 </div>
 
                 {/* Content */}
-                <div className="p-6 text-center relative bg-white flex-1 flex flex-col">
+                <div className="p-6 text-center relative bg-white dark:bg-slate-900 flex-1 flex flex-col">
                   {/* Decorative Red Accent Line */}
                   <div className="w-10 h-1 bg-[#D81E27] mx-auto rounded-full mb-4"></div>
                   
-                  <h3 className="text-2xl font-bold text-gray-900 mb-1">{member.name[language] || member.name.en}</h3>
-                  <p className="text-[#153E90] font-medium mb-3">{member.position?.[language] || member.position?.en}</p>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{member.name[language] || member.name.en}</h3>
+                  <p className="text-[#153E90] dark:text-blue-400 font-medium mb-3">{member.position?.[language] || member.position?.en}</p>
                   
                   {member.district && (
-                    <p className="text-gray-500 text-sm font-medium uppercase tracking-wider mb-6">
+                    <p className="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase tracking-wider mb-6">
                       {member.district.name?.[language] || member.district.name?.en} District
                     </p>
                   )}
 
                   <div className="mt-auto">
-                    <Link href={`/members/${member._id}`} className="text-sm font-bold text-[#153E90] hover:text-[#D81E27] uppercase tracking-wider flex items-center justify-center transition-colors">
+                    <Link href={`/members/${member._id}`} className="text-sm font-bold text-[#153E90] dark:text-blue-400 hover:text-[#D81E27] dark:hover:text-[#D81E27] uppercase tracking-wider flex items-center justify-center transition-colors">
                       View Profile <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                   </div>

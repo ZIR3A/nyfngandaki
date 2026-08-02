@@ -82,7 +82,7 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
   }
 
   return (
-    <section className="relative w-full flex flex-col bg-[#F8FAFC]">
+    <section className="relative w-full flex flex-col bg-[#F8FAFC] dark:bg-[#0A0F1C]">
       {/* Top Banner Slider Area */}
       <div className="relative w-full h-[85vh] lg:h-screen bg-[#102C69] overflow-hidden">
         
@@ -190,18 +190,18 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
 
       {/* Welcome & Stats Section (Visible on first screen) */}
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-6">
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 md:p-6 flex flex-col xl:flex-row gap-6 items-center">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-800 p-4 md:p-6 flex flex-col xl:flex-row gap-6 items-center">
           
           {/* Welcome Text Left */}
           <div className="w-full xl:w-1/3 space-y-2 text-center xl:text-left">
-            <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+            <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 dark:text-white leading-tight">
               {language === 'en' ? (
-                <>Welcome to <span className="text-[#153E90]">NYFN Gandaki</span></>
+                <>Welcome to <span className="text-[#153E90] dark:text-blue-400">NYFN Gandaki</span></>
               ) : (
-                <>रा.यु.संघ. – <span className="text-[#153E90]">गण्डकीमा स्वागत छ</span></>
+                <>रा.यु.संघ. – <span className="text-[#153E90] dark:text-blue-400">गण्डकीमा स्वागत छ</span></>
               )}
             </h2>
-            <p className="text-gray-600 text-xs md:text-sm leading-relaxed max-w-lg mx-auto xl:mx-0">
+            <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm leading-relaxed max-w-lg mx-auto xl:mx-0">
               {language === 'en' 
                 ? "National Youth Federation Nepal (NYFN) Gandaki is committed to building responsible, disciplined, and patriotic youth."
                 : "राष्ट्रिय युवा संघ नेपाल (रा.यु.संघ.) गण्डकी जिम्मेवार, अनुशासित र देशभक्त युवा निर्माण गर्न प्रतिबद्ध छ।"}
@@ -211,7 +211,7 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
                 {language === 'en' ? "About Us" : "हाम्रो बारे"}
                 <ArrowRight className="ml-1.5 w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/about#history" className="inline-flex items-center justify-center px-4 py-2 bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700 rounded-full text-xs font-semibold transition-all">
+              <Link href="/about#history" className="inline-flex items-center justify-center px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-semibold transition-all">
                 {language === 'en' ? "Our History" : "हाम्रो इतिहास"}
                 <ArrowRight className="ml-1.5 w-3.5 h-3.5 text-gray-400" />
               </Link>
@@ -226,14 +226,14 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * idx, duration: 0.4 }}
-                className="bg-slate-50 rounded-xl p-3 md:p-4 flex flex-col items-center text-center border border-slate-100 shadow-sm hover:shadow-md transition-shadow group"
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3 md:p-4 flex flex-col items-center text-center border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow group"
               >
-                <div className="bg-white p-2 rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform duration-300">
+                <div className="bg-white dark:bg-slate-800 p-2 rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform duration-300">
                   {/* Clone the icon and reduce its size */}
-                  {React.cloneElement(stat.icon, { className: "w-5 h-5 text-blue-600" })}
+                  {React.cloneElement(stat.icon, { className: "w-5 h-5 text-blue-600 dark:text-blue-400" })}
                 </div>
-                <h4 className="text-xl md:text-2xl font-extrabold text-gray-900 mb-0.5">{stat.value}</h4>
-                <p className="text-xs md:text-sm font-bold text-gray-600 mb-0">{stat.label}</p>
+                <h4 className="text-xl md:text-2xl font-extrabold text-gray-900 dark:text-white mb-0.5">{stat.value}</h4>
+                <p className="text-xs md:text-sm font-bold text-gray-600 dark:text-gray-300 mb-0">{stat.label}</p>
                 {stat.sublabel && (
                   <p className="text-[10px] md:text-xs text-gray-400 font-medium">{stat.sublabel}</p>
                 )}

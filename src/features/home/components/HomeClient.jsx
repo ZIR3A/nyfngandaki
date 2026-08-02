@@ -21,7 +21,7 @@ import CTASection from "./CTASection";
 
 // Narrative spacer to bridge sections in the storytelling flow
 const NarrativeSpacer = ({ text, highlight }) => (
-  <div className="w-full bg-slate-50 py-16 md:py-24 flex justify-center items-center px-6">
+  <div className="w-full bg-slate-50 dark:bg-[#0A0F1C] py-16 md:py-24 flex justify-center items-center px-6">
     <motion.div 
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -29,8 +29,8 @@ const NarrativeSpacer = ({ text, highlight }) => (
       transition={{ duration: 0.8, ease: "easeOut" }}
       className="max-w-4xl text-center"
     >
-      <h3 className="text-2xl md:text-4xl font-light text-slate-800 leading-relaxed italic">
-        &ldquo;{text} <span className="font-bold text-[#153E90]">{highlight}</span>&rdquo;
+      <h3 className="text-2xl md:text-4xl font-light text-slate-800 dark:text-slate-300 leading-relaxed italic">
+        &ldquo;{text} <span className="font-bold text-[#153E90] dark:text-blue-400">{highlight}</span>&rdquo;
       </h3>
     </motion.div>
   </div>
@@ -63,7 +63,7 @@ export default function HomeClient({
   });
 
   return (
-    <div ref={containerRef} className="flex flex-col min-h-screen bg-slate-50 overflow-hidden relative">
+    <div ref={containerRef} className="flex flex-col min-h-screen bg-slate-50 dark:bg-[#0A0F1C] overflow-hidden relative">
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1.5 bg-[#D81E27] z-50 origin-left"
@@ -92,7 +92,7 @@ export default function HomeClient({
       <ChairpersonSection dictionary={dictionary} chairperson={chairperson} />
 
       {/* 4. Organization Structure */}
-      <div className="bg-white/50 backdrop-blur-sm">
+      <div className="bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
         <OrganizationStructure dictionary={dictionary} />
       </div>
 

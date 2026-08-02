@@ -1,13 +1,10 @@
-import React, { Suspense } from 'react';
-import axios from 'axios';
-import HeroError from './States/HeroError';
-import HeroEmpty from './States/HeroEmpty';
-import { PageHeader } from '@/components/shared/PageHeader';
-
+import React from 'react';
+import InternalPageHero from '@/components/shared/InternalPageHero';
 import connectToDatabase from '@/lib/mongodb';
 import { aboutService } from '@/features/about/services/aboutService';
+import HeroError from './States/HeroError';
+import { MapPin, Users, Award, Building2 } from 'lucide-react';
 
-// Note: In Next.js App Router, this Server Component can fetch data directly
 async function fetchAboutData(provinceId) {
   try {
     await connectToDatabase();
@@ -26,30 +23,30 @@ export default async function AboutHero({ provinceId, locale = 'en', data }) {
     return <HeroError locale={locale} />;
   }
 
-  // If hero is explicitly disabled (hypothetical CMS flag) or data is completely empty
-  if (finalData.hero && finalData.hero.enableHero === false) {
-    return <HeroEmpty locale={locale} />;
-  }
-
-  const title = finalData.hero?.title?.[locale];
-  const subtitle = finalData.hero?.subtitle?.[locale];
-  const imageSrc = finalData.hero?.imageId?.publicUrl || finalData.hero?.media?.[0]?.url || null;
-  const overlayOpacity = finalData.hero?.overlayOpacity;
-  const overlayColor = finalData.hero?.overlayColor;
-
+  const isNp = locale === 'np';
   const breadcrumbItems = [
-    { label: locale === 'np' ? 'गृहपृष्ठ' : 'Home', href: `/${locale}` },
-    { label: locale === 'np' ? 'हाम्रो बारेमा' : 'About Us', href: `/${locale}/about` },
+    { label: isNp ? 'गृहपृष्ठ' : 'Home', href: `/${locale}` },
+    { label: isNp ? 'हाम्रो बारेमा' : 'About Us' },
+  ];
+
+  const statsPills = [
+    { icon: <MapPin className="w-5 h-5" />, label: isNp ? 'जिल्लाहरू' : 'DISTRICTS', value: '11', color: 'blue' },
+    { icon: <Users className="w-5 h-5" />, label: isNp ? 'प्रदेश कमिटी' : 'PROVINCE COMMITTEE', value: '1', color: 'red' },
+    { icon: <Users className="w-5 h-5" />, label: isNp ? 'पदाधिकारीहरू' : 'OFFICE BEARERS', value: '1', color: 'green' },
+    { icon: <Users className="w-5 h-5" />, label: isNp ? 'सक्रिय सदस्यहरू' : 'ACTIVE MEMBERS', value: '4+', color: 'purple' },
+    { icon: <Building2 className="w-5 h-5" />, label: isNp ? 'आबद्धता' : 'AFFILIATED WITH', value: 'CPN-UML', color: 'purple' },
   ];
 
   return (
-    <PageHeader 
-      title={title} 
-      subtitle={subtitle} 
-      imageSrc={imageSrc} 
+    <InternalPageHero 
       breadcrumbItems={breadcrumbItems}
-      overlayOpacity={overlayOpacity}
-      overlayColor={overlayColor}
+      label={isNp ? 'हाम्रो संगठनको बारेमा' : 'ABOUT OUR ORGANIZATION'}
+      title={isNp ? 'राष्ट्रिय युवा संघ नेपाल गण्डकी' : 'About NYFN Gandaki'}
+      subtitle={isNp 
+        ? 'राष्ट्रिय युवा संघ नेपाल (NYFN) गण्डकी प्रदेश कमिटीको आधिकारिक प्रोफाइल, गण्डकी प्रदेशभर युवा नेतृत्व, लोकतान्त्रिक सहभागिता, सामुदायिक सेवा र युवा सशक्तिकरणमा समर्पित।' 
+        : 'Official profile of the National Youth Federation Nepal (NYFN) Gandaki Province Committee, dedicated to youth leadership, democratic participation, community service, and youth empowerment across Gandaki Province.'}
+      statsPills={statsPills}
+      isNepali={isNp}
     />
   );
 }

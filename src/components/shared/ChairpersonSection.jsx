@@ -22,20 +22,20 @@ export default function ChairpersonSection({ dictionary, chairperson, hideLink =
     <section id="chairperson" className="py-16 md:py-24 relative overflow-hidden bg-transparent">
       {/* Decorative Quote Watermark */}
       <div className="absolute top-10 left-10 opacity-5 pointer-events-none">
-        <Quote className="w-[400px] h-[400px] text-[#153E90]" />
+        <Quote className="w-[400px] h-[400px] text-[#153E90] dark:text-blue-900/50" />
       </div>
 
       <div className="container mx-auto px-6 max-w-[1320px] relative z-10">
         <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-[#153E90] text-sm font-bold uppercase tracking-[0.2em] mb-4">
+          <span className="text-[#153E90] dark:text-blue-400 text-sm font-bold uppercase tracking-[0.2em] mb-4">
             {dict.label}
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-gray-900 max-w-2xl">
+          <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-gray-900 dark:text-white max-w-2xl">
             {dict.heading}
           </h2>
         </div>
 
-        <div className="max-w-5xl mx-auto bg-white rounded-[32px] p-8 md:p-12 shadow-[0_20px_60px_rgba(15,45,90,0.06)] border border-[#EAF1FF]">
+        <div className="max-w-5xl mx-auto bg-white dark:bg-slate-900 rounded-[32px] p-8 md:p-12 shadow-[0_20px_60px_rgba(15,45,90,0.06)] border border-[#EAF1FF] dark:border-slate-800">
           <div className="grid md:grid-cols-[1fr_2fr] gap-12 items-center">
             
             {/* Portrait */}
@@ -46,7 +46,7 @@ export default function ChairpersonSection({ dictionary, chairperson, hideLink =
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center"
             >
-              <div className="w-64 h-64 md:w-full md:h-80 relative rounded-2xl overflow-hidden shadow-lg bg-slate-100 mb-6 group">
+              <div className="w-64 h-64 md:w-full md:h-80 relative rounded-2xl overflow-hidden shadow-lg bg-slate-100 dark:bg-slate-800 mb-6 group">
                 {chairpersonImage ? (
                   <Image 
                     src={chairpersonImage} 
@@ -56,18 +56,18 @@ export default function ChairpersonSection({ dictionary, chairperson, hideLink =
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-slate-400 font-medium">Portrait (CMS)</span>
+                    <span className="text-slate-400 dark:text-slate-500 font-medium">Portrait (CMS)</span>
                   </div>
                 )}
               </div>
               <div className="text-center">
-                <h3 className="text-xl font-bold text-gray-900">{chairpersonName}</h3>
-                <p className="text-[#D81E27] font-medium mt-1">{dict.position}</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{chairpersonName}</h3>
+                <p className="text-[#D81E27] dark:text-red-400 font-medium mt-1">{dict.position}</p>
                 
                 {/* Signature Placeholder */}
                 <div className="mt-4 opacity-70">
-                   <div className="h-12 w-32 border-b-2 border-gray-300 mx-auto flex items-end justify-center pb-1">
-                      <span className="italic text-gray-400 font-serif text-lg">Signature</span>
+                   <div className="h-12 w-32 border-b-2 border-gray-300 dark:border-gray-600 mx-auto flex items-end justify-center pb-1">
+                      <span className="italic text-gray-400 dark:text-gray-500 font-serif text-lg">Signature</span>
                    </div>
                 </div>
               </div>
@@ -81,9 +81,9 @@ export default function ChairpersonSection({ dictionary, chairperson, hideLink =
               transition={{ duration: 0.5, delay: 0.2 }}
               className="flex flex-col space-y-6"
             >
-              <Quote className="w-10 h-10 text-[#153E90] opacity-20" />
+              <Quote className="w-10 h-10 text-[#153E90] dark:text-blue-400 opacity-20" />
               
-              <div className="space-y-6 text-gray-700 text-lg md:text-xl leading-relaxed italic font-light whitespace-pre-wrap">
+              <div className="space-y-6 text-gray-700 dark:text-gray-300 text-lg md:text-xl leading-relaxed italic font-light whitespace-pre-wrap">
                 {chairpersonMessage ? (
                   <p>{chairpersonMessage}</p>
                 ) : (
@@ -96,7 +96,7 @@ export default function ChairpersonSection({ dictionary, chairperson, hideLink =
 
               <div className="pt-6">
                 {!hideLink && (
-                  <Link href={`/${language}/about#leadership`} className="inline-flex items-center text-[#153E90] font-semibold hover:text-[#D81E27] transition-colors group">
+                  <Link href={`/${language}/about#leadership`} className="inline-flex items-center text-[#153E90] dark:text-blue-400 font-semibold hover:text-[#D81E27] dark:hover:text-red-400 transition-colors group">
                     {dict.button}
                     <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
                   </Link>

@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import WhoWeAreImage from './WhoWeAreImage';
 import WhoWeAreContent from './WhoWeAreContent';
-import FeatureHighlightGrid from './FeatureHighlightGrid';
+import OrganizationFactsPanel from './OrganizationFactsPanel';
 import WhoWeAreCTA from './WhoWeAreCTA';
 
 export default function WhoWeAreClient({ data, locale }) {
@@ -51,8 +51,8 @@ export default function WhoWeAreClient({ data, locale }) {
           locale={locale}
         />
 
-        {/* Feature Grid mapping CoreValues or custom Highlights */}
-        <FeatureHighlightGrid features={coreValues} locale={locale} />
+        {/* Organization Facts Panel replacing generic features */}
+        <OrganizationFactsPanel locale={locale} />
 
         <WhoWeAreCTA ctaData={cta} locale={locale} />
       </motion.div>

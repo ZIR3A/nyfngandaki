@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import SectionLabel from '../WhoWeAre/SectionLabel'; // Reuse elegant label
@@ -14,6 +14,10 @@ export default function LeadershipMessage({ leadership, locale = 'en' }) {
   const name = leadership.name;
   const designation = leadership.designation?.[locale];
   
+  const [isExpanded, setIsExpanded] = useState(false);
+  const paragraphs = message ? message.split('\n').filter(p => p.trim() !== '') : [];
+  const displayParagraphs = isExpanded ? paragraphs : paragraphs.slice(0, 2);
+
   return (
     <div id="leadership" className="w-full max-w-[1200px] mx-auto px-6 md:px-12 mb-32">
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center lg:items-stretch">
@@ -71,11 +75,20 @@ export default function LeadershipMessage({ leadership, locale = 'en' }) {
           )}
           
           {/* Rich Text Message Simulation */}
-          <div className="prose prose-lg dark:prose-invert text-gray-600 dark:text-gray-300 mb-10 leading-relaxed font-serif">
-            {message && message.split('\n').map((paragraph, index) => (
+          <div className="prose prose-lg dark:prose-invert text-gray-600 dark:text-gray-300 mb-6 leading-relaxed font-serif">
+            {displayParagraphs.map((paragraph, index) => (
               <p key={index} className="mb-4">{paragraph}</p>
             ))}
           </div>
+
+          {paragraphs.length > 2 && (
+            <button 
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="text-primary-blue font-semibold hover:text-primary-red transition-colors mb-10 text-left"
+            >
+              {isExpanded ? (locale === 'np' ? 'थोरै पढ्नुहोस्' : 'Read Less') : (locale === 'np' ? 'पूरा सन्देश पढ्नुहोस्' : 'Read Full Message')}
+            </button>
+          )}
 
           {/* Signature Block */}
           <div className="mt-auto border-t border-gray-100 dark:border-slate-800 pt-8 flex items-center justify-between">

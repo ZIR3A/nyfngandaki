@@ -21,17 +21,17 @@ export default function OrganizationStructure() {
       <div className="container mx-auto px-6 max-w-[1320px] relative z-10">
         
         <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-[#153E90] text-sm font-bold uppercase tracking-[0.2em] mb-4">
+          <span className="text-[#153E90] dark:text-blue-400 text-sm font-bold uppercase tracking-[0.2em] mb-4">
             {language === 'en' ? "Organization Structure" : "संगठन संरचना"}
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-gray-900 max-w-2xl">
+          <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-gray-900 dark:text-white max-w-2xl">
             {language === 'en' ? "How We Are Connected" : "हामी कसरी जोडिएका छौं"}
           </h2>
         </div>
 
         <div className="max-w-4xl mx-auto relative">
           {/* Animated SVG Connector Line */}
-          <div className="absolute left-[40px] md:left-1/2 top-0 bottom-0 w-1 md:-ml-0.5 bg-blue-100 hidden md:block">
+          <div className="absolute left-[40px] md:left-1/2 top-0 bottom-0 w-1 md:-ml-0.5 bg-blue-100 dark:bg-blue-900/30 hidden md:block">
             <motion.div 
               initial={{ height: 0 }}
               whileInView={{ height: "100%" }}
@@ -48,7 +48,7 @@ export default function OrganizationStructure() {
                 <div key={idx} className="relative flex flex-col md:flex-row items-center justify-between w-full">
                   
                   {/* Connector Node */}
-                  <div className="absolute left-[40px] md:left-1/2 -ml-3 md:-ml-4 w-6 h-6 md:w-8 md:h-8 bg-white border-4 border-[#153E90] rounded-full z-10 hidden md:block">
+                  <div className="absolute left-[40px] md:left-1/2 -ml-3 md:-ml-4 w-6 h-6 md:w-8 md:h-8 bg-white dark:bg-slate-900 border-4 border-[#153E90] dark:border-blue-400 rounded-full z-10 hidden md:block">
                      <motion.div 
                         initial={{ scale: 0 }}
                         whileInView={{ scale: 1 }}
@@ -108,7 +108,7 @@ export default function OrganizationStructure() {
 
         {SHOW_ORGANIZATION_MODULE && (
           <div className="mt-16 text-center">
-             <Link href="/committee" className="inline-flex items-center justify-center px-8 py-3.5 bg-transparent border-2 border-[#153E90] text-[#153E90] hover:bg-[#153E90] hover:text-white rounded-full font-semibold transition-all duration-300 group">
+             <Link href="/committee" className="inline-flex items-center justify-center px-8 py-3.5 bg-transparent border-2 border-[#153E90] dark:border-blue-400 text-[#153E90] dark:text-blue-400 hover:bg-[#153E90] dark:hover:bg-blue-400 hover:text-white dark:hover:text-[#0A0F1C] rounded-full font-semibold transition-all duration-300 group">
                 {language === 'en' ? "View Complete Structure" : "पूर्ण संरचना हेर्नुहोस्"}
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
              </Link>
@@ -121,16 +121,16 @@ export default function OrganizationStructure() {
 
 function StructureCard({ item, align }) {
   return (
-    <div className={`bg-white/80 backdrop-blur-md border border-white rounded-[24px] p-8 shadow-[0_10px_35px_rgba(15,45,90,0.06)] hover:shadow-[0_15px_40px_rgba(15,45,90,0.12)] transition-all duration-300 group hover:-translate-y-1 relative overflow-hidden ${align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left'}`}>
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+    <div className={`bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-white dark:border-slate-800 rounded-[24px] p-8 shadow-[0_10px_35px_rgba(15,45,90,0.06)] hover:shadow-[0_15px_40px_rgba(15,45,90,0.12)] transition-all duration-300 group hover:-translate-y-1 relative overflow-hidden ${align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left'}`}>
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 dark:from-blue-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
       <div className="relative z-10">
         <div className={`mb-4 flex ${align === 'center' ? 'justify-center' : align === 'right' ? 'justify-end' : 'justify-start'}`}>
-          <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-[#153E90] group-hover:bg-[#153E90] group-hover:text-white transition-colors duration-300">
+          <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-[#153E90] dark:text-blue-400 group-hover:bg-[#153E90] dark:group-hover:bg-blue-400 group-hover:text-white dark:group-hover:text-[#0A0F1C] transition-colors duration-300">
              <Network className="w-6 h-6" />
           </div>
         </div>
-        <span className="text-[#D81E27] text-sm font-bold uppercase tracking-wider mb-2 block">{item.level}</span>
-        <h3 className="text-xl md:text-2xl font-bold text-gray-900">{item.title}</h3>
+        <span className="text-[#D81E27] dark:text-red-400 text-sm font-bold uppercase tracking-wider mb-2 block">{item.level}</span>
+        <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
       </div>
     </div>
   );
