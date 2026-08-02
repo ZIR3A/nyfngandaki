@@ -12,11 +12,12 @@ export default function OrganizationStructure() {
     { level: language === 'en' ? "National" : "राष्ट्रिय", title: language === 'en' ? "Central Committee" : "केन्द्रीय कमिटी" },
     { level: language === 'en' ? "Province" : "प्रदेश", title: language === 'en' ? "Province Committee" : "प्रदेश कमिटी" },
     { level: language === 'en' ? "District" : "जिल्ला", title: language === 'en' ? "District Committees" : "जिल्ला कमिटीहरू" },
-    { level: language === 'en' ? "Local" : "स्थानीय", title: language === 'en' ? "Municipality Committees" : "नगर कमिटीहरू" },
   ];
 
+  const SHOW_ORGANIZATION_MODULE = false;
+
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-blue-50 relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-transparent relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-[1320px] relative z-10">
         
         <div className="flex flex-col items-center text-center mb-16">
@@ -105,12 +106,14 @@ export default function OrganizationStructure() {
           </div>
         </div>
 
-        <div className="mt-16 text-center">
-           <Link href="/committee" className="inline-flex items-center justify-center px-8 py-3.5 bg-transparent border-2 border-[#153E90] text-[#153E90] hover:bg-[#153E90] hover:text-white rounded-full font-semibold transition-all duration-300 group">
-              {language === 'en' ? "View Complete Structure" : "पूर्ण संरचना हेर्नुहोस्"}
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-           </Link>
-        </div>
+        {SHOW_ORGANIZATION_MODULE && (
+          <div className="mt-16 text-center">
+             <Link href="/committee" className="inline-flex items-center justify-center px-8 py-3.5 bg-transparent border-2 border-[#153E90] text-[#153E90] hover:bg-[#153E90] hover:text-white rounded-full font-semibold transition-all duration-300 group">
+                {language === 'en' ? "View Complete Structure" : "पूर्ण संरचना हेर्नुहोस्"}
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+             </Link>
+          </div>
+        )}
       </div>
     </section>
   );

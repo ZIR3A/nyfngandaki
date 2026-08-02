@@ -18,7 +18,7 @@ export default function OrganizationOverview({ dictionary, settings }) {
   ];
 
   return (
-    <section className="py-24 md:py-32 bg-white relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-transparent relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-[1320px]">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           

@@ -84,7 +84,7 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
   return (
     <section className="relative w-full flex flex-col bg-[#F8FAFC]">
       {/* Top Banner Slider Area */}
-      <div className="relative w-full h-[45vh] md:h-[50vh] lg:h-[55vh] bg-[#102C69] overflow-hidden">
+      <div className="relative w-full h-[85vh] lg:h-screen bg-[#102C69] overflow-hidden">
         
         {/* Background Images Slider */}
         <div className="absolute inset-0 z-0" ref={emblaRef}>
@@ -95,7 +95,7 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
                   src={banner.imageUrl || banner.image || "/placeholder-banner.jpg"} 
                   alt={banner.title?.[language] || "Banner Image"}
                   fill 
-                  className="object-cover"
+                  className="object-cover object-center"
                   priority
                 />
               </div>
@@ -103,36 +103,36 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
           </div>
         </div>
 
-        {/* Fixed Gradient Overlay OVER images but UNDER text */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent z-10 pointer-events-none"></div>
+        {/* Solid Dark Overlay for text readability (Removed gradient as requested) */}
+        <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
 
         {/* Active Banner Content (Static Position, Fades on change) */}
-        <div className="absolute inset-0 flex items-center z-20 pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none text-center">
           <div className="max-w-[1440px] mx-auto px-6 lg:px-12 w-full">
             <motion.div 
               key={selectedIndex}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="max-w-2xl text-white pointer-events-auto"
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="max-w-4xl mx-auto text-white pointer-events-auto"
             >
               {activeBanners[selectedIndex] && (
                 <>
-                  <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-2">
+                  <h2 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-4 tracking-tight drop-shadow-2xl">
                     {activeBanners[selectedIndex].title?.[language]}
                   </h2>
                   {activeBanners[selectedIndex].subtitle?.[language] && (
-                    <h3 className="text-2xl md:text-3xl font-bold text-amber-400 mb-6">
+                    <h3 className="text-2xl md:text-4xl font-bold text-amber-400 mb-8 drop-shadow-lg">
                       {activeBanners[selectedIndex].subtitle?.[language]}
                     </h3>
                   )}
                   {activeBanners[selectedIndex].description?.[language] && (
-                    <p className="text-lg md:text-xl text-gray-200 mb-8 max-w-xl">
+                    <p className="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto drop-shadow-md">
                       {activeBanners[selectedIndex].description?.[language]}
                     </p>
                   )}
 
-                  <div className="flex flex-wrap items-center gap-4">
+                  <div className="flex flex-wrap items-center justify-center gap-6">
                     {activeBanners[selectedIndex].primaryButtonText?.[language] && (
                       <Link href={activeBanners[selectedIndex].primaryButtonLink || "/about"} className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-3.5 bg-white text-[#153E90] hover:bg-gray-100 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl group">
                         {activeBanners[selectedIndex].primaryButtonText?.[language]}

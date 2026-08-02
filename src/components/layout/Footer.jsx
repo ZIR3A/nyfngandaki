@@ -44,11 +44,11 @@ export function Footer({ settings }) {
           <div className="lg:col-span-1">
             <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Quick Links</h4>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><Link href={`/${language}`} className="hover:text-primary transition-colors">{t("navigation.home") || "Home"}</Link></li>
-              <li><Link href={`/${language}/about`} className="hover:text-primary transition-colors">{t("navigation.about") || "About"}</Link></li>
-              <li><Link href={`/${language}/province-committee`} className="hover:text-primary transition-colors">{t("navigation.committee") || "Province Committee"}</Link></li>
-              <li><Link href={`/${language}/districts`} className="hover:text-primary transition-colors">{t("navigation.districts") || "Districts"}</Link></li>
-              <li><Link href={`/${language}/events`} className="hover:text-primary transition-colors">{t("navigation.events") || "Events"}</Link></li>
+              <li><Link href={`/${language}/about`} className="hover:text-primary transition-colors">About</Link></li>
+              <li><Link href={`/${language}/province-committee`} className="hover:text-primary transition-colors">Leadership</Link></li>
+              <li><Link href={`/${language}/members`} className="hover:text-primary transition-colors">Members</Link></li>
+              <li><Link href={`/${language}/districts`} className="hover:text-primary transition-colors">Districts</Link></li>
+              <li><Link href={`/${language}/events`} className="hover:text-primary transition-colors">Activities</Link></li>
             </ul>
           </div>
 
@@ -75,10 +75,10 @@ export function Footer({ settings }) {
           <div className="lg:col-span-1">
             <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Important Links</h4>
             <ul className="space-y-3 text-sm text-gray-400">
+              <li><Link href={`/${language}/documents`} className="hover:text-primary transition-colors">Downloads</Link></li>
+              <li><Link href={`/${language}/contact`} className="hover:text-primary transition-colors">Contact</Link></li>
               <li><Link href={`/${language}/privacy`} className="hover:text-primary transition-colors">Privacy Policy</Link></li>
               <li><Link href={`/${language}/terms`} className="hover:text-primary transition-colors">Terms of Service</Link></li>
-              <li><Link href={`/${language}/constitution`} className="hover:text-primary transition-colors">Constitution</Link></li>
-              <li><Link href={`/${language}/documents`} className="hover:text-primary transition-colors">Downloads</Link></li>
             </ul>
           </div>
 

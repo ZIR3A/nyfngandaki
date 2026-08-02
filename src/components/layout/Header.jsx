@@ -32,13 +32,15 @@ export function Header() {
 
   const isNepali = locale === "np" || locale === "ne";
 
+  const SHOW_ORGANIZATION_MODULE = false;
+
   const navLinks = [
     { name: isNepali ? "गृहपृष्ठ" : "Home", href: `/${locale}` },
     { 
       name: isNepali ? "हाम्रो बारे" : "About Us",
       href: `/${locale}/about`,
     },
-    { 
+    ...(SHOW_ORGANIZATION_MODULE ? [{ 
       name: isNepali ? "संगठन" : "Organization",
       href: `/${locale}/organization`,
       mega: [
@@ -46,7 +48,7 @@ export function Header() {
         { name: isNepali ? "प्रदेश समिति" : "Province Committee", href: `/${locale}/committees/executive`, desc: isNepali ? "गण्डकी प्रदेश समिति" : "Gandaki Province Committee" },
         { name: isNepali ? "जिल्ला समितिहरू" : "District Committees", href: `/${locale}/committees/district`, desc: isNepali ? "जिल्ला कमिटी विवरण" : "District-level bodies" }
       ]
-    },
+    }] : []),
     { name: isNepali ? "सदस्यहरू" : "Members", href: `/${locale}/members` },
     { 
       name: isNepali ? "मिडिया" : "Media",

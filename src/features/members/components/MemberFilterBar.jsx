@@ -38,7 +38,6 @@ const filterOptions = {
   committees: [
     { value: "province", en: "Province Committee", np: "प्रदेश कमिटी" },
     { value: "district", en: "District Committee", np: "जिल्ला कमिटी" },
-    { value: "municipality", en: "Municipality Committee", np: "नगर कमिटी" },
     { value: "ward", en: "Ward Committee", np: "वडा कमिटी" },
   ],
   statuses: [

@@ -41,7 +41,7 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
   }, [districts]);
 
   return (
-    <section className="py-24 bg-slate-50 dark:bg-[#0A0F1C] transition-colors relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-transparent transition-colors relative overflow-hidden">
       
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>

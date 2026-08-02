@@ -26,10 +26,10 @@ export default function CTASection({ dictionary, settings }) {
   const ctaButtonLink = settings?.ctaButtonLink || "/committee";
 
   return (
-    <section ref={containerRef} className="relative w-full py-32 overflow-hidden bg-gradient-to-br from-[#153E90] via-[#102C69] to-[#0a1b42] flex items-center justify-center">
+    <section ref={containerRef} className="relative w-full py-32 overflow-hidden bg-gradient-to-br from-[#153E90] via-[#102C69] to-[#0a1b42] flex items-center justify-center" style={{ backgroundImage: 'url("/2.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
       
       {/* Background Layers */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#153E90]/80">
         {/* Soft Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500 rounded-full blur-[200px] opacity-20"></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-red-500 rounded-full blur-[150px] opacity-10"></div>

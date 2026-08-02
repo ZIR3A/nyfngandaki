@@ -7,7 +7,8 @@ import { buttonVariants } from "@/components/ui/button";
 
 export function MembersCTA({ isNepali }) {
   return (
-    <div className="w-full rounded-2xl md:rounded-3xl overflow-hidden bg-[#0a1e4a] shadow-xl isolate flex flex-col sm:flex-row items-center justify-between p-8 md:p-10 text-white relative">
+    <div className="w-full rounded-2xl md:rounded-3xl overflow-hidden bg-[#0a1e4a] shadow-xl isolate flex flex-col sm:flex-row items-center justify-between p-8 md:p-10 text-white relative" style={{ backgroundImage: 'url("/2.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className="absolute inset-0 bg-[#0a1e4a]/90 -z-10" />
       {/* Decorative element */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
 

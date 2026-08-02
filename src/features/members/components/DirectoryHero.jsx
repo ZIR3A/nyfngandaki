@@ -40,7 +40,7 @@ export function DirectoryHero({ isNepali }) {
   const stats = json?.data || { totalMembers: 0, totalDistricts: 0, officeBearers: 0 };
 
   return (
-    <section className="relative w-full min-h-[50vh] lg:min-h-[60vh] flex items-center overflow-visible bg-slate-50 dark:bg-[#0A0F1C] border-b border-border/40 py-16 lg:pt-16 lg:pb-24 z-50">
+    <section className="relative w-full min-h-[50vh] lg:min-h-[60vh] flex items-center overflow-visible bg-slate-50 dark:bg-[#0A0F1C] border-b border-border/40 py-16 lg:pt-16 lg:pb-24 z-40">
       <div className="container max-w-7xl mx-auto px-4 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center justify-between h-full gap-12 lg:gap-8">
         
         {/* Left Side: Content & Stats */}

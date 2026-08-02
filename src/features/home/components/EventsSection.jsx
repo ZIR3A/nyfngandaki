@@ -11,7 +11,7 @@ export default function EventsSection({ dictionary, events = [] }) {
   const { language } = useLanguage();
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-transparent relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-[1320px] relative z-10">
         
         <div className="flex flex-col items-center text-center mb-16">

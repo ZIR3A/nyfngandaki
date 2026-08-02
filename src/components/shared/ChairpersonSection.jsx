@@ -19,7 +19,7 @@ export default function ChairpersonSection({ dictionary, chairperson, hideLink =
   const chairpersonImage = chairperson?.photo || null;
 
   return (
-    <section id="chairperson" className="py-24 md:py-32 relative overflow-hidden bg-gradient-to-br from-[#F8FAFC] to-[#EAF1FF]">
+    <section id="chairperson" className="py-16 md:py-24 relative overflow-hidden bg-transparent">
       {/* Decorative Quote Watermark */}
       <div className="absolute top-10 left-10 opacity-5 pointer-events-none">
         <Quote className="w-[400px] h-[400px] text-[#153E90]" />
