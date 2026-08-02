@@ -160,7 +160,7 @@ export function MediaPicker({
               <button
                 type="button"
                 onClick={() => removeAsset(asset._id)}
-                className="absolute top-1 right-1 bg-white/90 dark:bg-gray-900/90 rounded-full p-0.5 text-slate-400 hover:text-red-500 shadow opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-1 right-1 bg-white/90 dark:bg-gray-900/90 rounded-full p-0.5 text-slate-400 hover:text-red-500 shadow opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity"
                 title="Remove"
               >
                 <X size={14} />

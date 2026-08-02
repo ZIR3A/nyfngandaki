@@ -22,28 +22,7 @@ export async function updateHomepageSettings(formData) {
     }
 
     const rawData = {
-      heroImageId: formData.get("heroImageId") || null,
-      heroTitle: {
-        en: formData.get("heroTitle.en"),
-        np: formData.get("heroTitle.np"),
-      },
-      heroSubtitle: {
-        en: formData.get("heroSubtitle.en"),
-        np: formData.get("heroSubtitle.np"),
-      },
-
-
       aboutImageId: formData.get("aboutImageId") || null,
-      googleMapEmbedUrl: formData.get("googleMapEmbedUrl") || null,
-      ctaTitle: {
-        en: formData.get("ctaTitle.en"),
-        np: formData.get("ctaTitle.np"),
-      },
-      ctaDescription: {
-        en: formData.get("ctaDescription.en"),
-        np: formData.get("ctaDescription.np"),
-      },
-      ctaButtonLink: formData.get("ctaButtonLink") || "/contact",
       stats: stats
     };
 

@@ -104,7 +104,7 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
         </div>
 
         {/* Solid Dark Overlay for text readability (Removed gradient as requested) */}
-        <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-black/60 z-10 pointer-events-none"></div>
 
         {/* Active Banner Content (Static Position, Fades on change) */}
         <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none text-center">
@@ -118,16 +118,16 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
             >
               {activeBanners[selectedIndex] && (
                 <>
-                  <h2 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-4 tracking-tight drop-shadow-2xl">
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 tracking-tight drop-shadow-2xl">
                     {activeBanners[selectedIndex].title?.[language]}
                   </h2>
                   {activeBanners[selectedIndex].subtitle?.[language] && (
-                    <h3 className="text-2xl md:text-4xl font-bold text-amber-400 mb-8 drop-shadow-lg">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-amber-400 mb-6 md:mb-8 drop-shadow-lg">
                       {activeBanners[selectedIndex].subtitle?.[language]}
                     </h3>
                   )}
                   {activeBanners[selectedIndex].description?.[language] && (
-                    <p className="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto drop-shadow-md">
+                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 mb-8 md:mb-10 max-w-2xl mx-auto drop-shadow-md">
                       {activeBanners[selectedIndex].description?.[language]}
                     </p>
                   )}
@@ -158,21 +158,21 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
           <>
             <button 
               onClick={scrollPrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm transition-all z-10"
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm transition-all z-30"
               aria-label="Previous slide"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
             </button>
             <button 
               onClick={scrollNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm transition-all z-10"
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm transition-all z-30"
               aria-label="Next slide"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
             </button>
             
             {/* Dots */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30">
               {activeBanners.map((_, index) => (
                 <button
                   key={index}
