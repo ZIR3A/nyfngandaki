@@ -1,77 +1,109 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const LocalizedStringSchema = new mongoose.Schema(
-  {
-    en: { type: String, trim: true, default: "" },
-    np: { type: String, trim: true, default: "" },
+
+// Embedded Schema for Media (Gallery, Videos, Documents)
+const MediaSchema = new mongoose.Schema({
+  type: { type: String, enum: ['image', 'video', 'document'], required: true },
+  url: { type: String, required: true },
+  title: {
+    en: { type: String },
+    np: { type: String },
   },
-  { _id: false }
-);
+  size: { type: String }, // E.g., "2.4 MB" for documents
+});
 
 const EventSchema = new mongoose.Schema(
   {
     title: {
-      type: LocalizedStringSchema,
-      required: true,
-    },
-    description: {
-      type: LocalizedStringSchema,
-    },
-    venue: {
-      type: LocalizedStringSchema,
-    },
-    organizer: {
-      type: LocalizedStringSchema,
-    },
-    date: {
-      type: Date,
-      required: true,
-    },
-    district: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "District",
-      default: null,
-    },
-    bannerImageId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Storage",
-      default: null,
-    },
-    featuredImageId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Storage",
-      default: null,
-    },
-    galleryImageIds: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Storage",
-      },
-    ],
-    status: {
-      type: String,
-      enum: ["Upcoming", "Ongoing", "Completed", "Cancelled"],
-      default: "Upcoming",
+      en: { type: String, required: true, trim: true },
+      np: { type: String, required: true, trim: true },
     },
     slug: {
       type: String,
-      unique: true,
       required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
     },
-    featured: {
-      type: Boolean,
-      default: false,
+    summary: {
+      en: { type: String, trim: true },
+      np: { type: String, trim: true },
     },
-    seo: {
-      title: LocalizedStringSchema,
-      description: LocalizedStringSchema,
+    description: {
+      en: { type: String, required: true },
+      np: { type: String, required: true },
     },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'EventCategory', index: true },
+    
+    // Status can be Upcoming, Ongoing, Completed, Cancelled
+    status: { 
+      type: String, 
+      enum: ['Upcoming', 'Ongoing', 'Completed', 'Cancelled'],
+      default: 'Upcoming',
+      index: true
+    },
+    
+    // Dates & Times
+    startDate: { type: Date, required: true, index: true },
+    endDate: { type: Date },
+    time: { type: String }, // e.g. "10:00 AM - 4:00 PM"
+    duration: {
+      en: { type: String }, // e.g. "3 Days"
+      np: { type: String }, // e.g. "३ दिन"
+    },
+    
+    // Location
+    district: { type: mongoose.Schema.Types.ObjectId, ref: 'District', index: true },
+    venue: {
+      name: {
+        en: { type: String, required: true },
+        np: { type: String, required: true },
+      },
+      address: {
+        en: { type: String },
+        np: { type: String },
+      },
+      mapUrl: { type: String },
+    },
+    
+    organizer: {
+      en: { type: String },
+      np: { type: String },
+    },
+    
+    contact: {
+      phone: { type: String },
+      email: { type: String },
+      website: { type: String },
+    },
+    
+    isFeatured: { type: Boolean, default: false, index: true },
+    tags: [{ type: String, trim: true }],
+    
+    coverImage: { type: String }, // Main banner image
+    
+    media: [MediaSchema],
+    
+    // Soft Delete
+    isDeleted: { type: Boolean, default: false, index: true },
+    deletedAt: { type: Date },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-const Event = mongoose.models.Event || mongoose.model("Event", EventSchema);
+// Indexes for Text Search
+EventSchema.index({
+  'title.en': 'text',
+  'title.np': 'text',
+  'description.en': 'text',
+  'description.np': 'text',
+});
+
+// Prevent model overwrite in development
+if (mongoose.models.Event) {
+  delete mongoose.models.Event;
+}
+const Event = mongoose.model('Event', EventSchema);
 
 export default Event;

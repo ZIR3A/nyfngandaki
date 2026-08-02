@@ -4,7 +4,7 @@ import { MemberService } from "@/services/MemberService";
 export const dynamic = "force-dynamic";
 import { SiteSettingService } from "@/services/SiteSettingService";
 import { ActivityService } from "@/services/ActivityService";
-import { EventService } from "@/services/EventService";
+import { eventService } from "@/features/events/services/eventService";
 import { ResourceService } from "@/services/ResourceService";
 import { DistrictService } from "@/services/DistrictService";
 import { BannerService } from "@/services/BannerService";
@@ -24,41 +24,32 @@ export default async function Home({ params }) {
 
   try {
     const rawMembers = await MemberService.getFeaturedMembers(6);
-    featuredMembers = rawMembers.map(m => ({
-      ...m,
-      _id: m._id.toString(),
-      district: m.district ? { ...m.district, _id: m.district._id.toString() } : null
-    }));
+    featuredMembers = JSON.parse(JSON.stringify(rawMembers));
 
     const rawChairperson = await MemberService.getChairperson();
     if (rawChairperson) {
-      chairperson = {
-        ...rawChairperson,
-        _id: rawChairperson._id.toString(),
-        district: rawChairperson.district ? { ...rawChairperson.district, _id: rawChairperson.district._id.toString() } : null
-      };
+      chairperson = JSON.parse(JSON.stringify(rawChairperson));
     }
 
     const rawSettings = await SiteSettingService.getSettings();
     if (rawSettings) {
-      rawSettings._id = rawSettings._id.toString();
-      settings = rawSettings;
+      settings = JSON.parse(JSON.stringify(rawSettings));
     }
 
     const rawActivities = await ActivityService.getFeaturedActivities(3);
-    activities = rawActivities.map(a => ({ ...a, _id: a._id.toString() }));
+    activities = JSON.parse(JSON.stringify(rawActivities));
 
-    const rawEvents = await EventService.getFeaturedEvents(3);
-    events = rawEvents.map(e => ({ ...e, _id: e._id.toString() }));
+    const rawEvents = await eventService.getEvents({ limit: 4, sort: '-startDate' });
+    events = JSON.parse(JSON.stringify(rawEvents.events));
 
     const rawResources = await ResourceService.getFeaturedResources(4);
-    resources = rawResources.map(r => ({ ...r, _id: r._id.toString() }));
+    resources = JSON.parse(JSON.stringify(rawResources));
 
     const rawDistricts = await DistrictService.getAll();
-    districts = rawDistricts.map(d => ({ ...d, _id: d._id.toString() }));
+    districts = JSON.parse(JSON.stringify(rawDistricts));
 
     const rawBanners = await BannerService.getActive();
-    banners = rawBanners.map(b => ({ ...b, _id: b._id.toString() }));
+    banners = JSON.parse(JSON.stringify(rawBanners));
 
   } catch (error) {
     console.error("Error fetching homepage data:", error);

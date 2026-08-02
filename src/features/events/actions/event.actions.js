@@ -1,86 +1,91 @@
-"use server";
+'use server';
 
-import { EventService } from "@/services/EventService";
-import { revalidatePath } from "next/cache";
+import { revalidatePath } from 'next/cache';
+import { eventService } from '../services/eventService';
+import { eventSchema } from '../validations/event.validation';
 
-export async function createEvent(formData) {
+// Mock auth helper for demonstration, replace with actual auth logic
+const requireAdmin = async () => {
+  // const session = await getServerSession(authOptions);
+  // if (!session?.user?.isAdmin) throw new Error("Unauthorized");
+  return true;
+};
+
+/**
+ * Server Action: Create Event
+ */
+export async function createEventAction(formData) {
   try {
-    const rawData = {
-      title: {
-        en: formData.get("title.en"),
-        np: formData.get("title.np"),
-      },
-      description: {
-        en: formData.get("description.en"),
-        np: formData.get("description.np"),
-      },
-      venue: {
-        en: formData.get("venue.en"),
-        np: formData.get("venue.np"),
-      },
-      organizer: {
-        en: formData.get("organizer.en"),
-        np: formData.get("organizer.np"),
-      },
-      date: formData.get("date"),
-      status: formData.get("status") || "Upcoming",
-      coverImage: formData.get("coverImage") || null,
-      featured: formData.get("featured") === "on",
-    };
-
-    const event = await EventService.createEvent(rawData);
-    revalidatePath("/");
-    revalidatePath("/admin/events");
-    return { success: true, data: JSON.parse(JSON.stringify(event)), message: "Event created successfully." };
+    await requireAdmin();
+    
+    // Parse and validate using Zod
+    const validatedData = eventSchema.parse(formData);
+    
+    const newEvent = await eventService.createEvent(validatedData);
+    
+    // Revalidate paths to update cache
+    revalidatePath('/events');
+    revalidatePath('/admin/events');
+    
+    return { success: true, data: JSON.parse(JSON.stringify(newEvent)) };
   } catch (error) {
-    console.error("Failed to create event:", error);
-    return { success: false, message: error.message || "Failed to create event." };
+    console.error("Create event error:", error);
+    return { success: false, error: error.message };
   }
 }
 
-export async function updateEvent(id, formData) {
+/**
+ * Server Action: Update Event
+ */
+export async function updateEventAction(id, formData) {
   try {
-    const rawData = {
-      title: {
-        en: formData.get("title.en"),
-        np: formData.get("title.np"),
-      },
-      description: {
-        en: formData.get("description.en"),
-        np: formData.get("description.np"),
-      },
-      venue: {
-        en: formData.get("venue.en"),
-        np: formData.get("venue.np"),
-      },
-      organizer: {
-        en: formData.get("organizer.en"),
-        np: formData.get("organizer.np"),
-      },
-      date: formData.get("date"),
-      status: formData.get("status") || "Upcoming",
-      coverImage: formData.get("coverImage") || null,
-      featured: formData.get("featured") === "on",
-    };
-
-    const event = await EventService.updateEvent(id, rawData);
-    revalidatePath("/");
-    revalidatePath("/admin/events");
-    return { success: true, data: JSON.parse(JSON.stringify(event)), message: "Event updated successfully." };
+    await requireAdmin();
+    
+    // Parse and validate using Zod
+    const validatedData = eventSchema.parse(formData);
+    
+    const updatedEvent = await eventService.updateEvent(id, validatedData);
+    
+    // Revalidate cache
+    revalidatePath('/events');
+    revalidatePath(`/events/${updatedEvent.slug}`);
+    revalidatePath('/admin/events');
+    
+    return { success: true, data: JSON.parse(JSON.stringify(updatedEvent)) };
   } catch (error) {
-    console.error("Failed to update event:", error);
-    return { success: false, message: error.message || "Failed to update event." };
+    console.error("Update event error:", error);
+    return { success: false, error: error.message };
   }
 }
 
-export async function deleteEvent(id) {
+/**
+ * Server Action: Soft Delete Event
+ */
+export async function deleteEventAction(id) {
   try {
-    await EventService.deleteEvent(id);
-    revalidatePath("/");
-    revalidatePath("/admin/events");
-    return { success: true, message: "Event deleted successfully." };
+    await requireAdmin();
+    
+    await eventService.softDeleteEvent(id);
+    
+    revalidatePath('/events');
+    revalidatePath('/admin/events');
+    
+    return { success: true };
   } catch (error) {
-    console.error("Failed to delete event:", error);
-    return { success: false, message: error.message || "Failed to delete event." };
+    console.error("Delete event error:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Server Action: Get Categories
+ */
+export async function getCategoriesAction() {
+  try {
+    const categories = await eventService.getCategories();
+    return { success: true, data: JSON.parse(JSON.stringify(categories)) };
+  } catch (error) {
+    console.error("Get categories error:", error);
+    return { success: false, error: error.message };
   }
 }

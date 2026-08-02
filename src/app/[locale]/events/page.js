@@ -1,109 +1,177 @@
-import { PageHeader } from "@/components/shared/PageHeader";
-import { EventCard } from "@/components/shared/EventCard";
-import { Calendar } from "lucide-react";
-import connectToDatabase from "@/lib/mongodb";
-import Event from "@/models/Event";
+import { notFound } from "next/navigation";
+import { eventService } from "@/features/events/services/eventService";
+import { getDictionary } from "@/localization/dictionaries";
 
-export async function generateMetadata({ params }) {
+import { Calendar, CheckCircle, List } from "lucide-react";
+
+// Components
+import InternalPageHero from "@/components/shared/InternalPageHero";
+import FeaturedEventCard from "@/features/events/components/public/FeaturedEventCard";
+import EventCard from "@/features/events/components/public/EventCard";
+import EventControls from "@/features/events/components/public/EventControls";
+import LoadMoreEvents from "@/features/events/components/public/LoadMoreEvents";
+
+export const metadata = {
+  title: "Events | NYFN Gandaki",
+  description: "Explore upcoming and past events organized by NYFN Gandaki Province.",
+};
+
+export default async function EventsPage({ params, searchParams }) {
   const { locale } = await params;
-  return {
-    title: locale === "np" ? "कार्यक्रमहरू | NYFN Gandaki" : "Events & Programs | NYFN Gandaki",
-    description: locale === "np" ? "हाम्रा आगामी अभियानहरू, सम्मेलनहरू र सामुदायिक गतिविधिहरू बारे जान्नुहोस्।" : "Discover our upcoming campaigns, conferences, and community activities.",
-  };
-}
-
-export default async function EventsPage({ params }) {
-  const { locale } = await params;
-  const isNepali = locale === "np";
-
-  await connectToDatabase();
-  const dbEvents = await Event.find().sort({ date: 1 }).lean();
-
-  const now = new Date();
+  const validLocales = ["en", "np"];
   
-  const formattedEvents = dbEvents.map(e => {
-    const eventDate = new Date(e.date);
-    const month = eventDate.toLocaleString(locale === 'np' ? 'ne-NP' : 'en-US', { month: 'short' });
-    const day = eventDate.getDate();
-    
-    return {
-      id: e.slug || e._id.toString(),
-      slug: e.slug,
-      title: isNepali && e.title.np ? e.title.np : e.title.en,
-      description: isNepali && e.description.np ? e.description.np : e.description.en,
-      location: isNepali && e.venue.np ? e.venue.np : e.venue.en,
-      dateFull: eventDate.toLocaleDateString(locale === 'np' ? 'ne-NP' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-      month,
-      day,
-      imageUrl: e.coverImage,
-      rawDate: eventDate
-    };
-  });
+  if (!validLocales.includes(locale)) {
+    notFound();
+  }
 
-  const upcomingEvents = formattedEvents.filter(e => e.rawDate >= now);
-  const pastEvents = formattedEvents.filter(e => e.rawDate < now).reverse();
+  const dict = await getDictionary(locale);
+  const resolvedSearchParams = await searchParams;
+  
+  const search = resolvedSearchParams?.search || "";
+  const status = resolvedSearchParams?.status || "";
+  const categorySlug = resolvedSearchParams?.category || "";
+  
+  // We use Promise.all to fetch multiple sections concurrently for max performance
+  const [gridData, featuredEventsData, categoriesData, stats] = await Promise.all([
+    // 1. Grid Data (Paginated, Filtered)
+    eventService.getEvents({
+      page: 1,
+      limit: 6,
+      search,
+      status,
+      category: categorySlug,
+      isPublic: true // Only fetch published events if we add that flag in the future
+    }),
+    
+    // 2. Featured Event (Always try to get the most recent Upcoming/Ongoing event)
+    eventService.getEvents({
+      page: 1,
+      limit: 1,
+      status: "Upcoming", 
+      // If we had an explicit 'isFeatured' flag we would query it here. 
+      // For now we just get the newest upcoming event.
+    }),
+    
+    // 3. Categories for the filter dropdown
+    eventService.getCategories(),
+    
+    // 4. Global Event Stats
+    eventService.getEventStats()
+  ]);
+
+  const events = gridData.events;
+  const pagination = gridData.pagination;
+  const featuredEvent = featuredEventsData.events[0];
+  const categories = Array.isArray(categoriesData) ? categoriesData : (categoriesData?.categories || []);
+  
+  const statsPills = [
+    {
+      value: stats.total,
+      label: locale === "np" ? "कुल कार्यक्रम" : "Total Events",
+      icon: <List className="w-5 h-5" />,
+      color: "blue"
+    },
+    {
+      value: stats.upcoming,
+      label: locale === "np" ? "आगामी कार्यक्रम" : "Upcoming Events",
+      icon: <Calendar className="w-5 h-5" />,
+      color: "amber"
+    },
+    {
+      value: stats.completed,
+      label: locale === "np" ? "सम्पन्न कार्यक्रम" : "Completed Events",
+      icon: <CheckCircle className="w-5 h-5" />,
+      color: "green"
+    }
+  ];
 
   return (
-    <main className="min-h-screen bg-background">
-      <PageHeader 
-        title={isNepali ? "कार्यक्रमहरू" : "Events & Programs"}
-        subtitle={isNepali ? "हाम्रा आगामी अभियानहरू, सम्मेलनहरू र सामुदायिक गतिविधिहरू बारे जान्नुहोस्।" : "Discover our upcoming campaigns, conferences, and community activities."}
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0A0F1C]">
+      {/* Hero Section */}
+      <InternalPageHero 
+        title={locale === "np" ? "हाम्रा कार्यक्रमहरू" : "Our Events"}
+        subtitle={locale === "np" 
+          ? "राष्ट्रिय युवा संघ नेपाल, गण्डकी प्रदेश कमिटीद्वारा आयोजित कार्यक्रम तथा गतिविधिहरू।" 
+          : "Discover upcoming youth summits, community services, and activities across Gandaki Province."}
         breadcrumbItems={[
-          { label: isNepali ? "गृहपृष्ठ" : "Home", href: `/${locale}` },
-          { label: isNepali ? "कार्यक्रमहरू" : "Events", href: `/${locale}/events`, active: true }
+          { label: locale === "np" ? "गृहपृष्ठ" : "Home", href: `/${locale}` },
+          { label: locale === "np" ? "कार्यक्रमहरू" : "Events" }
         ]}
+        label={locale === "np" ? "संलग्न र सशक्त" : "ENGAGE & EMPOWER"}
+        statsPills={statsPills}
+        isNepali={locale === "np"}
       />
 
-      <section className="py-12 lg:py-24 bg-[#F8FAFC] dark:bg-gray-900 transition-colors">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          
-          {/* Upcoming Events */}
-          <div className="mb-24">
-            <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white flex items-center gap-3">
-                <span className="h-3 w-3 rounded-full bg-[#1546B0] animate-pulse"></span>
-                {isNepali ? "आगामी कार्यक्रमहरू" : "Upcoming Events"}
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 space-y-24">
+        
+        {/* Featured Event Section */}
+        {featuredEvent && !search && !status && !categorySlug && (
+          <section className="animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div className="mb-8">
+              <h2 className="text-sm font-bold tracking-widest text-[#1546B0] dark:text-blue-400 uppercase mb-2">
+                {locale === "np" ? "विशेष कार्यक्रम" : "Featured Event"}
               </h2>
+              <h3 className="text-3xl font-black text-slate-900 dark:text-white">
+                {locale === "np" ? "नछुटाउनुहोस्" : "Don't Miss This"}
+              </h3>
+            </div>
+            <FeaturedEventCard event={featuredEvent} locale={locale} />
+          </section>
+        )}
+
+        {/* All Events Section */}
+        <section id="events-grid">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
+            <div>
+              <h2 className="text-sm font-bold tracking-widest text-[#1546B0] dark:text-blue-400 uppercase mb-2">
+                {locale === "np" ? "कार्यक्रम सूची" : "Events Directory"}
+              </h2>
+              <h3 className="text-3xl font-black text-slate-900 dark:text-white">
+                {locale === "np" ? "सबै कार्यक्रमहरू" : "Explore All Events"}
+              </h3>
             </div>
             
-            {upcomingEvents.length === 0 ? (
-              <div className="text-center py-20 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 rounded-[20px] bg-white dark:bg-gray-800 flex flex-col items-center justify-center">
-                <Calendar className="h-12 w-12 text-gray-300 dark:text-gray-600 mb-4" />
-                <h3 className="text-lg font-bold mb-2 text-gray-700 dark:text-gray-300">
-                  {isNepali ? "कुनै आगामी कार्यक्रम छैन" : "No Upcoming Events"}
-                </h3>
-                <p className="max-w-md">
-                  {isNepali ? "हामीसँग अहिले कुनै निर्धारित कार्यक्रमहरू छैनन्। कृपया पछि जाँच गर्नुहोस्।" : "We don't have any scheduled events at the moment. Please check back later."}
-                </p>
-              </div>
-            ) : (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {upcomingEvents.map(event => (
-                  <EventCard key={event.id} event={event} />
-                ))}
-              </div>
-            )}
+            {/* Filter Controls */}
+            <div className="w-full lg:w-auto">
+              <EventControls categories={categories} locale={locale} dictionaries={dict.events?.controls} />
+            </div>
           </div>
 
-          {/* Past Events */}
-          {pastEvents.length > 0 && (
-            <div>
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white">
-                  {isNepali ? "विगतका कार्यक्रमहरू" : "Past Events"}
-                </h2>
-              </div>
+          {/* Grid */}
+          {events.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+              {events.map((event) => (
+                <EventCard key={event._id} event={event} locale={locale} />
+              ))}
               
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 opacity-90 hover:opacity-100 transition-opacity duration-300">
-                {pastEvents.map(event => (
-                  <EventCard key={event.id} event={event} />
-                ))}
+              {/* Infinite Scroll / Load More Client Component */}
+              <LoadMoreEvents 
+                initialPage={pagination.page}
+                totalPages={pagination.totalPages}
+                searchParams={{ search, status, category: categorySlug }}
+                locale={locale}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-32 px-4 text-center bg-white dark:bg-slate-900 rounded-[32px] border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="w-24 h-24 mb-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                <span className="text-4xl">📅</span>
               </div>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                {locale === "np" ? "कुनै कार्यक्रम भेटिएन" : "No events found"}
+              </h3>
+              <p className="text-slate-500 dark:text-slate-400 max-w-md">
+                {locale === "np" 
+                  ? "तपाईंको खोजीसँग मेल खाने कुनै कार्यक्रमहरू फेला परेनन्। कृपया अर्को फिल्टर प्रयास गर्नुहोस्।" 
+                  : "We couldn't find any events matching your current filters. Try adjusting your search criteria."}
+              </p>
             </div>
           )}
+        </section>
 
-        </div>
-      </section>
+
+
+      </div>
     </main>
   );
 }

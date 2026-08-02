@@ -1,0 +1,103 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+
+export default function EventGallery({ images, locale }) {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  if (!images || images.length === 0) return null;
+
+  const openLightbox = (index) => {
+    setCurrentIndex(index);
+    setLightboxOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    document.body.style.overflow = "auto";
+  };
+
+  const nextImage = () => {
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevImage = () => {
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  return (
+    <>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {images.map((img, index) => {
+          const title = locale === "np" && img.title?.np ? img.title.np : img.title?.en;
+          
+          return (
+            <div 
+              key={index} 
+              className="relative aspect-square rounded-2xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-800"
+              onClick={() => openLightbox(index)}
+            >
+              <Image 
+                src={img.url} 
+                alt={title || "Event Gallery Image"} 
+                fill
+                className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
+              />
+              <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/40 transition-colors duration-300 flex items-center justify-center">
+                <ZoomIn className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100" />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Lightbox Overlay */}
+      {lightboxOpen && (
+        <div className="fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-xl flex items-center justify-center opacity-100 animate-in fade-in duration-200">
+          
+          <button 
+            onClick={closeLightbox}
+            className="absolute top-6 right-6 z-50 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors"
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          {images.length > 1 && (
+            <button 
+              onClick={prevImage}
+              className="absolute left-6 z-50 p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors hidden md:block"
+            >
+              <ChevronLeft className="w-8 h-8" />
+            </button>
+          )}
+
+          <div className="relative w-full max-w-5xl aspect-video mx-4">
+            <Image 
+              src={images[currentIndex].url} 
+              alt="Gallery Preview" 
+              fill
+              className="object-contain" 
+            />
+          </div>
+
+          {images.length > 1 && (
+            <button 
+              onClick={nextImage}
+              className="absolute right-6 z-50 p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors hidden md:block"
+            >
+              <ChevronRight className="w-8 h-8" />
+            </button>
+          )}
+
+          <div className="absolute bottom-6 left-0 w-full text-center text-white/80 font-medium">
+            {currentIndex + 1} / {images.length}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

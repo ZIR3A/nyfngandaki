@@ -21,7 +21,8 @@ export class SiteSettingService {
         settings = settings.toObject();
       }
       
-      return resolveAssets(settings, SETTING_ASSET_MAPPING);
+      const resolvedSettings = await resolveAssets(settings, SETTING_ASSET_MAPPING);
+      return resolvedSettings ? JSON.parse(JSON.stringify(resolvedSettings)) : null;
     } catch (error) {
       console.error("Error fetching site settings:", error);
       throw error;

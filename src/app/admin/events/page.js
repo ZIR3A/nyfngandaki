@@ -1,101 +1,111 @@
-import { EventService } from "@/services/EventService";
 import Link from "next/link";
-import { Plus, Search, Edit, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Plus, Search, MoreVertical, Edit, Trash2, Copy, Archive, Eye } from "lucide-react";
+import { eventService } from "@/features/events/services/eventService";
 
 export const metadata = {
-  title: "Manage Events | NYFN Admin",
+  title: "Events Dashboard | Admin CRM",
 };
 
-export default async function AdminEventsPage() {
-  const events = await EventService.getAllEvents();
+export default async function AdminEventsDashboard({ searchParams }) {
+  const page = parseInt(searchParams?.page || "1", 10);
+  const search = searchParams?.search || "";
+  
+  // Fetch events using service
+  const { events, pagination } = await eventService.getEvents({ page, limit: 10, search });
 
   return (
-    <div>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+    <div className="p-6 max-w-[1600px] mx-auto">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-900">Events Management</h1>
-          <p className="text-gray-500 text-sm mt-1">Manage organization events, workshops, and programs.</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Events Dashboard</h1>
+          <p className="text-slate-500 dark:text-slate-400 mt-1">Manage all your organizational events.</p>
         </div>
-        <Link href="/admin/events/new">
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Event
-          </Button>
+        <Link 
+          href="/admin/events/new"
+          className="flex items-center px-5 py-2.5 bg-[#1546B0] text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors shadow-sm"
+        >
+          <Plus className="w-5 h-5 mr-2" /> Create Event
         </Link>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        
+      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
         {/* Toolbar */}
-        <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-gray-50/50">
-          <div className="relative w-full max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <input 
+        <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
+          <div className="relative w-full max-w-md">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-slate-400" />
+            </div>
+            <input
               type="text"
+              className="block w-full pl-10 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1546B0]"
               placeholder="Search events..."
-              className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+              defaultValue={search}
             />
+          </div>
+          <div className="flex gap-2">
+            <button className="px-4 py-2 border border-slate-300 dark:border-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800">
+              Filter
+            </button>
           </div>
         </div>
 
-        {/* Data Table */}
+        {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-gray-50 text-gray-600 font-bold border-b border-gray-200">
-              <tr>
-                <th className="px-6 py-4">Title (English)</th>
-                <th className="px-6 py-4">Date</th>
-                <th className="px-6 py-4">Venue</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-600 dark:text-slate-300">
+                <th className="p-4 py-3">Event Name</th>
+                <th className="p-4 py-3">Status</th>
+                <th className="p-4 py-3">Date</th>
+                <th className="p-4 py-3">Registrations</th>
+                <th className="p-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody>
               {events.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan="5" className="p-8 text-center text-slate-500">
                     No events found.
                   </td>
                 </tr>
               ) : (
-                events.map((event) => (
-                  <tr key={event._id.toString()} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900 truncate max-w-xs">
-                      {event.title?.en || "-"}
-                      {event.featured && <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 uppercase">Featured</span>}
+                events.map(event => (
+                  <tr key={event._id} className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+                    <td className="p-4">
+                      <div className="font-medium text-slate-900 dark:text-white">{event.title?.en}</div>
+                      <div className="text-sm text-slate-500 line-clamp-1">{event.venue?.name?.en}</div>
                     </td>
-                    <td className="px-6 py-4 text-gray-600">
-                      {new Date(event.date).toLocaleDateString()}
+                    <td className="p-4">
+                      <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-semibold ${
+                        event.status === 'Upcoming' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300' :
+                        event.status === 'Ongoing' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' :
+                        event.status === 'Completed' ? 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300' :
+                        'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
+                      }`}>
+                        {event.status}
+                      </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-600 truncate max-w-[150px]">
-                      {event.venue?.en || "-"}
+                    <td className="p-4 text-sm text-slate-600 dark:text-slate-400">
+                      {new Date(event.startDate).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4">
-                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${
-                         event.status === 'Upcoming' ? 'bg-green-100 text-green-800' : 
-                         event.status === 'Ongoing' ? 'bg-amber-100 text-amber-800' : 
-                         'bg-gray-100 text-gray-800'
-                       }`}>
-                         {event.status}
-                       </span>
+                    <td className="p-4 text-sm text-slate-600 dark:text-slate-400">
+                      {event.isRegistrationOpen ? (
+                        <span><span className="font-semibold text-slate-900 dark:text-white">0</span> / {event.capacity || '∞'}</span>
+                      ) : (
+                        <span className="text-slate-400">Closed</span>
+                      )}
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="p-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href={`/admin/events/${event._id.toString()}/edit`}>
-                          <Button variant="ghost" size="icon" className="text-gray-500 hover:text-blue-600">
-                            <Edit className="h-4 w-4" />
-                          </Button>
+                        <Link href={`/events/${event.slug}`} target="_blank" className="p-2 text-slate-400 hover:text-[#1546B0] transition-colors" title="Preview">
+                          <Eye className="w-4 h-4" />
                         </Link>
-                        <form action={async () => {
-                           "use server";
-                           const { deleteEvent } = await import("@/features/events/actions/event.actions");
-                           await deleteEvent(event._id.toString());
-                        }}>
-                          <Button variant="ghost" size="icon" className="text-gray-500 hover:text-red-600" type="submit">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </form>
+                        <Link href={`/admin/events/${event._id}`} className="p-2 text-slate-400 hover:text-[#1546B0] transition-colors" title="Edit">
+                          <Edit className="w-4 h-4" />
+                        </Link>
+                        <button className="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -104,6 +114,18 @@ export default async function AdminEventsPage() {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination Footer */}
+        {pagination?.totalPages > 1 && (
+          <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            <span className="text-sm text-slate-500">
+              Showing page {pagination.page} of {pagination.totalPages}
+            </span>
+            <div className="flex gap-1">
+              {/* Pagination controls would go here */}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

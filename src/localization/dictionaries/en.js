@@ -113,5 +113,37 @@ export const en = {
       downloadButton: "Download Constitution",
       sizeInfo: "PDF Document"
     }
+  },
+  events: {
+    title: "Events",
+    subtitle: "Explore our upcoming and past programs, campaigns, and community events across Gandaki Province.",
+    searchPlaceholder: "Search events by title or location...",
+    filterAll: "All Events",
+    filterUpcoming: "Upcoming",
+    filterOngoing: "Ongoing",
+    filterCompleted: "Completed",
+    noEventsFound: "No events found matching your criteria.",
+    viewDetails: "View Details",
+    venue: "Venue",
+    date: "Date",
+    time: "Time",
+    organizer: "Organizer",
+    description: "Event Description",
+    gallery: "Event Gallery",
+    share: "Share Event",
+    register: "Register Now",
+    registrationClosed: "Registration Closed",
+    agenda: "Event Agenda",
+    speakers: "Speakers & Guests",
+    downloads: "Downloads",
+    admin: {
+      dashboard: "Events Dashboard",
+      createNew: "Create New Event",
+      editEvent: "Edit Event",
+      manageCategories: "Manage Categories",
+      viewRegistrations: "View Registrations",
+      markAttendance: "Mark Attendance",
+      reports: "Event Reports"
+    }
   }
 };

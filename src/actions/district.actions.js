@@ -45,3 +45,12 @@ export async function deleteDistrictAction(id) {
     return apiResponse(false, null, error.message || "Failed to delete district.", [error.message]);
   }
 }
+
+export async function getAllDistrictsAction() {
+  try {
+    const districts = await DistrictService.getAll();
+    return apiResponse(true, districts, "Districts fetched successfully.");
+  } catch (error) {
+    return apiResponse(false, null, "Failed to fetch districts.", [error.message]);
+  }
+}

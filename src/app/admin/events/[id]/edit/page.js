@@ -1,4 +1,4 @@
-import { EventForm } from "@/features/events/components/EventForm";
+import EditEventForm from "@/features/events/components/admin/EditEventForm";
 import { EventService } from "@/services/EventService";
 import { notFound } from "next/navigation";
 
@@ -23,5 +23,5 @@ export default async function EditEventPage({ params }) {
   // Convert ObjectId to string for client component serialization
   event._id = event._id.toString();
 
-  return <EventForm initialData={event} />;
+  return <EditEventForm event={event} />;
 }

@@ -113,5 +113,37 @@ export const np = {
       downloadButton: "विधान डाउनलोड गर्नुहोस्",
       sizeInfo: "PDF कागजात"
     }
+  },
+  events: {
+    title: "कार्यक्रमहरू",
+    subtitle: "गण्डकी प्रदेशभरि हाम्रा आगामी र विगतका कार्यक्रमहरू, अभियानहरू, र सामुदायिक कार्यक्रमहरू अन्वेषण गर्नुहोस्।",
+    searchPlaceholder: "शीर्षक वा स्थानद्वारा कार्यक्रम खोज्नुहोस्...",
+    filterAll: "सबै कार्यक्रमहरू",
+    filterUpcoming: "आगामी",
+    filterOngoing: "चलिरहेको",
+    filterCompleted: "सम्पन्न",
+    noEventsFound: "तपाईंको मापदण्डसँग मेल खाने कुनै कार्यक्रम फेला परेन।",
+    viewDetails: "विवरण हेर्नुहोस्",
+    venue: "स्थान",
+    date: "मिति",
+    time: "समय",
+    organizer: "आयोजक",
+    description: "कार्यक्रमको विवरण",
+    gallery: "कार्यक्रम ग्यालरी",
+    share: "सेयर गर्नुहोस्",
+    register: "अहिले दर्ता गर्नुहोस्",
+    registrationClosed: "दर्ता बन्द भयो",
+    agenda: "कार्यक्रम एजेन्डा",
+    speakers: "वक्ताहरू र अतिथिहरू",
+    downloads: "डाउनलोडहरू",
+    admin: {
+      dashboard: "कार्यक्रम ड्यासबोर्ड",
+      createNew: "नयाँ कार्यक्रम सिर्जना गर्नुहोस्",
+      editEvent: "कार्यक्रम सम्पादन गर्नुहोस्",
+      manageCategories: "कोटीहरू प्रबन्ध गर्नुहोस्",
+      viewRegistrations: "दर्ताहरू हेर्नुहोस्",
+      markAttendance: "हाजिरी जनाउनुहोस्",
+      reports: "कार्यक्रम रिपोर्टहरू"
+    }
   }
 };
