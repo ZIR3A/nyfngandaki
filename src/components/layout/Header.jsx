@@ -265,7 +265,7 @@ export function Header() {
             </button>
           )}
           
-          <Link href={`/${locale}/admin/dashboard`}>
+          <Link href="/login">
             <Button className={`rounded-[20px] px-6 transition-all ${
               scrolled 
                 ? "bg-[#1546B0] hover:bg-[#0D2E78] text-white shadow-sm" 
@@ -356,7 +356,7 @@ export function Header() {
                 </div>
               ))}
               <div className="pt-4 mt-2 border-t dark:border-gray-700 flex flex-col gap-3">
-                <Link href={`/${locale}/admin/dashboard`} onClick={() => setIsOpen(false)}>
+                <Link href="/login" onClick={() => setIsOpen(false)}>
                   <Button className="w-full bg-[#1546B0] hover:bg-[#0D2E78] text-white rounded-[20px] h-12">
                     <LogIn className="h-4 w-4 mr-2" /> Login to Portal
                   </Button>

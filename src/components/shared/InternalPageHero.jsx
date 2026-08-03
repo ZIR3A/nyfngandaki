@@ -28,7 +28,7 @@ export default function InternalPageHero({
         <Star className="w-[800px] h-[800px] text-blue-900 fill-blue-900" />
       </div>
 
-      <div className="container max-w-7xl mx-auto px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center justify-between h-full gap-12 lg:gap-8">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10 flex flex-col lg:flex-row items-center justify-between h-full gap-12 lg:gap-8">
         
         {/* Left Side: Content & Stats */}
         <div className="flex-1 flex flex-col justify-center w-full lg:max-w-2xl pt-4">

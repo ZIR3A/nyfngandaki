@@ -37,11 +37,17 @@ export default function OrganizationTab() {
   const handleSave = async () => {
     setIsLoading(true);
     try {
+      // Fetch current general data first to prevent overwriting vision, mission, etc.
+      const getRes = await fetch('/api/admin/about/general');
+      const getJson = await getRes.json();
+      const currentOrg = getJson.success && getJson.data?.organization ? getJson.data.organization : {};
+
       await fetch('/api/admin/about/general', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           organization: {
+            ...currentOrg,
             imageId: formData.imageId?._id || formData.imageId || null,
             whoWeAre: formData.whoWeAre
           }

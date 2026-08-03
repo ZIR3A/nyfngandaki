@@ -6,7 +6,7 @@ import {
   LayoutDashboard, Users, UserCog, LogOut, Menu, X, Search, 
   Bell, MessageSquare, Plus, Sun, Moon, ChevronRight, Home, ChevronDown,
   HeartPulse, Calendar, FileText, Settings, HardDrive, Image as ImageIcon,
-  Layers, Briefcase, MapPin
+  Layers, Briefcase, MapPin, BookOpen
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
@@ -54,6 +54,7 @@ export function AdminShell({ children, user }) {
     {
       label: "Content Management",
       items: [
+        { name: "Bidhan (Constitution)", href: `/admin/bidhan`, icon: BookOpen },
         { name: "About Page Settings", href: `/admin/content/about`, icon: FileText },
         { name: "Banners", href: `/admin/banners`, icon: ImageIcon },
         { name: "Media Library", href: `/admin/storage`, icon: HardDrive },
@@ -80,7 +81,7 @@ export function AdminShell({ children, user }) {
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
-    router.push("/login");
+    router.push("/");
   };
 
   return (
