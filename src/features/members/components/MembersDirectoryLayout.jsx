@@ -6,7 +6,6 @@ import { DirectoryHero } from "./DirectoryHero";
 import { ProvinceCommitteeSection } from "./ProvinceCommitteeSection";
 import { DistrictExplorerSection } from "./DistrictExplorerSection";
 import { DistrictMembersSection } from "./DistrictMembersSection";
-import { MembersCTA } from "./MembersCTA";
 
 export function MembersDirectoryLayout({ isNepali }) {
   return (
@@ -23,11 +22,6 @@ export function MembersDirectoryLayout({ isNepali }) {
 
         {/* 4. District Members */}
         <DistrictMembersSection isNepali={isNepali} />
-        
-        {/* 5. CTA Section */}
-        <div className="container mx-auto px-4 max-w-7xl pb-24">
-          <MembersCTA isNepali={isNepali} />
-        </div>
       </div>
     </DistrictExplorerProvider>
   );

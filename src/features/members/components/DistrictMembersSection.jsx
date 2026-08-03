@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDistrictExplorer } from "../contexts/DistrictExplorerContext";
 import { FeaturedLeaderCard } from "./FeaturedLeaderCard";
 import { LeadershipCard } from "./LeadershipCard";
-import { CompactMemberCard } from "./CompactMemberCard";
+import { MemberCard } from "./MemberCard";
 import { Users, AlertCircle, MapPin, Loader2, Award } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -135,7 +135,7 @@ export function DistrictMembersSection({ isNepali }) {
               </div>
 
               {/* Alphabet Filter */}
-              <div className="mb-12">
+              {/* <div className="mb-12">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-bold text-slate-900">
                     {isNepali ? "वर्णानुक्रम अनुसार खोज्नुहोस्" : "Browse Alphabetically"}
@@ -156,7 +156,7 @@ export function DistrictMembersSection({ isNepali }) {
                     </button>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               {/* Members Grid */}
               {filteredMembers.length === 0 ? (
@@ -168,11 +168,38 @@ export function DistrictMembersSection({ isNepali }) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
-                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+                  className="flex flex-col gap-12"
                 >
-                  {filteredMembers.map(member => (
-                    <CompactMemberCard key={member._id} member={member} isNepali={isNepali} />
-                  ))}
+                  {(() => {
+                    const featuredMembers = filteredMembers.filter(m => {
+                      if (m.position_id?.weight === 1 || m.position_id?.displayGroup === "featured") return true;
+                      const posNameEn = m.position?.en || "";
+                      return posNameEn.toLowerCase() === "president" || posNameEn.toLowerCase() === "district president";
+                    });
+                    const restMembers = filteredMembers.filter(m => !featuredMembers.includes(m));
+
+                    return (
+                      <>
+                        {featuredMembers.length > 0 && (
+                          <div className="flex flex-wrap justify-center w-full gap-6">
+                            {featuredMembers.map((member) => (
+                              <div key={member._id} className="w-full sm:w-[360px]">
+                                <FeaturedLeaderCard member={member} isNepali={isNepali} />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+                          {restMembers.map(member => (
+                            <div key={member._id} className="w-full">
+                              <MemberCard member={member} isNepali={isNepali} />
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    );
+                  })()}
                 </motion.div>
               )}
             </motion.div>

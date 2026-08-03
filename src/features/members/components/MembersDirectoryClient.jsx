@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MemberCard } from "@/components/shared/MemberCard";
+import { MemberCard, FeaturedLeaderCard } from "./MemberCard";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Search, Filter, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -69,24 +69,37 @@ export function MembersDirectoryClient({ initialMembers, isNepali }) {
               icon={<Users className="h-8 w-8 text-gray-400" />}
             />
           ) : (
-            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredMembers.map((member) => {
-                // Map the mongoose model to the MemberCard prop structure
-                const displayMember = {
-                  id: member.slug || member._id.toString(),
-                  name: isNepali && member.name.np ? member.name.np : member.name.en,
-                  position: isNepali && member.position.np ? member.position.np : member.position.en,
-                  district: member.district?.name?.en || member.province || "Gandaki",
-                  photoUrl: member.photo,
-                  phone: member.phone,
-                  email: member.email,
-                  facebook: member.facebook
-                };
+            <div className="flex flex-col gap-12">
+              {(() => {
+                const featuredMembers = filteredMembers.filter(m => {
+                  if (m.position_id?.weight === 1 || m.position_id?.displayGroup === "featured") return true;
+                  const posNameEn = m.position?.en || "";
+                  return posNameEn.toLowerCase() === "president";
+                });
+                const restMembers = filteredMembers.filter(m => !featuredMembers.includes(m));
 
                 return (
-                  <MemberCard key={displayMember.id} member={displayMember} />
+                  <>
+                    {featuredMembers.length > 0 && (
+                      <div className="flex flex-wrap justify-center w-full gap-6">
+                        {featuredMembers.map((member) => (
+                          <div key={member._id} className="w-full sm:w-[360px]">
+                            <FeaturedLeaderCard member={member} isNepali={isNepali} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+                      {restMembers.map((member) => (
+                        <div key={member._id} className="w-full">
+                          <MemberCard member={member} isNepali={isNepali} />
+                        </div>
+                      ))}
+                    </div>
+                  </>
                 );
-              })}
+              })()}
             </div>
           )}
         </div>

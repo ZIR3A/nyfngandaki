@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { FeaturedLeaderCard } from "./FeaturedLeaderCard";
-import { LeadershipCard } from "./LeadershipCard";
-import { CompactMemberCard } from "./CompactMemberCard";
+import { MemberCard, MemberCardSkeleton, FeaturedLeaderCard } from "./MemberCard";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -46,7 +44,11 @@ export function ProvinceCommitteeSection({ isNepali }) {
   }
 
   // 1. Group members by displayGroup or weight === 1
-  const featuredMembers = members.filter(m => m.position_id?.weight === 1 || m.position_id?.displayGroup === "featured");
+  const featuredMembers = members.filter(m => {
+    if (m.position_id?.weight === 1 || m.position_id?.displayGroup === "featured") return true;
+    const posNameEn = m.position_id?.name?.en || m.position?.en || "";
+    return posNameEn.toLowerCase() === "president";
+  });
   const leadershipMembers = members.filter(m => m.position_id?.weight !== 1 && m.position_id?.displayGroup === "leadership");
   const executiveMembers = members.filter(m => m.position_id?.weight !== 1 && m.position_id?.displayGroup === "executive");
   
@@ -102,81 +104,27 @@ export function ProvinceCommitteeSection({ isNepali }) {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
-            className="space-y-24 md:space-y-32"
+            className="flex flex-col gap-12"
           >
-            {/* 1. Featured Leader (e.g., Chairperson) */}
             {featuredMembers.length > 0 && (
-              <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-12">
-                {featuredMembers.map(member => (
-                  <FeaturedLeaderCard key={member._id} member={member} isNepali={isNepali} />
-                ))}
-              </motion.div>
-            )}
-
-            {/* 2. Leadership Row (e.g., Vice Chairs, Secretaries) */}
-            {leadershipMembers.length > 0 && (
-              <motion.div variants={itemVariants} className="space-y-12">
-                <div className="flex items-center justify-center gap-4 mb-8">
-                  <div className="h-px bg-slate-200 dark:bg-slate-800 flex-1 max-w-[80px]" />
-                  <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest text-center">
-                    {isNepali ? "पदाधिकारीहरू" : "OFFICE BEARERS"}
-                  </h3>
-                  <div className="h-px bg-slate-200 dark:bg-slate-800 flex-1 max-w-[80px]" />
-                </div>
-                
-                {/* Group leadership by position name so they form clean rows */}
-                {Object.entries(groupByName(leadershipMembers)).map(([posName, groupMembers], idx) => (
-                  <div key={idx} className="flex flex-wrap justify-center gap-6 md:gap-10">
-                    {groupMembers.map(member => (
-                      <LeadershipCard key={member._id} member={member} isNepali={isNepali} />
-                    ))}
-                  </div>
-                ))}
-                
-                <div className="flex justify-center mt-12">
-                  <button className="px-6 py-2.5 rounded-full border border-blue-200 text-blue-600 text-sm font-bold hover:bg-blue-50 transition-colors flex items-center gap-2">
-                    {isNepali ? "सबै पदाधिकारीहरू हेर्नुहोस्" : "View All Office Bearers"}
-                    <span className="text-blue-400">→</span>
-                  </button>
-                </div>
-              </motion.div>
-            )}
-
-            {/* 3. Executive Members Grid */}
-            {executiveMembers.length > 0 && (
-              <motion.div variants={itemVariants} className="space-y-8">
-                <div className="flex items-center justify-center gap-4 mb-8">
-                  <div className="h-px bg-gray-200 dark:bg-gray-800 flex-1 max-w-[100px]" />
-                  <h3 className="text-xl font-bold text-gray-600 dark:text-gray-400 uppercase tracking-widest text-center">
-                    {isNepali ? "सचिवालय सदस्यहरू" : "Executive Members"}
-                  </h3>
-                  <div className="h-px bg-gray-200 dark:bg-gray-800 flex-1 max-w-[100px]" />
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-                  {executiveMembers.map(member => (
-                    <CompactMemberCard key={member._id} member={member} isNepali={isNepali} />
+              <div className="flex flex-col items-center">
+                <div className="flex flex-wrap justify-center w-full gap-6 md:gap-8">
+                  {featuredMembers.map(member => (
+                    <motion.div key={member._id} variants={itemVariants} className="w-full sm:w-[360px]">
+                      <FeaturedLeaderCard member={member} isNepali={isNepali} />
+                    </motion.div>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             )}
 
-            {/* 4. Committee Members Grid */}
-            {committeeMembers.length > 0 && (
-              <motion.div variants={itemVariants} className="space-y-8">
-                <div className="flex items-center justify-center gap-4 mb-8">
-                  <div className="h-px bg-gray-200 dark:bg-gray-800 flex-1 max-w-[100px]" />
-                  <h3 className="text-xl font-bold text-gray-600 dark:text-gray-400 uppercase tracking-widest text-center">
-                    {isNepali ? "प्रदेश कमिटी सदस्यहरू" : "Committee Members"}
-                  </h3>
-                  <div className="h-px bg-gray-200 dark:bg-gray-800 flex-1 max-w-[100px]" />
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-5">
-                  {committeeMembers.map(member => (
-                    <CompactMemberCard key={member._id} member={member} isNepali={isNepali} />
-                  ))}
-                </div>
-              </motion.div>
-            )}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+              {members.filter(m => !featuredMembers.includes(m)).map(member => (
+                <motion.div key={member._id} variants={itemVariants} className="w-full">
+                  <MemberCard member={member} isNepali={isNepali} />
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         )}
       </div>
