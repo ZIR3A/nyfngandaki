@@ -35,29 +35,25 @@ export default function OfficialDocuments({ t, locale, documents }) {
     return `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`;
   };
 
-  const handleDownload = async (url, filename) => {
+  const handleDownload = (url, filename) => {
     if (!url) return;
-    try {
-      // Try to fetch the file as a blob to force a local download
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Network response was not ok");
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = blobUrl;
-      a.download = filename || "document.pdf";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      // Fallback to opening in a new tab if CORS or fetch fails
-      console.warn("Forced download failed, falling back to new tab:", error);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename || "document.pdf";
-      a.target = "_blank";
-      document.body.appendChild(a);
+    // Route through server-side proxy to bypass mobile CORS restrictions
+    const proxyUrl = `/api/proxy-download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename || "document.pdf")}`;
+    const a = document.createElement("a");
+    a.href = proxyUrl;
+    a.download = filename || "document.pdf";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  const _handleDownload_unused = (url, filename) => {
+    // Kept for reference only
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename || "document.pdf";
+    a.target = "_blank";
+    document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
     }

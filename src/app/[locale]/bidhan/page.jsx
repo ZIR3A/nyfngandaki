@@ -162,28 +162,19 @@ export default function BidhanPage() {
     loadData();
   }, [locale]);
 
-  // Handle direct file download
-  const handleDownload = async (url, filename) => {
+  // Handle direct file download via server-side proxy (bypasses CORS on mobile)
+  const handleDownload = (url, filename) => {
     if (!url) {
       toast.error(t("bidhan.noDocumentsFound") || "No document available to download.");
       return;
     }
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Network response was not ok");
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = blobUrl;
-      a.download = filename || "document.pdf";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.warn("Forced download failed, falling back to new tab:", error);
-      window.open(url, "_blank");
-    }
+    const proxyUrl = `/api/proxy-download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename || "document.pdf")}`;
+    const a = document.createElement("a");
+    a.href = proxyUrl;
+    a.download = filename || "document.pdf";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   const getViewerUrl = (url) => {
@@ -191,6 +182,7 @@ export default function BidhanPage() {
     if (url.includes("drive.google.com")) {
       return url.replace(/\/view.*$/, "/preview");
     }
+    // For GCS or direct PDF links, embed through Google Docs viewer
     return `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`;
   };
 

@@ -50,6 +50,7 @@ export function Header() {
       ]
     }] : []),
     { name: isNepali ? "सदस्यहरू" : "Members", href: `/${locale}/members` },
+    { name: isNepali ? "विधान" : "Bidhan", href: `/${locale}/bidhan` },
     { 
       name: isNepali ? "मिडिया" : "Media",
       href: `/${locale}/events`,
@@ -64,7 +65,6 @@ export function Header() {
       href: `/${locale}/documents`,
       mega: [
         { name: isNepali ? "कागजातहरू" : "Documents", href: `/${locale}/documents`, desc: isNepali ? "महत्वपूर्ण प्रकाशनहरू" : "Important publications" },
-        { name: isNepali ? "विधान" : "Constitution", href: `/${locale}/constitution`, desc: isNepali ? "हाम्रो विधान" : "Our governing rules" },
         { name: isNepali ? "प्राय सोधिने प्रश्न" : "FAQ", href: `/${locale}/faq`, desc: isNepali ? "जिज्ञासा र उत्तर" : "Frequently asked questions" }
       ]
     },
