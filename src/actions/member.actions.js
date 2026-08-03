@@ -76,3 +76,34 @@ export async function deleteMemberAction(id) {
     return apiResponse(false, null, "Failed to delete member.", [error.message]);
   }
 }
+
+export async function searchMembersAction(query) {
+  try {
+    // Basic search across name fields using the MemberService
+    // In MemberService, getAllMembers supports filtering.
+    // We construct a query object that searches for the string in name, position, or district.
+    const filters = {};
+    if (query) {
+      filters.$or = [
+        { "name.en": { $regex: query, $options: "i" } },
+        { "name.np": { $regex: query, $options: "i" } },
+      ];
+    }
+    const members = await MemberService.getAllMembers(filters, { createdAt: -1 });
+    // We only need a subset for the selector to keep the payload light
+    const slimMembers = members.map(m => ({
+      _id: m._id,
+      name: m.name,
+      photo: m.photo,
+      position_id: m.position_id,
+      district: m.district,
+      organizationLevel: m.organizationLevel,
+      status: m.status,
+    })).slice(0, 20); // Limit to top 20 matches for the dropdown
+
+    return apiResponse(true, slimMembers, "Members fetched successfully.");
+  } catch (error) {
+    console.error("Search Members Error:", error);
+    return apiResponse(false, [], "Failed to search members.", [error.message]);
+  }
+}

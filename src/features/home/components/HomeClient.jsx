@@ -9,7 +9,7 @@ import { np } from "@/localization/dictionaries/np";
 // Import all the new modular homepage sections
 import HeroSection from "./HeroSection";
 import OrganizationOverview from "./OrganizationOverview";
-import ChairpersonSection from "@/components/shared/ChairpersonSection";
+import LeadershipMessagesSection from "./LeadershipMessagesSection";
 
 import OrganizationStructure from "@/components/shared/OrganizationStructure";
 import FeaturedLeadership from "./FeaturedLeadership";
@@ -45,7 +45,8 @@ export default function HomeClient({
   activities,
   resources,
   districts,
-  banners
+  banners,
+  leadershipMessages
 }) {
   const { language } = useLanguage();
   const dictionary = language === 'np' ? np : en;
@@ -88,8 +89,8 @@ export default function HomeClient({
         highlight={language === 'en' ? "resilient and organized network." : "एक बलियो र संगठित सञ्जाल।"}
       />
 
-      {/* 3. Chairperson Message */}
-      <ChairpersonSection dictionary={dictionary} chairperson={chairperson} />
+      {/* Leadership Messages Preview (Replaces Chairperson Section) */}
+      <LeadershipMessagesSection dictionary={dictionary} messages={leadershipMessages} />
 
       {/* 4. Organization Structure */}
       <div className="bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">

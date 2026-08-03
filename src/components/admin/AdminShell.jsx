@@ -56,6 +56,7 @@ export function AdminShell({ children, user }) {
       items: [
         { name: "Bidhan (Constitution)", href: `/admin/bidhan`, icon: BookOpen },
         { name: "About Page Settings", href: `/admin/content/about`, icon: FileText },
+        { name: "Leadership Messages", href: `/admin/leadership-messages`, icon: MessageSquare },
         { name: "Banners", href: `/admin/banners`, icon: ImageIcon },
         { name: "Media Library", href: `/admin/storage`, icon: HardDrive },
         { name: "Activities", href: `/admin/activities`, icon: HeartPulse },

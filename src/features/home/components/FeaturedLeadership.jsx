@@ -114,7 +114,7 @@ export default function FeaturedLeadership({ dictionary, featuredMembers = [] })
         )}
 
         <div className="mt-16 text-center">
-           <Link href="/committee" className="inline-flex items-center justify-center px-8 py-3.5 bg-blue-600 hover:bg-[#D81E27] text-white rounded-full font-semibold transition-all duration-300 shadow-[0_10px_35px_rgba(21,62,144,0.3)] hover:-translate-y-0.5 group">
+           <Link href="/members" className="inline-flex items-center justify-center px-8 py-3.5 bg-blue-600 hover:bg-[#D81E27] text-white rounded-full font-semibold transition-all duration-300 shadow-[0_10px_35px_rgba(21,62,144,0.3)] hover:-translate-y-0.5 group cursor-pointer">
               {dict.button}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
            </Link>

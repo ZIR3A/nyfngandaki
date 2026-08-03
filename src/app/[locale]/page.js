@@ -8,6 +8,7 @@ import { eventService } from "@/features/events/services/eventService";
 import { ResourceService } from "@/services/ResourceService";
 import { DistrictService } from "@/services/DistrictService";
 import { BannerService } from "@/services/BannerService";
+import { LeadershipMessageService } from "@/services/LeadershipMessageService";
 
 export default async function Home({ params }) {
   // Extract locale from params or default to 'en'
@@ -21,6 +22,7 @@ export default async function Home({ params }) {
   let resources = [];
   let districts = [];
   let banners = [];
+  let leadershipMessages = [];
 
   try {
     const rawMembers = await MemberService.getFeaturedMembers(6);
@@ -51,6 +53,9 @@ export default async function Home({ params }) {
     const rawBanners = await BannerService.getActive();
     banners = JSON.parse(JSON.stringify(rawBanners));
 
+    const rawLeadershipMessages = await LeadershipMessageService.getHomepageMessages();
+    leadershipMessages = JSON.parse(JSON.stringify(rawLeadershipMessages));
+
   } catch (error) {
     console.error("Error fetching homepage data:", error);
   }
@@ -67,6 +72,7 @@ export default async function Home({ params }) {
         resources={resources}
         districts={districts}
         banners={banners}
+        leadershipMessages={leadershipMessages}
       />
     </main>
   );

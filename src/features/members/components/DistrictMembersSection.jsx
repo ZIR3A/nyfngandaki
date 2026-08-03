@@ -2,9 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useDistrictExplorer } from "../contexts/DistrictExplorerContext";
-import { FeaturedLeaderCard } from "./FeaturedLeaderCard";
-import { LeadershipCard } from "./LeadershipCard";
-import { MemberCard } from "./MemberCard";
+import { FeaturedLeaderCard, MemberCard } from "./MemberCard";
 import { Users, AlertCircle, MapPin, Loader2, Award } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 

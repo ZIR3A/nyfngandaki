@@ -5,12 +5,13 @@ export const dynamic = "force-dynamic";
 import AboutHero from '@/features/about/components/public/Hero';
 import AboutWhoWeAre from '@/features/about/components/public/WhoWeAre';
 import AboutStrategy from '@/features/about/components/public/Strategy';
-import AboutConnect from '@/features/about/components/public/Connect';
 import AboutDocuments from '@/features/about/components/public/Documents';
 import AboutFinalSection from '@/features/about/components/public/FinalSection';
 
 import connectToDatabase from '@/lib/mongodb';
 import { aboutService } from '@/features/about/services/aboutService';
+import { LeadershipMessageService } from "@/services/LeadershipMessageService";
+import AboutLeadershipMessages from '@/features/about/components/public/AboutLeadershipMessages';
 
 async function fetchSeoData(provinceId) {
   try {
@@ -73,6 +74,9 @@ export default async function AboutPage({ params }) {
   const rawAboutData = await aboutService.getPublicAboutPage(provinceId);
   const aboutData = JSON.parse(JSON.stringify(rawAboutData));
 
+  const rawAboutMessages = await LeadershipMessageService.getAboutMessages();
+  const aboutMessages = JSON.parse(JSON.stringify(rawAboutMessages));
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -103,8 +107,8 @@ export default async function AboutPage({ params }) {
       {/* Strategy (Vision/Mission/Values) */}
       <AboutStrategy provinceId={provinceId} locale={locale} data={aboutData} />
 
-      {/* Connect (Leadership & Excellence) */}
-      <AboutConnect provinceId={provinceId} locale={locale} data={aboutData} />
+      {/* Leadership Messages */}
+      <AboutLeadershipMessages messages={aboutMessages} />
 
       {/* Documents (Transparency Center) */}
       <AboutDocuments provinceId={provinceId} locale={locale} data={aboutData} />
