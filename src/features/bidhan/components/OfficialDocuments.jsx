@@ -47,17 +47,6 @@ export default function OfficialDocuments({ t, locale, documents }) {
     document.body.removeChild(a);
   };
 
-  const _handleDownload_unused = (url, filename) => {
-    // Kept for reference only
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename || "document.pdf";
-    a.target = "_blank";
-    document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-  };
 
   return (
     <div className="max-w-5xl mx-auto py-12 px-4">
