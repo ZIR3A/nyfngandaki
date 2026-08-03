@@ -11,7 +11,7 @@ import { BannerService } from "@/services/BannerService";
 
 export default async function Home({ params }) {
   // Extract locale from params or default to 'en'
-  const locale = await params?.locale || "en";
+  const { locale = "en" } = await params;
   
   let featuredMembers = [];
   let settings = null;

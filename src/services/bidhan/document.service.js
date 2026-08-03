@@ -1,4 +1,5 @@
 import BidhanDocument from "@/models/bidhan/Document";
+import "@/models/bidhan/Category";
 
 export const DocumentService = {
   /**
