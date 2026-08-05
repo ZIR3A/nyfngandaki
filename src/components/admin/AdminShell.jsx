@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { 
   LayoutDashboard, Users, UserCog, LogOut, Menu, X, Search, 
   Bell, MessageSquare, Plus, Sun, Moon, ChevronRight, Home, ChevronDown,
   HeartPulse, Calendar, FileText, Settings, HardDrive, Image as ImageIcon,
-  Layers, Briefcase, MapPin, BookOpen
+  Layers, Briefcase, MapPin, BookOpen, Globe
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
@@ -17,6 +18,7 @@ export function AdminShell({ children, user }) {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isProfileOpen, setProfileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -105,8 +107,8 @@ export function AdminShell({ children, user }) {
         {/* Logo Area */}
         <div className="h-[80px] flex items-center px-6 border-b border-[#E5E7EB] dark:border-gray-800 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 bg-[#1546B0] rounded-lg flex items-center justify-center shrink-0 shadow-sm">
-              <span className="font-bold text-white text-xs">NYFN</span>
+            <div className="h-10 w-10 relative flex items-center justify-center shrink-0">
+              <Image src="/brand-logo.png" alt="NYFN Logo" fill className="object-contain" />
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-[#111827] dark:text-white text-sm tracking-tight leading-tight">National Youth Federation</span>
@@ -242,12 +244,71 @@ export function AdminShell({ children, user }) {
               </button>
             </div>
             
-            <button className="flex items-center gap-2 hover:bg-[#F1F5F9] dark:hover:bg-gray-800 p-1.5 rounded-xl transition-colors">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#1546B0] to-[#0D2E78] text-white flex items-center justify-center font-bold text-xs shadow-sm uppercase">
-                {user?.name?.substring(0, 2) || "SA"}
-              </div>
-              <ChevronDown className="h-4 w-4 text-gray-400 hidden sm:block" />
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => setProfileOpen(!isProfileOpen)}
+                className="flex items-center gap-2 hover:bg-[#F1F5F9] dark:hover:bg-gray-800 p-1.5 rounded-xl transition-colors"
+              >
+                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#1546B0] to-[#0D2E78] text-white flex items-center justify-center font-bold text-xs shadow-sm uppercase">
+                  {user?.name?.substring(0, 2) || "SA"}
+                </div>
+                <ChevronDown className="h-4 w-4 text-gray-400 hidden sm:block" />
+              </button>
+
+              {isProfileOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setProfileOpen(false)}
+                  />
+                  <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-900 border border-[#E5E7EB] dark:border-gray-800 rounded-xl shadow-lg z-50 overflow-hidden flex flex-col py-2">
+                    <div className="px-4 py-2 border-b border-[#E5E7EB] dark:border-gray-800">
+                      <p className="font-bold text-sm text-[#111827] dark:text-white truncate">{user?.name || "Admin User"}</p>
+                      <p className="text-xs text-[#4B5563] dark:text-gray-400 truncate">{user?.role || "Province Admin"}</p>
+                    </div>
+                    
+                    <div className="py-2">
+                      <Link href="/admin/profile" onClick={() => setProfileOpen(false)} className="flex items-center px-4 py-2 text-sm text-[#4B5563] dark:text-gray-400 hover:bg-[#F1F5F9] dark:hover:bg-gray-800 hover:text-[#111827] dark:hover:text-white transition-colors">
+                        <UserCog className="h-4 w-4 mr-3" />
+                        Profile
+                      </Link>
+                      <Link href="/admin/profile/password" onClick={() => setProfileOpen(false)} className="flex items-center px-4 py-2 text-sm text-[#4B5563] dark:text-gray-400 hover:bg-[#F1F5F9] dark:hover:bg-gray-800 hover:text-[#111827] dark:hover:text-white transition-colors">
+                        <Settings className="h-4 w-4 mr-3" />
+                        Change Password
+                      </Link>
+                    </div>
+
+                    <div className="border-t border-[#E5E7EB] dark:border-gray-800 py-2">
+                      <button className="w-full flex items-center px-4 py-2 text-sm text-[#4B5563] dark:text-gray-400 hover:bg-[#F1F5F9] dark:hover:bg-gray-800 hover:text-[#111827] dark:hover:text-white transition-colors">
+                        <Globe className="h-4 w-4 mr-3" />
+                        Language (English)
+                      </button>
+                      <button 
+                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                        className="w-full flex items-center px-4 py-2 text-sm text-[#4B5563] dark:text-gray-400 hover:bg-[#F1F5F9] dark:hover:bg-gray-800 hover:text-[#111827] dark:hover:text-white transition-colors"
+                      >
+                        {mounted && theme === 'dark' ? <Sun className="h-4 w-4 mr-3" /> : <Moon className="h-4 w-4 mr-3" />}
+                        Theme ({mounted && theme === 'dark' ? 'Light' : 'Dark'})
+                      </button>
+                    </div>
+
+                    <div className="border-t border-[#E5E7EB] dark:border-gray-800 pt-2 pb-1">
+                      <button 
+                        onClick={() => {
+                          if (window.confirm("Are you sure you want to log out?")) {
+                            handleLogout();
+                          }
+                        }}
+                        className="w-full flex items-center px-4 py-2 text-sm text-[#D71920] dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors font-medium"
+                      >
+                        <LogOut className="h-4 w-4 mr-3" />
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
  
         </header>
