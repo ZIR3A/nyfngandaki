@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useLanguage } from "@/localization/LanguageContext";
 import { en } from "@/localization/dictionaries/en";
@@ -21,15 +22,26 @@ import CTASection from "./CTASection";
 
 // Narrative spacer to bridge sections in the storytelling flow
 const NarrativeSpacer = ({ text, highlight }) => (
-  <div className="w-full bg-slate-50 dark:bg-[#0A0F1C] py-16 md:py-24 flex justify-center items-center px-6">
+  <div className="w-full relative bg-slate-50 dark:bg-[#0A0F1C] py-16 md:py-28 flex justify-center items-center px-6 overflow-hidden group">
+    <div className="absolute inset-0 z-0 opacity-15 dark:opacity-10 pointer-events-none overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full min-w-[400px] md:min-w-[500px] h-[400px] md:h-[500px]">
+        <Image 
+          src="/mpa.png" 
+          alt="Gandaki Province Map Background" 
+          fill
+          className="object-contain object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
+        />
+      </div>
+    </div>
+    
     <motion.div 
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="max-w-4xl text-center"
+      className="max-w-4xl text-center relative z-10"
     >
-      <h3 className="text-2xl md:text-4xl font-light text-slate-800 dark:text-slate-300 leading-relaxed italic">
+      <h3 className="text-2xl md:text-4xl font-light text-slate-800 dark:text-slate-300 leading-relaxed italic drop-shadow-sm">
         &ldquo;{text} <span className="font-bold text-[#153E90] dark:text-blue-400">{highlight}</span>&rdquo;
       </h3>
     </motion.div>
