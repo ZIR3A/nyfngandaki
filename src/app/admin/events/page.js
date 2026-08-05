@@ -100,14 +100,12 @@ export default async function AdminEventsDashboard({ searchParams }) {
                         <Link href={`/events/${event.slug}`} target="_blank" className="p-2 text-slate-400 hover:text-[#1546B0] transition-colors" title="Preview">
                           <Eye className="w-4 h-4" />
                         </Link>
-                        <Link href={`/admin/events/${event._id}/edit`}>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer" title="Edit">
-                            <Edit className="w-4 h-4" />
-                          </Button>
+                        <Link href={`/admin/events/${event._id}/edit`} className="inline-flex items-center justify-center h-8 w-8 rounded-md text-blue-600 hover:text-blue-700 hover:bg-blue-50 transition-colors cursor-pointer" title="Edit">
+                          <Edit className="w-4 h-4" />
                         </Link>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer" title="Delete" onClick={() => handleDelete(event._id)}>
+                        <button className="inline-flex items-center justify-center h-8 w-8 rounded-md text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer" title="Delete">
                           <Trash2 className="w-4 h-4" />
-                        </Button>
+                        </button>
                       </div>
                     </td>
                   </tr>

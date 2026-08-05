@@ -21,7 +21,7 @@ export default async function MediaLibraryPage({ searchParams }) {
     const status = await service.getStatus();
     if (status.isConnected) {
       const result = await service.listFiles({ page, module, search, mimeCategory, limit: 24 });
-      if (result.success) initialData = result.data;
+      if (result.success) initialData = JSON.parse(JSON.stringify(result.data));
     }
   } catch (e) {
     console.error("Media Library load error:", e);

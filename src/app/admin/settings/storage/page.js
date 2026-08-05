@@ -15,7 +15,8 @@ export default async function StorageSettingsPage() {
   let initialStatus = null;
   try {
     const service = new StorageService();
-    initialStatus = await service.getStatus();
+    const status = await service.getStatus();
+    initialStatus = JSON.parse(JSON.stringify(status));
   } catch (e) {
     console.error("Failed to pre-fetch storage status:", e);
   }

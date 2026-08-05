@@ -20,8 +20,8 @@ export default async function EditEventPage({ params }) {
     notFound();
   }
 
-  // Convert ObjectId to string for client component serialization
-  event._id = event._id.toString();
+  // Deeply serialize the entire object to avoid Server to Client Component reference errors
+  const serializedEvent = JSON.parse(JSON.stringify(event));
 
-  return <EditEventForm event={event} />;
+  return <EditEventForm event={serializedEvent} />;
 }
