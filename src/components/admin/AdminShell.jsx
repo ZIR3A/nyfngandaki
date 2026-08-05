@@ -55,6 +55,7 @@ export function AdminShell({ children, user }) {
       label: "Content Management",
       items: [
         { name: "Bidhan (Constitution)", href: `/admin/bidhan`, icon: BookOpen },
+        { name: "Homepage Settings", href: `/admin/settings/homepage`, icon: Settings },
         { name: "About Page Settings", href: `/admin/content/about`, icon: FileText },
         { name: "Leadership Messages", href: `/admin/leadership-messages`, icon: MessageSquare },
         { name: "Banners", href: `/admin/banners`, icon: ImageIcon },
@@ -68,7 +69,6 @@ export function AdminShell({ children, user }) {
       label: "System",
       items: [
         { name: "Users", href: `/admin/users`, icon: UserCog },
-        { name: "Homepage Settings", href: `/admin/settings/homepage`, icon: Settings },
         ...(isSuperAdmin ? [{ name: "Storage Settings", href: `/admin/settings/storage`, icon: HardDrive }] : []),
       ]
     }

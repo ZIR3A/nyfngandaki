@@ -13,21 +13,15 @@ import {
 } from 'lucide-react';
 
 // Tab Components
-import OverviewTab from './tabs/OverviewTab';
 import OrganizationTab from './tabs/OrganizationTab';
 import StrategyTab from './tabs/StrategyTab';
 import CoreValuesTab from './tabs/CoreValuesTab';
-import LeadershipTab from './tabs/LeadershipTab';
-import DocumentsTab from './tabs/DocumentsTab';
 import SEOTab from './tabs/SEOTab';
 
 const TAB_ICONS = {
-  overview: LayoutDashboard,
   organization: Users,
   strategy: LayoutTemplate,
   'core-values': HeartHandshake,
-  leadership: Users,
-  documents: FileText,
   seo: Search
 };
 
@@ -53,12 +47,9 @@ export default function AboutSettingsClient() {
 
   const renderActiveTab = () => {
     switch (activeTabId) {
-      case 'overview': return <OverviewTab />;
       case 'organization': return <OrganizationTab />;
       case 'strategy': return <StrategyTab />;
       case 'core-values': return <CoreValuesTab />;
-      case 'leadership': return <LeadershipTab />;
-      case 'documents': return <DocumentsTab />;
       case 'seo': return <SEOTab />;
       default: return null;
     }

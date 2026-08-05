@@ -16,7 +16,6 @@ import OrganizationStructure from "@/components/shared/OrganizationStructure";
 import FeaturedLeadership from "./FeaturedLeadership";
 import InteractiveDistrictMap from "./InteractiveDistrictMap";
 import ActivitiesSection from "./ActivitiesSection";
-import EventsSection from "./EventsSection";
 import ResourcesSection from "./ResourcesSection";
 import CTASection from "./CTASection";
 
@@ -125,11 +124,8 @@ export default function HomeClient({
         highlight={language === 'en' ? "continuous action and community service." : "दृष्टिकोणलाई यथार्थमा बदल्दै।"}
       />
 
-      {/* 7. Social Impact Activities */}
-      <ActivitiesSection dictionary={dictionary} activities={activities} />
-
-      {/* 8. Upcoming Events */}
-      <EventsSection dictionary={dictionary} events={events} />
+      {/* 7. Social Impact Activities (Now powered by Events Data) */}
+      <ActivitiesSection dictionary={dictionary} activities={events} />
 
       {/* 9. Official Resources */}
       <ResourcesSection dictionary={dictionary} resources={resources} />

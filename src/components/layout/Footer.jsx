@@ -42,19 +42,18 @@ export function Footer({ settings }) {
 
           {/* Column 2: Quick Links */}
           <div className="lg:col-span-1">
-            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Quick Links</h4>
+            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">{language === 'en' ? 'Quick Links' : 'द्रुत लिङ्कहरू'}</h4>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><Link href={`/${language}/about`} className="hover:text-primary transition-colors">About</Link></li>
-              <li><Link href={`/${language}/province-committee`} className="hover:text-primary transition-colors">Leadership</Link></li>
-              <li><Link href={`/${language}/members`} className="hover:text-primary transition-colors">Members</Link></li>
-              <li><Link href={`/${language}/districts`} className="hover:text-primary transition-colors">Districts</Link></li>
-              <li><Link href={`/${language}/events`} className="hover:text-primary transition-colors">Activities</Link></li>
+              <li><Link href={`/${language}/about`} className="hover:text-primary transition-colors">{language === 'en' ? 'About Us' : 'हाम्रो बारेमा'}</Link></li>
+              <li><Link href={`/${language}/members`} className="hover:text-primary transition-colors">{language === 'en' ? 'Members' : 'सदस्यहरू'}</Link></li>
+              <li><Link href={`/${language}/districts`} className="hover:text-primary transition-colors">{language === 'en' ? 'Districts' : 'जिल्लाहरू'}</Link></li>
+              <li><Link href={`/${language}/events`} className="hover:text-primary transition-colors">{language === 'en' ? 'Events' : 'कार्यक्रमहरू'}</Link></li>
             </ul>
           </div>
 
           {/* Column 3: Contact Info */}
           <div className="lg:col-span-1">
-            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Office Info</h4>
+            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">{language === 'en' ? 'Office Info' : 'कार्यालय जानकारी'}</h4>
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="flex items-start">
                 <MapPin className="w-4 h-4 mr-3 mt-0.5 text-primary shrink-0" />
@@ -73,12 +72,12 @@ export function Footer({ settings }) {
 
           {/* Column 4: Important Links */}
           <div className="lg:col-span-1">
-            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Important Links</h4>
+            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">{language === 'en' ? 'Important Links' : 'महत्वपूर्ण लिङ्कहरू'}</h4>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><Link href={`/${language}/documents`} className="hover:text-primary transition-colors">Downloads</Link></li>
-              <li><Link href={`/${language}/contact`} className="hover:text-primary transition-colors">Contact</Link></li>
-              <li><Link href={`/${language}/privacy`} className="hover:text-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link href={`/${language}/terms`} className="hover:text-primary transition-colors">Terms of Service</Link></li>
+              <li><Link href={`/${language}/bidhan`} className="hover:text-primary transition-colors">{language === 'en' ? 'Bidhan (Constitution)' : 'विधान'}</Link></li>
+              <li><Link href={`/${language}/contact`} className="hover:text-primary transition-colors">{language === 'en' ? 'Contact' : 'सम्पर्क'}</Link></li>
+              <li><Link href={`/${language}/privacy`} className="hover:text-primary transition-colors">{language === 'en' ? 'Privacy Policy' : 'गोपनीयता नीति'}</Link></li>
+              <li><Link href={`/${language}/terms`} className="hover:text-primary transition-colors">{language === 'en' ? 'Terms of Service' : 'सेवाका सर्तहरू'}</Link></li>
             </ul>
           </div>
 

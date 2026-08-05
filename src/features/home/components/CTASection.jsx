@@ -76,16 +76,12 @@ export default function CTASection({ dictionary, settings }) {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-6"
         >
-          <Link href={ctaButtonLink} className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white text-[#153E90] hover:bg-[#D81E27] hover:text-white rounded-full font-bold text-lg transition-all duration-300 shadow-[0_10px_35px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_50px_rgba(216,30,39,0.4)] hover:-translate-y-1 group">
+          <Link href={`/${language}/members`} className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white text-[#153E90] hover:bg-[#D81E27] hover:text-white rounded-full font-bold text-lg transition-all duration-300 shadow-[0_10px_35px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_50px_rgba(216,30,39,0.4)] hover:-translate-y-1 group cursor-pointer">
             {dict.btn1}
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
           
-          <Link href="/districts" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 rounded-full font-bold text-lg transition-all duration-300 hover:-translate-y-1">
-            {dict.btn2}
-          </Link>
-          
-          <Link href="/contact" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white/30 text-white hover:border-white rounded-full font-bold text-lg transition-all duration-300 hover:-translate-y-1 group">
+          <Link href={`/${language}/contact`} className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white/30 text-white hover:border-white rounded-full font-bold text-lg transition-all duration-300 hover:-translate-y-1 group cursor-pointer">
             <Phone className="mr-2 w-5 h-5 group-hover:animate-bounce" />
             {dict.btn3}
           </Link>

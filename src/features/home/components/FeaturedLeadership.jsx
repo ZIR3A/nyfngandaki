@@ -40,74 +40,59 @@ export default function FeaturedLeadership({ dictionary, featuredMembers = [] })
              <p className="text-slate-500 dark:text-slate-400">{dict.emptyDesc}</p>
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredMembers.slice(0, 6).map((member, idx) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+            {featuredMembers.slice(0, 10).map((member, idx) => (
               <motion.div 
                 key={member._id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group relative bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border-2 border-transparent hover:border-blue-100 dark:hover:border-blue-900 rounded-[24px] overflow-hidden shadow-[0_10px_35px_rgba(15,45,90,0.04)] hover:shadow-[0_20px_50px_rgba(15,45,90,0.1)] transition-all duration-500 hover:-translate-y-2 flex flex-col"
+                className="group relative bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col cursor-pointer"
               >
-                {/* Premium Gradient Border on Hover */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#153E90]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-
-                {/* Portrait */}
-                <div className="relative h-72 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                   {member.photo ? (
-                      <Image 
-                        src={member.photo} 
-                        alt={member.name[language] || member.name.en} 
-                        fill
-                        className="object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
-                   ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-400">
-                        <span className="font-medium">No Photo</span>
-                      </div>
-                   )}
-                   
-                   {/* Hover Overlay with Socials */}
-                   <div className="absolute inset-0 bg-gradient-to-t from-[#102C69]/90 via-[#102C69]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8">
-                      <div className="flex items-center space-x-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                         {member.socialLinks?.facebook && (
-                           <a href={member.socialLinks.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/20 hover:bg-[#D81E27] backdrop-blur-md flex items-center justify-center text-white transition-colors">
-                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                               <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                             </svg>
-                           </a>
-                         )}
-                         {member.email && (
-                           <a href={`mailto:${member.email}`} className="w-10 h-10 rounded-full bg-white/20 hover:bg-[#D81E27] backdrop-blur-md flex items-center justify-center text-white transition-colors">
-                             <Mail className="w-5 h-5" />
-                           </a>
-                         )}
-                      </div>
-                   </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 text-center relative bg-white dark:bg-slate-900 flex-1 flex flex-col">
-                  {/* Decorative Red Accent Line */}
-                  <div className="w-10 h-1 bg-[#D81E27] mx-auto rounded-full mb-4"></div>
-                  
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{member.name[language] || member.name.en}</h3>
-                  <p className="text-[#153E90] dark:text-blue-400 font-medium mb-3">{member.position?.[language] || member.position?.en}</p>
-                  
-                  {member.district && (
-                    <p className="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase tracking-wider mb-6">
-                      {member.district.name?.[language] || member.district.name?.en} District
-                    </p>
-                  )}
-
-                  <div className="mt-auto">
-                    <Link href={`/members/${member._id}`} className="text-sm font-bold text-[#153E90] dark:text-blue-400 hover:text-[#D81E27] dark:hover:text-[#D81E27] uppercase tracking-wider flex items-center justify-center transition-colors">
-                      View Profile <ArrowRight className="ml-2 w-4 h-4" />
-                    </Link>
+                <Link href={`/${language === 'np' ? 'np' : 'en'}/members/${member.slug || member._id}`} className="flex flex-col h-full">
+                  {/* Portrait */}
+                  <div className="relative h-48 sm:h-56 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                     {member.photo ? (
+                        <Image 
+                          src={member.photo} 
+                          alt={member.name[language] || member.name.en} 
+                          fill
+                          className="object-cover object-top group-hover:scale-110 transition-transform duration-700 ease-out"
+                        />
+                     ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-400">
+                          <span className="font-medium text-sm">No Photo</span>
+                        </div>
+                     )}
+                     
+                     {/* Hover Overlay */}
+                     <div className="absolute inset-0 bg-gradient-to-t from-[#153E90]/90 via-[#153E90]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
+                        <span className="text-white font-bold text-sm flex items-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                          View Profile <ArrowRight className="ml-1.5 w-4 h-4" />
+                        </span>
+                     </div>
                   </div>
-                </div>
 
+                  {/* Content */}
+                  <div className="p-4 text-center flex-1 flex flex-col items-center justify-center relative">
+                    {/* Decorative Red Accent Line */}
+                    <div className="w-8 h-1 bg-[#D81E27] mx-auto rounded-full mb-3"></div>
+
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white leading-tight mb-1">
+                      {member.name[language] || member.name.en}
+                    </h3>
+                    <p className="text-[#153E90] dark:text-blue-400 text-xs sm:text-sm font-semibold mb-2 line-clamp-1">
+                      {member.position?.[language] || member.position?.en}
+                    </p>
+                    
+                    {member.district && (
+                      <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-xs font-bold uppercase tracking-widest mt-auto pt-2">
+                        {member.district.name?.[language] || member.district.name?.en}
+                      </p>
+                    )}
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
