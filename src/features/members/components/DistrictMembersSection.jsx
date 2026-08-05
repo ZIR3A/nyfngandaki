@@ -14,11 +14,13 @@ export function DistrictMembersSection({ isNepali }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [selectedLetter, setSelectedLetter] = useState("All");
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     if (!selectedDistrictSlug) {
       setDistrict(null);
       setMembers([]);
+      setIsExpanded(false);
       return;
     }
 
@@ -38,7 +40,10 @@ export function DistrictMembersSection({ isNepali }) {
 
         if (isMounted) {
           if (distData.success) setDistrict(distData.data);
-          if (memData.success) setMembers(memData.data);
+          if (memData.success) {
+            setMembers(memData.data);
+            setIsExpanded(false);
+          }
         }
       } catch (err) {
         if (isMounted) setError(true);
@@ -132,30 +137,6 @@ export function DistrictMembersSection({ isNepali }) {
                 </div>
               </div>
 
-              {/* Alphabet Filter */}
-              {/* <div className="mb-12">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-bold text-slate-900">
-                    {isNepali ? "वर्णानुक्रम अनुसार खोज्नुहोस्" : "Browse Alphabetically"}
-                  </h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {alphabets.map(letter => (
-                    <button
-                      key={letter}
-                      onClick={() => setSelectedLetter(letter)}
-                      className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold transition-colors ${
-                        selectedLetter === letter
-                          ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                          : "bg-white border border-slate-200 text-slate-600 hover:border-blue-300 hover:bg-blue-50"
-                      }`}
-                    >
-                      {letter}
-                    </button>
-                  ))}
-                </div>
-              </div> */}
-
               {/* Members Grid */}
               {filteredMembers.length === 0 ? (
                 <div className="text-center text-gray-500 dark:text-gray-400 py-12 text-lg font-medium bg-slate-50 rounded-3xl border border-slate-100">
@@ -176,11 +157,15 @@ export function DistrictMembersSection({ isNepali }) {
                     });
                     const restMembers = filteredMembers.filter(m => !featuredMembers.includes(m));
 
+                    const totalToShow = isExpanded ? filteredMembers.length : 11;
+                    const visibleFeatured = featuredMembers.slice(0, totalToShow);
+                    const visibleRest = restMembers.slice(0, Math.max(0, totalToShow - visibleFeatured.length));
+
                     return (
                       <>
-                        {featuredMembers.length > 0 && (
+                        {visibleFeatured.length > 0 && (
                           <div className="flex flex-wrap justify-center w-full gap-6">
-                            {featuredMembers.map((member) => (
+                            {visibleFeatured.map((member) => (
                               <div key={member._id} className="w-full sm:w-[360px]">
                                 <FeaturedLeaderCard member={member} isNepali={isNepali} />
                               </div>
@@ -189,12 +174,41 @@ export function DistrictMembersSection({ isNepali }) {
                         )}
                         
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-                          {restMembers.map(member => (
+                          {visibleRest.map(member => (
                             <div key={member._id} className="w-full">
                               <MemberCard member={member} isNepali={isNepali} />
                             </div>
                           ))}
                         </div>
+
+                        {/* View More CTA */}
+                        {filteredMembers.length > 11 && !isExpanded && (
+                          <div className="flex justify-center mt-6 mb-4">
+                            <button 
+                              onClick={() => setIsExpanded(true)}
+                              className="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm md:text-base font-bold text-white transition-all duration-300 bg-[#1546B0] rounded-[20px] hover:bg-[#0D2E78] focus:outline-none cursor-pointer shadow-md hover:shadow-xl hover:-translate-y-1"
+                            >
+                              {isNepali ? "थप सदस्यहरू हेर्नुहोस्" : "View More Members"}
+                              <svg className="w-5 h-5 ml-2 -mr-1 transition-transform group-hover:translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </button>
+                          </div>
+                        )}
+
+                        {filteredMembers.length > 11 && isExpanded && (
+                          <div className="flex justify-center mt-6 mb-4">
+                            <button 
+                              onClick={() => setIsExpanded(false)}
+                              className="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 bg-slate-100 dark:bg-slate-800 rounded-[20px] hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none cursor-pointer shadow-sm hover:shadow-md"
+                            >
+                              {isNepali ? "कम देखाउनुहोस्" : "Show Less"}
+                              <svg className="w-5 h-5 ml-2 -mr-1 transition-transform group-hover:-translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                              </svg>
+                            </button>
+                          </div>
+                        )}
                       </>
                     );
                   })()}

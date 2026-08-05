@@ -10,6 +10,8 @@ export function ProvinceCommitteeSection({ isNepali }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const [isExpanded, setIsExpanded] = useState(false);
+
   useEffect(() => {
     async function fetchProvinceMembers() {
       try {
@@ -49,24 +51,12 @@ export function ProvinceCommitteeSection({ isNepali }) {
     const posNameEn = m.position_id?.name?.en || m.position?.en || "";
     return posNameEn.toLowerCase() === "president";
   });
-  const leadershipMembers = members.filter(m => m.position_id?.weight !== 1 && m.position_id?.displayGroup === "leadership");
-  const executiveMembers = members.filter(m => m.position_id?.weight !== 1 && m.position_id?.displayGroup === "executive");
   
-  // Fallback: any member without a specific group, or explicitly 'committee'
-  const committeeMembers = members.filter(m => 
-    m.position_id?.weight !== 1 && 
-    !["featured", "leadership", "executive"].includes(m.position_id?.displayGroup)
-  );
+  const restMembers = members.filter(m => !featuredMembers.includes(m));
 
-  // Helper to group members by their exact position name (useful for leadership row spacing)
-  const groupByName = (membersArray) => {
-    return membersArray.reduce((acc, m) => {
-      const posName = m.position_id?.name?.en || m.position?.en || "Other";
-      if (!acc[posName]) acc[posName] = [];
-      acc[posName].push(m);
-      return acc;
-    }, {});
-  };
+  const totalToShow = isExpanded ? members.length : 11;
+  const visibleFeatured = featuredMembers.slice(0, totalToShow);
+  const visibleRest = restMembers.slice(0, Math.max(0, totalToShow - visibleFeatured.length));
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -106,10 +96,10 @@ export function ProvinceCommitteeSection({ isNepali }) {
             viewport={{ once: true, margin: "-100px" }}
             className="flex flex-col gap-12"
           >
-            {featuredMembers.length > 0 && (
+            {visibleFeatured.length > 0 && (
               <div className="flex flex-col items-center">
                 <div className="flex flex-wrap justify-center w-full gap-6 md:gap-8">
-                  {featuredMembers.map(member => (
+                  {visibleFeatured.map(member => (
                     <motion.div key={member._id} variants={itemVariants} className="w-full sm:w-[360px]">
                       <FeaturedLeaderCard member={member} isNepali={isNepali} />
                     </motion.div>
@@ -119,12 +109,41 @@ export function ProvinceCommitteeSection({ isNepali }) {
             )}
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-              {members.filter(m => !featuredMembers.includes(m)).map(member => (
+              {visibleRest.map(member => (
                 <motion.div key={member._id} variants={itemVariants} className="w-full">
                   <MemberCard member={member} isNepali={isNepali} />
                 </motion.div>
               ))}
             </div>
+
+            {/* View More CTA */}
+            {members.length > 11 && !isExpanded && (
+              <motion.div variants={itemVariants} className="flex justify-center mt-4 mb-4">
+                <button 
+                  onClick={() => setIsExpanded(true)}
+                  className="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm md:text-base font-bold text-white transition-all duration-300 bg-[#1546B0] rounded-[20px] hover:bg-[#0D2E78] focus:outline-none cursor-pointer shadow-md hover:shadow-xl hover:-translate-y-1"
+                >
+                  {isNepali ? "थप सदस्यहरू हेर्नुहोस्" : "View More Members"}
+                  <svg className="w-5 h-5 ml-2 -mr-1 transition-transform group-hover:translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </motion.div>
+            )}
+            
+            {members.length > 11 && isExpanded && (
+              <motion.div variants={itemVariants} className="flex justify-center mt-4 mb-4">
+                <button 
+                  onClick={() => setIsExpanded(false)}
+                  className="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 bg-slate-100 dark:bg-slate-800 rounded-[20px] hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none cursor-pointer shadow-sm hover:shadow-md"
+                >
+                  {isNepali ? "कम देखाउनुहोस्" : "Show Less"}
+                  <svg className="w-5 h-5 ml-2 -mr-1 transition-transform group-hover:-translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                  </svg>
+                </button>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </div>
