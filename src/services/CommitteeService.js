@@ -5,7 +5,37 @@ export class CommitteeService {
   static async getAll() {
     try {
       await DatabaseService.connect();
-      return await Committee.find().sort({ "name.en": 1 }).lean();
+      return await Committee.aggregate([
+        {
+          $lookup: {
+            from: "departments",
+            localField: "_id",
+            foreignField: "committee_id",
+            as: "departments",
+          },
+        },
+        {
+          $addFields: {
+            departmentCount: {
+              $size: {
+                $filter: {
+                  input: "$departments",
+                  as: "dept",
+                  cond: { $eq: ["$$dept.deletedAt", null] }
+                }
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            departments: 0
+          }
+        },
+        {
+          $sort: { "name.en": 1 }
+        }
+      ]);
     } catch (error) {
       console.error("Error fetching committees:", error);
       return [];

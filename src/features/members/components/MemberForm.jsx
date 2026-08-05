@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
@@ -8,18 +8,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createMemberAction, updateMemberAction } from "@/actions/member.actions";
 import { MediaPicker } from "@/features/storage/components/MediaPicker";
+import { getDepartmentsAction } from "@/actions/department.actions";
 import { LocalizedInput } from "@/features/admin/about/components/shared/LocalizedInput";
 import { LocalizedTextarea } from "@/features/admin/about/components/shared/LocalizedTextarea";
+import { toast } from "sonner";
 
 export const MemberForm = ({ initialData = null, districts = [], committees = [], positions = [] }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   
   const [formData, setFormData] = useState({
     name: initialData?.name || { en: "", np: "" },
-    organizationLevel: initialData?.organizationLevel || "PROVINCE",
-    committee_id: initialData?.committee_id?._id || initialData?.committee_id || "",
+    organizationLevel: initialData?.organizationLevel || "Province",
     position_id: initialData?.position_id?._id || initialData?.position_id || "",
     biography: initialData?.biography || { en: "", np: "" },
     email: initialData?.email || "",
@@ -36,10 +36,11 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
     district: initialData?.district?._id || initialData?.district || "",
   });
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       let res;
@@ -50,13 +51,18 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
       }
       
       if (res.success) {
+        toast.success("Success", { description: res.message });
         router.push("/admin/members");
         router.refresh();
       } else {
-        setError(res.message);
+        toast.error("Error", { 
+          description: res.errors?.length 
+            ? `${res.message}\nDetails: ${res.errors.join(", ")}` 
+            : res.message 
+        });
       }
     } catch (err) {
-      setError("An unexpected error occurred.");
+      toast.error("Error", { description: "An unexpected error occurred." });
     } finally {
       setLoading(false);
     }
@@ -82,11 +88,7 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
         </div>
       </div>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-lg text-sm font-medium border border-red-100">
-          {error}
-        </div>
-      )}
+
 
       <form onSubmit={handleSubmit} className="space-y-8">
         
@@ -201,10 +203,23 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
                     <input 
                       type="radio" 
                       name="organizationLevel" 
-                      value="PROVINCE" 
-                      checked={formData.organizationLevel === "PROVINCE"}
+                      value="Central" 
+                      checked={formData.organizationLevel === "Central"}
                       onChange={(e) => {
                         setFormData({...formData, organizationLevel: e.target.value, district: ""});
+                      }}
+                      className="text-blue-600 focus:ring-blue-500 h-4 w-4"
+                    />
+                    Central
+                  </label>
+                  <label className="flex items-center gap-2 text-sm">
+                    <input 
+                      type="radio" 
+                      name="organizationLevel" 
+                      value="Province" 
+                      checked={formData.organizationLevel === "Province" || formData.organizationLevel === "PROVINCE"}
+                      onChange={(e) => {
+                        setFormData({...formData, organizationLevel: "Province", district: ""});
                       }}
                       className="text-blue-600 focus:ring-blue-500 h-4 w-4"
                     />
@@ -214,19 +229,21 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
                     <input 
                       type="radio" 
                       name="organizationLevel" 
-                      value="DISTRICT" 
-                      checked={formData.organizationLevel === "DISTRICT"}
-                      onChange={(e) => setFormData({...formData, organizationLevel: e.target.value})}
+                      value="District" 
+                      checked={formData.organizationLevel === "District" || formData.organizationLevel === "DISTRICT"}
+                      onChange={(e) => setFormData({...formData, organizationLevel: "District"})}
                       className="text-blue-600 focus:ring-blue-500 h-4 w-4"
                     />
                     District Committee
                   </label>
                 </div>
               </div>
+
+
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {formData.organizationLevel === "DISTRICT" && (
+              {(formData.organizationLevel === "District" || formData.organizationLevel === "DISTRICT") && (
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-gray-700">District Assignment <span className="text-red-500">*</span></label>
                   <select 
@@ -256,21 +273,9 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700">Committee (Optional)</label>
-                <select 
-                  className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  value={formData.committee_id}
-                  onChange={(e) => setFormData({...formData, committee_id: e.target.value})}
-                >
-                  <option value="">-- None --</option>
-                  {committees.filter(c => c.organizationLevel === formData.organizationLevel).map(c => (
-                    <option key={c._id} value={c._id}>{c.name?.en} ({c.name?.np})</option>
-                  ))}
-                </select>
-              </div>
 
+
+            <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-gray-700">Position <span className="text-red-500">*</span></label>
                 <select 

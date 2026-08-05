@@ -152,10 +152,10 @@ export default function ChaptersManagement() {
                   -
                 </div>
                 <div className="col-span-2 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => handleOpenDialog(chapter)}>
+                  <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer" onClick={() => handleOpenDialog(chapter)}>
                     <Edit2 className="w-4 h-4" />
                   </Button>
-                  <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600 hover:bg-red-50" onClick={() => handleDelete(chapter._id)}>
+                  <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer" onClick={() => handleDelete(chapter._id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>

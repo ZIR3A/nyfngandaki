@@ -24,6 +24,11 @@ export async function createMemberAction(formData) {
       slug,
     };
 
+    // Sanitize empty strings for ObjectId fields
+    if (!memberData.committee_id) memberData.committee_id = null;
+    if (!memberData.district) memberData.district = null;
+    if (!memberData.department_id) memberData.department_id = null;
+
     const newMember = await MemberService.createMember(memberData);
     
     // Revalidate public and admin pages
@@ -43,7 +48,14 @@ export async function createMemberAction(formData) {
 
 export async function updateMemberAction(id, formData) {
   try {
-    const updatedMember = await MemberService.updateMember(id, formData);
+    const memberData = { ...formData };
+    
+    // Sanitize empty strings for ObjectId fields
+    if (!memberData.committee_id) memberData.committee_id = null;
+    if (!memberData.district) memberData.district = null;
+    if (!memberData.department_id) memberData.department_id = null;
+
+    const updatedMember = await MemberService.updateMember(id, memberData);
     
     revalidatePath("/admin/members");
     revalidatePath(`/[locale]/members/${updatedMember.slug}`, "page");

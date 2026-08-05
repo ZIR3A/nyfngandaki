@@ -3,7 +3,7 @@
 import React from "react";
 import { DistrictExplorerProvider } from "../contexts/DistrictExplorerContext";
 import { DirectoryHero } from "./DirectoryHero";
-import { ProvinceCommitteeSection } from "./ProvinceCommitteeSection";
+import { DynamicCommitteeSections } from "./DynamicCommitteeSections";
 import { DistrictExplorerSection } from "./DistrictExplorerSection";
 import { DistrictMembersSection } from "./DistrictMembersSection";
 
@@ -14,8 +14,8 @@ export function MembersDirectoryLayout({ isNepali }) {
         {/* 1. Hero Section */}
         <DirectoryHero isNepali={isNepali} />
         
-        {/* 2. Province Committee Section */}
-        <ProvinceCommitteeSection isNepali={isNepali} />
+        {/* 2. Dynamic Committee Sections (Incharge, Province, etc) */}
+        <DynamicCommitteeSections isNepali={isNepali} />
         
         {/* 3. District Explorer */}
         <DistrictExplorerSection isNepali={isNepali} />

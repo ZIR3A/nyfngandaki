@@ -165,10 +165,10 @@ export default function AmendmentsManagement() {
                   </span>
                 </div>
                 <div className="col-span-1 flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600 hover:bg-blue-50">
+                  <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer" onClick={() => handleOpenDialog(amendment)}>
                     <Edit2 className="w-4 h-4" />
                   </Button>
-                  <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600 hover:bg-red-50" onClick={() => handleDelete(amendment._id)}>
+                  <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer" onClick={() => handleDelete(amendment._id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>

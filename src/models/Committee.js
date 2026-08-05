@@ -21,9 +21,14 @@ const CommitteeSchema = new mongoose.Schema(
     },
     organizationLevel: {
       type: String,
-      enum: ["PROVINCE", "DISTRICT"],
+      enum: ["Central", "Province", "District", "PROVINCE", "DISTRICT"],
       required: true,
-      default: "PROVINCE",
+      default: "Province",
+    },
+
+    displayOrder: {
+      type: Number,
+      default: 0,
     },
     status: {
       type: String,

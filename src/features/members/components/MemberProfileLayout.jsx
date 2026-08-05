@@ -20,7 +20,7 @@ export function MemberProfileLayout({ member, relatedMembers, isNepali }) {
   const biography = isNepali ? member.biography?.np || member.biography?.en : member.biography?.en;
   const districtName = member.district?.name ? (isNepali ? member.district.name.np || member.district.name.en : member.district.name.en) : null;
   const districtSlug = member.district?.slug;
-  const orgLevel = member.organizationLevel || "PROVINCE";
+  const orgLevel = member.organizationLevel || "Province";
   const orgBadgeText = orgLevel === "PROVINCE" 
     ? (isNepali ? "प्रदेश कमिटी" : "Province Committee") 
     : (isNepali ? "जिल्ला कमिटी" : "District Committee");
@@ -87,12 +87,9 @@ export function MemberProfileLayout({ member, relatedMembers, isNepali }) {
             <p className="text-xl md:text-2xl font-bold text-primary mt-2">{position}</p>
             
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-6">
-              <div className={`inline-flex items-center gap-2 px-4 py-2 text-white rounded-xl text-sm font-bold ${
-                orgLevel === 'PROVINCE' ? 'bg-blue-600' : 'bg-red-600'
-              }`}>
-                <Award className="w-4 h-4" />
-                {orgBadgeText}
-              </div>
+                  <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold border ${orgLevel === 'Central' ? 'bg-red-50 text-red-700 border-red-100' : (orgLevel === 'Province' || orgLevel === 'PROVINCE') ? 'bg-purple-50 text-purple-700 border-purple-100' : 'bg-orange-50 text-orange-700 border-orange-100'}`}>
+                    {orgLevel === 'Central' ? (isNepali ? 'केन्द्रीय कमिटी' : 'Central Committee') : (orgLevel === 'Province' || orgLevel === 'PROVINCE') ? (isNepali ? 'प्रदेश कमिटी' : 'Province Committee') : (isNepali ? 'जिल्ला कमिटी' : 'District Committee')}
+                  </span>
               
               {districtName && orgLevel === 'DISTRICT' && (
                 <Link 

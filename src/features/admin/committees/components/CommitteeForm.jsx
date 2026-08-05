@@ -5,25 +5,24 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createCommitteeAction, updateCommitteeAction } from "@/actions/committee.actions";
 import { LocalizedInput } from "@/features/admin/about/components/shared/LocalizedInput";
+import { CommitteeDepartmentsTab } from "./CommitteeDepartmentsTab";
+import { toast } from "sonner";
 
 export function CommitteeForm({ initialData = null }) {
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState("basic");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
-    name: {
-      en: initialData?.name?.en || "",
-      np: initialData?.name?.np || "",
-    },
-    organizationLevel: initialData?.organizationLevel || "PROVINCE",
+    name: initialData?.name || { en: "", np: "" },
+    organizationLevel: initialData?.organizationLevel || "Province",
+    displayOrder: initialData?.displayOrder || 0,
     status: initialData?.status || "Active",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       let res;
@@ -34,12 +33,17 @@ export function CommitteeForm({ initialData = null }) {
       }
 
       if (res.success) {
+        toast.success("Success", { description: res.message || "Committee saved successfully." });
         router.push("/admin/committees");
       } else {
-        setError(res.message || "Something went wrong.");
+        toast.error("Error", { 
+          description: res.errors?.length 
+            ? `${res.message}\nDetails: ${res.errors.join(", ")}` 
+            : res.message || "Something went wrong." 
+        });
       }
     } catch (err) {
-      setError(err.message);
+      toast.error("Error", { description: err.message || "An unexpected error occurred." });
     } finally {
       setLoading(false);
     }
@@ -53,14 +57,30 @@ export function CommitteeForm({ initialData = null }) {
         </div>
       </div>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
-          {error}
+
+
+      {initialData && (
+        <div className="flex space-x-1 border-b border-gray-200 mb-6">
+          <button
+            type="button"
+            className={`py-2 px-4 border-b-2 text-sm font-medium ${activeTab === 'basic' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            onClick={() => setActiveTab("basic")}
+          >
+            Basic Information
+          </button>
+          <button
+            type="button"
+            className={`py-2 px-4 border-b-2 text-sm font-medium ${activeTab === 'departments' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            onClick={() => setActiveTab("departments")}
+          >
+            Departments
+          </button>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+      <div style={{ display: activeTab === 'basic' ? 'block' : 'none' }}>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <div className="space-y-6">
             <LocalizedInput
               label="Committee Name"
@@ -78,9 +98,20 @@ export function CommitteeForm({ initialData = null }) {
                 onChange={(e) => setFormData({ ...formData, organizationLevel: e.target.value })}
                 required
               >
-                <option value="PROVINCE">Province</option>
-                <option value="DISTRICT">District</option>
+                <option value="Central">Central</option>
+                <option value="Province">Province</option>
+                <option value="District">District</option>
               </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-gray-700">Display Order (Ascending)</label>
+              <input
+                type="number"
+                className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                value={formData.displayOrder}
+                onChange={(e) => setFormData({ ...formData, displayOrder: parseInt(e.target.value) || 0 })}
+              />
             </div>
 
             <div className="space-y-2">
@@ -105,7 +136,12 @@ export function CommitteeForm({ initialData = null }) {
             {loading ? "Saving..." : "Save Committee"}
           </Button>
         </div>
-      </form>
+        </form>
+      </div>
+
+      {initialData && activeTab === 'departments' && (
+        <CommitteeDepartmentsTab committee={initialData} />
+      )}
     </div>
   );
 }

@@ -1,7 +1,8 @@
 import { PositionService } from "@/services/PositionService";
 import Link from "next/link";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DeletePositionButton } from "@/features/admin/positions/components/DeletePositionButton";
 
 export const metadata = { title: "Manage Positions | NYFN Admin" };
 
@@ -51,10 +52,11 @@ export default async function AdminPositionsPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <Link href={`/admin/positions/${item._id.toString()}/edit`}>
-                        <Button variant="ghost" size="icon" className="text-gray-500 hover:text-blue-600">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer" title="Edit">
                           <Edit className="h-4 w-4" />
                         </Button>
                       </Link>
+                      <DeletePositionButton id={item._id.toString()} />
                     </td>
                   </tr>
                 ))

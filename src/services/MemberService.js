@@ -3,6 +3,7 @@ import Member from "@/models/Member";
 import "@/models/District"; // Required: ensures District schema is registered before populate()
 import "@/models/Committee";
 import "@/models/Position";
+import "@/models/Department";
 import { resolveAssets } from "@/modules/storage/helpers/resolver.helper";
 import { DistrictService } from "@/services/DistrictService";
 
@@ -22,6 +23,7 @@ export class MemberService {
         .sort(sort)
         .populate("district")
         .populate("committee_id")
+        .populate("department_id")
         .populate("position_id")
         .lean();
       return resolveAssets(members, MEMBER_ASSET_MAPPING);
@@ -54,6 +56,7 @@ export class MemberService {
       const member = await Member.findById(id)
         .populate("district")
         .populate("committee_id")
+        .populate("department_id")
         .populate("position_id")
         .lean();
       if (!member) return null;
@@ -73,6 +76,7 @@ export class MemberService {
       const member = await Member.findOne({ slug })
         .populate("district")
         .populate("committee_id")
+        .populate("department_id")
         .populate("position_id")
         .lean();
       if (!member) return null;

@@ -7,16 +7,15 @@ import { ArrowLeft, Save, Loader2, Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
 import { createEvent, updateEvent } from "../actions/event.actions";
 import { MediaPicker } from "@/features/storage/components/MediaPicker";
+import { toast } from "sonner";
 
 export function EventForm({ initialData = null }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     const formData = new FormData(e.target);
     
@@ -29,11 +28,21 @@ export function EventForm({ initialData = null }) {
       result = await createEvent(formData);
     }
 
-    if (result.success) {
-      router.push("/admin/events");
-      router.refresh();
-    } else {
-      setError(result.message);
+    try {
+      if (result.success) {
+        toast.success("Success", { description: result.message || "Event saved successfully." });
+        router.push("/admin/events");
+        router.refresh();
+      } else {
+        toast.error("Error", { 
+          description: result.errors?.length 
+            ? `${result.message}\nDetails: ${result.errors.join(", ")}` 
+            : result.message || "Failed to save event." 
+        });
+      }
+    } catch (err) {
+      toast.error("Error", { description: err.message || "An unexpected error occurred." });
+    } finally {
       setLoading(false);
     }
   }
@@ -63,11 +72,7 @@ export function EventForm({ initialData = null }) {
         </div>
       </div>
 
-      {error && (
-        <div className="bg-red-50 text-red-600 p-4 rounded-xl mb-6 font-medium text-sm border border-red-100">
-          {error}
-        </div>
-      )}
+
 
       <form onSubmit={handleSubmit} className="space-y-6">
         

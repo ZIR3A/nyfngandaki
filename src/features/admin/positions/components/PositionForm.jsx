@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createPositionAction, updatePositionAction } from "@/actions/position.actions";
 import { LocalizedInput } from "@/features/admin/about/components/shared/LocalizedInput";
+import { toast } from "sonner";
 
 export function PositionForm({ initialData = null }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     name: {
@@ -24,7 +24,6 @@ export function PositionForm({ initialData = null }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       let res;
@@ -35,12 +34,17 @@ export function PositionForm({ initialData = null }) {
       }
 
       if (res.success) {
+        toast.success("Success", { description: res.message || "Position saved successfully." });
         router.push("/admin/positions");
       } else {
-        setError(res.message || "Something went wrong.");
+        toast.error("Error", { 
+          description: res.errors?.length 
+            ? `${res.message}\nDetails: ${res.errors.join(", ")}` 
+            : res.message || "Something went wrong." 
+        });
       }
     } catch (err) {
-      setError(err.message);
+      toast.error("Error", { description: err.message || "An unexpected error occurred." });
     } finally {
       setLoading(false);
     }
@@ -54,11 +58,7 @@ export function PositionForm({ initialData = null }) {
         </div>
       </div>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
-          {error}
-        </div>
-      )}
+
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">

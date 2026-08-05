@@ -141,7 +141,7 @@ export const LeadershipMessageForm = ({ initialData = null }) => {
       }
 
       if (res.success) {
-        toast.success(res.message || "Leadership Message saved successfully.");
+        toast.success("Success", { description: res.message || "Leadership Message saved successfully." });
         if (!saveAndContinue) {
           router.push("/admin/leadership-messages");
         } else if (!initialData?._id) {
@@ -149,7 +149,11 @@ export const LeadershipMessageForm = ({ initialData = null }) => {
           router.push(`/admin/leadership-messages/${res.data._id}`);
         }
       } else {
-        toast.error(res.message || "Failed to save message.");
+        toast.error("Error", { 
+          description: res.errors?.length 
+            ? `${res.message}\nDetails: ${res.errors.map(e => e.message || e).join(", ")}` 
+            : res.message || "Failed to save message." 
+        });
         if (res.errors?.length > 0) {
           // Map zod errors to state if applicable
           const apiErrors = {};
@@ -162,7 +166,7 @@ export const LeadershipMessageForm = ({ initialData = null }) => {
         }
       }
     } catch (error) {
-      toast.error("An unexpected error occurred.");
+      toast.error("Error", { description: "An unexpected error occurred." });
     } finally {
       setLoading(false);
     }

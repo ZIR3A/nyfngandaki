@@ -92,6 +92,7 @@ export function AdminMembersTable({ members, districts }) {
               <th className="px-6 py-4">Name (English)</th>
               <th className="px-6 py-4">Level</th>
               <th className="px-6 py-4">Committee</th>
+              <th className="px-6 py-4">Department</th>
               <th className="px-6 py-4">Position</th>
               <th className="px-6 py-4">District</th>
               <th className="px-6 py-4">Status</th>
@@ -101,7 +102,7 @@ export function AdminMembersTable({ members, districts }) {
           <tbody className="divide-y divide-gray-100">
             {filteredMembers.length === 0 ? (
               <tr>
-                <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
+                <td colSpan="8" className="px-6 py-12 text-center text-gray-500">
                   No members found matching your criteria.
                 </td>
               </tr>
@@ -112,18 +113,21 @@ export function AdminMembersTable({ members, districts }) {
                     {member.name?.en || "-"}
                   </td>
                   <td className="px-6 py-4 text-gray-600">
-                    <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-semibold border ${member.organizationLevel === 'PROVINCE' ? 'bg-purple-50 text-purple-700 border-purple-100' : 'bg-orange-50 text-orange-700 border-orange-100'}`}>
-                      {member.organizationLevel || "PROVINCE"}
+                    <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-semibold border ${member.organizationLevel === 'Central' ? 'bg-red-50 text-red-700 border-red-100' : (member.organizationLevel === 'Province' || member.organizationLevel === 'PROVINCE') ? 'bg-purple-50 text-purple-700 border-purple-100' : 'bg-orange-50 text-orange-700 border-orange-100'}`}>
+                      {member.organizationLevel || "Province"}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-gray-600">
                     {member.committee_id?.name?.en || "-"}
                   </td>
                   <td className="px-6 py-4 text-gray-600">
+                    {member.department_id?.name?.en || "-"}
+                  </td>
+                  <td className="px-6 py-4 text-gray-600">
                     {member.position_id?.name?.en || "-"}
                   </td>
                   <td className="px-6 py-4 text-gray-600">
-                    {member.organizationLevel === 'PROVINCE' ? (
+                    {(member.organizationLevel === 'Central' || member.organizationLevel === 'Province' || member.organizationLevel === 'PROVINCE') ? (
                       <span className="text-gray-400 italic">N/A</span>
                     ) : (
                       <span className="inline-flex items-center px-2 py-1 rounded bg-blue-50 text-blue-700 text-xs font-semibold border border-blue-100">
@@ -140,8 +144,8 @@ export function AdminMembersTable({ members, districts }) {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <Link href={`/admin/members/${member._id.toString()}/edit`}>
-                        <Button variant="ghost" size="icon" className="text-gray-500 hover:text-blue-600" title="Edit Member">
+                      <Link href={`/admin/members/${member._id}/edit`}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer" title="Edit">
                           <Edit className="h-4 w-4" />
                         </Button>
                       </Link>

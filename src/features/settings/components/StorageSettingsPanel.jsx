@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { HardDrive, CheckCircle, XCircle, LogOut, RefreshCw, AlertCircle } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const StorageSettingsPanel = () => {
   const [status, setStatus] = useState({
@@ -12,19 +13,17 @@ export const StorageSettingsPanel = () => {
     connectedAt: null,
   });
   const [isDisconnecting, setIsDisconnecting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [successMsg, setSuccessMsg] = useState(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
     // Check for success or error flags in URL after redirect
     if (searchParams.get("success") === "1") {
-      setSuccessMsg("Google Drive connected successfully!");
+      toast.success("Success", { description: "Google Drive connected successfully!" });
       // Clean up URL
       router.replace("/admin/settings/storage");
     } else if (searchParams.get("error")) {
-      setErrorMsg(`Failed to connect: ${searchParams.get("error")}`);
+      toast.error("Error", { description: `Failed to connect: ${searchParams.get("error")}` });
       router.replace("/admin/settings/storage");
     }
 
@@ -44,7 +43,7 @@ export const StorageSettingsPanel = () => {
     } catch (error) {
       console.error("Failed to fetch status", error);
       setStatus((prev) => ({ ...prev, loading: false }));
-      setErrorMsg("Failed to load connection status.");
+      toast.error("Error", { description: "Failed to load connection status." });
     }
   };
 
@@ -55,11 +54,11 @@ export const StorageSettingsPanel = () => {
       if (data.url) {
         window.location.href = data.url; // Redirect to Google Consent Screen
       } else {
-        setErrorMsg("Failed to get connection URL.");
+        toast.error("Error", { description: "Failed to get connection URL." });
       }
     } catch (error) {
       console.error("Connect error", error);
-      setErrorMsg("Could not initiate connection.");
+      toast.error("Error", { description: "Could not initiate connection." });
     }
   };
 
@@ -71,14 +70,14 @@ export const StorageSettingsPanel = () => {
       const res = await fetch("/api/storage/oauth/disconnect", { method: "POST" });
       const data = await res.json();
       if (data.success) {
-        setSuccessMsg("Google Drive disconnected.");
+        toast.success("Success", { description: "Google Drive disconnected." });
         fetchStatus();
       } else {
-        setErrorMsg(data.error || "Failed to disconnect.");
+        toast.error("Error", { description: data.error || "Failed to disconnect." });
       }
     } catch (error) {
       console.error("Disconnect error", error);
-      setErrorMsg("An error occurred while disconnecting.");
+      toast.error("Error", { description: "An error occurred while disconnecting." });
     } finally {
       setIsDisconnecting(false);
     }
@@ -108,19 +107,7 @@ export const StorageSettingsPanel = () => {
       </div>
 
       <div className="p-6 space-y-6">
-        {errorMsg && (
-          <div className="flex items-center gap-2 p-4 text-red-700 bg-red-50 rounded-xl">
-            <AlertCircle className="w-5 h-5 shrink-0" />
-            <p className="text-sm">{errorMsg}</p>
-          </div>
-        )}
-        
-        {successMsg && (
-          <div className="flex items-center gap-2 p-4 text-green-700 bg-green-50 rounded-xl">
-            <CheckCircle className="w-5 h-5 shrink-0" />
-            <p className="text-sm">{successMsg}</p>
-          </div>
-        )}
+
 
         <div className="flex items-center justify-between p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
           <div>

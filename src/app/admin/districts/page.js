@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Edit } from "lucide-react";
 import { DistrictService } from "@/services/DistrictService";
+import { DeleteDistrictButton } from "@/features/admin/districts/components/DeleteDistrictButton";
+import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
@@ -55,13 +57,12 @@ export default async function DistrictsPage() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <Link
-                        href={`/admin/districts/${district._id}`}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors dark:text-blue-400 dark:hover:bg-blue-900/20"
-                        title="Edit"
-                      >
-                        <Pencil className="w-4 h-4" />
+                      <Link href={`/admin/districts/${district._id}`}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer" title="Edit">
+                          <Edit className="w-4 h-4" />
+                        </Button>
                       </Link>
+                      <DeleteDistrictButton id={district._id.toString()} />
                     </div>
                   </td>
                 </tr>

@@ -71,8 +71,9 @@ export function GlobalMemberSearch({ isNepali }) {
   }, [debouncedQuery]);
 
   // Group results
-  const provinceMembers = results.filter(m => m.organizationLevel === 'PROVINCE');
-  const districtMembers = results.filter(m => m.organizationLevel === 'DISTRICT');
+  const centralMembers = results.filter(m => m.organizationLevel === 'Central');
+  const provinceMembers = results.filter(m => m.organizationLevel === 'Province' || m.organizationLevel === 'PROVINCE');
+  const districtMembers = results.filter(m => m.organizationLevel === 'District' || m.organizationLevel === 'DISTRICT');
 
   const highlightText = (text, highlight) => {
     if (!highlight.trim()) {
@@ -126,6 +127,23 @@ export function GlobalMemberSearch({ isNepali }) {
           ) : (
             <div className="py-2">
               
+              {/* Central Results */}
+              {centralMembers.length > 0 && (
+                <div className="mb-4">
+                  <div className="px-4 py-2 bg-gray-50 dark:bg-gray-800/50 flex items-center gap-2">
+                    <Building className="w-4 h-4 text-red-600 dark:text-red-400" />
+                    <h4 className="text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                      {isNepali ? "केन्द्रीय कमिटी" : "Central Committee"}
+                    </h4>
+                  </div>
+                  <ul className="divide-y divide-gray-50 dark:divide-gray-800/50">
+                    {centralMembers.map(member => (
+                      <MemberSearchResultItem key={member._id} member={member} isNepali={isNepali} query={query} highlightText={highlightText} />
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               {/* Province Results */}
               {provinceMembers.length > 0 && (
                 <div className="mb-4">

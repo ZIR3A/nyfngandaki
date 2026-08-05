@@ -6,12 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Save, Loader2, Link as LinkIcon, Image as ImageIcon, MapPin, TrendingUp, Info, User, Zap } from "lucide-react";
 import { updateHomepageSettings } from "../actions/setting.actions";
 import { MediaPicker } from "@/features/storage/components/MediaPicker";
+import { toast } from "sonner";
 
 export function HomepageSettingsForm({ initialData = {} }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
   
   // Initialize stats state
@@ -33,8 +32,6 @@ export function HomepageSettingsForm({ initialData = {} }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setSuccess("");
 
     const formData = new FormData(e.target);
     
@@ -43,15 +40,22 @@ export function HomepageSettingsForm({ initialData = {} }) {
     
     const result = await updateHomepageSettings(formData);
 
-    if (result.success) {
-      setSuccess(result.message);
-      router.refresh();
-      // Scroll to top to see success message
-      window.scrollTo(0, 0);
-    } else {
-      setError(result.message);
+    try {
+      if (result.success) {
+        toast.success("Success", { description: result.message || "Settings updated successfully." });
+        router.refresh();
+      } else {
+        toast.error("Error", { 
+          description: result.errors?.length 
+            ? `${result.message}\nDetails: ${result.errors.join(", ")}` 
+            : result.message || "Failed to update settings." 
+        });
+      }
+    } catch (err) {
+      toast.error("Error", { description: err.message || "An unexpected error occurred." });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
@@ -67,17 +71,7 @@ export function HomepageSettingsForm({ initialData = {} }) {
         </Button>
       </div>
 
-      {error && (
-        <div className="bg-red-50 text-red-600 p-4 rounded-xl mb-6 font-medium text-sm border border-red-100 flex items-center">
-           {error}
-        </div>
-      )}
-      
-      {success && (
-        <div className="bg-green-50 text-green-700 p-4 rounded-xl mb-6 font-medium text-sm border border-green-100 flex items-center">
-           {success}
-        </div>
-      )}
+
 
       <div className="flex flex-col lg:flex-row gap-8">
         

@@ -57,12 +57,11 @@ export async function GET(request) {
     }).select("_id");
     const positionIds = matchedPositions.map(p => p._id);
 
-    // Also match organizationLevel explicitly if user types "province" or "district"
-    const isProvinceMatch = /province|प्रदेश/i.test(q);
-    const isDistrictMatch = /district|जिल्ला/i.test(q);
-    const orgLevelMatches = [];
-    if (isProvinceMatch) orgLevelMatches.push("PROVINCE");
-    if (isDistrictMatch) orgLevelMatches.push("DISTRICT");
+    // Also match organizationLevel explicitly if user types "province", "district", "incharge", or "central"
+    const matchWords = q.toLowerCase().split(' ');
+    const isCentralMatch = matchWords.includes("central") || matchWords.includes("केन्द्रीय");
+    const isProvinceMatch = matchWords.includes("province") || matchWords.includes("प्रदेश") || matchWords.includes("गण्डकी");
+    const isDistrictMatch = matchWords.includes("district") || matchWords.includes("जिल्ला");
 
     const searchCriteria = [
       { "name.en": { $regex: q, $options: "i" } },
@@ -72,7 +71,9 @@ export async function GET(request) {
     if (districtIds.length > 0) searchCriteria.push({ district: { $in: districtIds } });
     if (committeeIds.length > 0) searchCriteria.push({ committee_id: { $in: committeeIds } });
     if (positionIds.length > 0) searchCriteria.push({ position_id: { $in: positionIds } });
-    if (orgLevelMatches.length > 0) searchCriteria.push({ organizationLevel: { $in: orgLevelMatches } });
+    if (isCentralMatch) searchCriteria.push({ organizationLevel: "Central" });
+    if (isProvinceMatch) searchCriteria.push({ organizationLevel: { $in: ["Province", "PROVINCE"] } });
+    if (isDistrictMatch) searchCriteria.push({ organizationLevel: { $in: ["District", "DISTRICT"] } });
 
     const members = await Member.find({
       $or: searchCriteria,

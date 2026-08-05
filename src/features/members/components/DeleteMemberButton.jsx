@@ -33,11 +33,11 @@ export const DeleteMemberButton = ({ id, name }) => {
 
   return (
     <Button 
-      variant="ghost" 
-      size="icon" 
+      variant="ghost"
+      size="icon"
       onClick={handleDelete}
       disabled={isDeleting}
-      className="text-gray-500 hover:text-red-600 disabled:opacity-50"
+      className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer"
       title="Delete Member"
     >
       {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}

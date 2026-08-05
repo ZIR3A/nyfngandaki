@@ -16,13 +16,19 @@ const MemberSchema = new mongoose.Schema(
     },
     organizationLevel: {
       type: String,
-      enum: ["PROVINCE", "DISTRICT"],
+      enum: ["Central", "Province", "District", "PROVINCE", "DISTRICT"],
       required: true,
-      default: "PROVINCE",
+      default: "Province",
     },
+
     committee_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Committee",
+      default: null,
+    },
+    department_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
       default: null,
     },
     position_id: {
