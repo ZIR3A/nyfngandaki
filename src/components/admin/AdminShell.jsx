@@ -68,6 +68,12 @@ export function AdminShell({ children, user }) {
       ]
     },
     {
+      label: "Communications",
+      items: [
+        { name: "Notices", href: `/admin/notices`, icon: Bell },
+      ]
+    },
+    {
       label: "System",
       items: [
         { name: "Users", href: `/admin/users`, icon: UserCog },

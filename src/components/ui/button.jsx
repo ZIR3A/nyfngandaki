@@ -44,13 +44,29 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  asChild = false,
+  children,
   ...props
 }) {
+  if (asChild) {
+    return (
+      <ButtonPrimitive
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        render={children}
+        {...props}
+      />
+    );
+  }
+
   return (
     <ButtonPrimitive
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
-      {...props} />
+      {...props}
+    >
+      {children}
+    </ButtonPrimitive>
   );
 }
 

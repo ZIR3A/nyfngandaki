@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { getAllDistrictsAction } from "@/actions/district.actions";
+import { LocalizedInput } from "@/features/admin/about/components/shared/LocalizedInput";
 
 export default function LocationTab() {
-  const { register, formState: { errors }, getValues, setValue } = useFormContext();
+  const { register, control, formState: { errors }, getValues, setValue } = useFormContext();
   const [districts, setDistricts] = useState([]);
 
   useEffect(() => {
@@ -46,24 +47,23 @@ export default function LocationTab() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Venue Name (English) *</label>
-          <input 
-            {...register("venue.name.en")} 
-            className="w-full px-4 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1546B0]"
-          />
-          {errors.venue?.name?.en && <p className="text-red-500 text-xs">{errors.venue.name.en.message}</p>}
-        </div>
-        
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Venue Name (Nepali) *</label>
-          <input 
-            {...register("venue.name.np")} 
-            className="w-full px-4 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1546B0]"
-          />
-          {errors.venue?.name?.np && <p className="text-red-500 text-xs">{errors.venue.name.np.message}</p>}
-        </div>
+      <div className="mt-4">
+        <Controller
+          name="venue.name"
+          control={control}
+          render={({ field }) => (
+            <div>
+              <LocalizedInput
+                label="Venue Name"
+                value={field.value}
+                onChange={field.onChange}
+                required
+              />
+              {errors.venue?.name?.en && <p className="text-red-500 text-xs mt-1">{errors.venue.name.en.message}</p>}
+              {errors.venue?.name?.np && <p className="text-red-500 text-xs mt-1">{errors.venue.name.np.message}</p>}
+            </div>
+          )}
+        />
       </div>
     </div>
   );

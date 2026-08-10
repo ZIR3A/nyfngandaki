@@ -39,7 +39,7 @@ export async function createMemberAction(formData) {
     revalidatePath("/", "layout");
     revalidateTag("about-page");
     
-    return apiResponse(true, newMember, "Member created successfully.");
+    return apiResponse(true, JSON.parse(JSON.stringify(newMember)), "Member created successfully.");
   } catch (error) {
     console.error("Create Member Error:", error);
     return apiResponse(false, null, "Failed to create member.", [error.message]);
@@ -65,7 +65,7 @@ export async function updateMemberAction(id, formData) {
     revalidatePath("/", "layout");
     revalidateTag("about-page");
     
-    return apiResponse(true, updatedMember, "Member updated successfully.");
+    return apiResponse(true, JSON.parse(JSON.stringify(updatedMember)), "Member updated successfully.");
   } catch (error) {
     console.error("Update Member Error:", error);
     return apiResponse(false, null, "Failed to update member.", [error.message]);
@@ -113,7 +113,7 @@ export async function searchMembersAction(query) {
       status: m.status,
     })).slice(0, 20); // Limit to top 20 matches for the dropdown
 
-    return apiResponse(true, slimMembers, "Members fetched successfully.");
+    return apiResponse(true, JSON.parse(JSON.stringify(slimMembers)), "Members fetched successfully.");
   } catch (error) {
     console.error("Search Members Error:", error);
     return apiResponse(false, [], "Failed to search members.", [error.message]);

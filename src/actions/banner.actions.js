@@ -18,7 +18,7 @@ export async function createBannerAction(formData) {
     revalidatePath("/admin/banners");
     revalidatePath("/", "layout");
     
-    return apiResponse(true, newBanner, "Banner created successfully.");
+    return apiResponse(true, JSON.parse(JSON.stringify(newBanner)), "Banner created successfully.");
   } catch (error) {
     console.error("Create Banner Error:", error);
     require('fs').writeFileSync('error.log', error.stack + '\n\nData received:\n' + JSON.stringify(formData, null, 2));
@@ -33,7 +33,7 @@ export async function updateBannerAction(id, formData) {
     revalidatePath("/admin/banners");
     revalidatePath("/", "layout");
     
-    return apiResponse(true, updatedBanner, "Banner updated successfully.");
+    return apiResponse(true, JSON.parse(JSON.stringify(updatedBanner)), "Banner updated successfully.");
   } catch (error) {
     console.error("Update Banner Error:", error);
     return apiResponse(false, null, "Failed to update banner.", [error.message]);

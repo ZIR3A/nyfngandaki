@@ -34,7 +34,23 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
     profilePhotoId: initialData?.profilePhotoId || null,
     coverPhotoId: initialData?.coverPhotoId || null,
     district: initialData?.district?._id || initialData?.district || "",
+    committee_id: initialData?.committee_id?._id || initialData?.committee_id || "",
+    department_id: initialData?.department_id?._id || initialData?.department_id || "",
   });
+
+  const [departments, setDepartments] = useState([]);
+
+  useEffect(() => {
+    if (formData.committee_id) {
+      getDepartmentsAction(formData.committee_id).then((res) => {
+        if (res.success) {
+          setDepartments(res.data);
+        }
+      });
+    } else {
+      setDepartments([]);
+    }
+  }, [formData.committee_id]);
 
 
 
@@ -274,6 +290,37 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
             </div>
 
 
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Committee</label>
+                <select 
+                  className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  value={formData.committee_id}
+                  onChange={(e) => setFormData({...formData, committee_id: e.target.value, department_id: ""})}
+                >
+                  <option value="">-- Select a Committee --</option>
+                  {committees.map(c => (
+                    <option key={c._id} value={c._id}>{c.name?.en} ({c.name?.np})</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Department</label>
+                <select 
+                  className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  value={formData.department_id}
+                  onChange={(e) => setFormData({...formData, department_id: e.target.value})}
+                  disabled={!formData.committee_id}
+                >
+                  <option value="">-- Select a Department --</option>
+                  {departments.map(d => (
+                    <option key={d._id} value={d._id}>{d.name?.en} ({d.name?.np})</option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">

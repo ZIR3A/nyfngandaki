@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { getCategoriesAction } from "@/features/events/actions/event.actions";
 import { EVENT_STATUS } from "@/features/events/constants/event.constants";
+import { LocalizedInput } from "@/features/admin/about/components/shared/LocalizedInput";
 
 export default function BasicTab() {
-  const { register, formState: { errors }, getValues, setValue } = useFormContext();
+  const { register, control, formState: { errors }, getValues, setValue } = useFormContext();
   const [categories, setCategories] = useState([]);
   
   useEffect(() => {
@@ -33,24 +34,24 @@ export default function BasicTab() {
       <h3 className="text-lg font-bold text-slate-900 dark:text-white">Basic Information</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Event Title (English) *</label>
-          <input 
-            {...register("title.en")} 
-            className="w-full px-4 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1546B0]"
-            placeholder="e.g. Annual Youth Summit 2026"
+        <div className="md:col-span-2">
+          <Controller
+            name="title"
+            control={control}
+            render={({ field }) => (
+              <div>
+                <LocalizedInput
+                  label="Event Title"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder={{ en: "e.g. Annual Youth Summit 2026", np: "उदाहरण: वार्षिक युवा शिखर सम्मेलन २०२६" }}
+                  required
+                />
+                {errors.title?.en && <p className="text-red-500 text-xs mt-1">{errors.title.en.message}</p>}
+                {errors.title?.np && <p className="text-red-500 text-xs mt-1">{errors.title.np.message}</p>}
+              </div>
+            )}
           />
-          {errors.title?.en && <p className="text-red-500 text-xs">{errors.title.en.message}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Event Title (Nepali) *</label>
-          <input 
-            {...register("title.np")} 
-            className="w-full px-4 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1546B0]"
-            placeholder="उदाहरण: वार्षिक युवा शिखर सम्मेलन २०२६"
-          />
-          {errors.title?.np && <p className="text-red-500 text-xs">{errors.title.np.message}</p>}
         </div>
         
         <div className="space-y-2">
@@ -80,24 +81,23 @@ export default function BasicTab() {
           {errors.status && <p className="text-red-500 text-xs">{errors.status.message}</p>}
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Organizer (English)</label>
-          <input 
-            {...register("organizer.en")} 
-            className="w-full px-4 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1546B0]"
-            placeholder="e.g. NYFN Gandaki Committee"
+        <div className="md:col-span-2 mt-4">
+          <Controller
+            name="organizer"
+            control={control}
+            render={({ field }) => (
+              <div>
+                <LocalizedInput
+                  label="Organizer"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder={{ en: "e.g. NYFN Gandaki Committee", np: "उदा. राष्ट्रिय युवा संघ नेपाल, गण्डकी प्रदेश" }}
+                />
+                {errors.organizer?.en && <p className="text-red-500 text-xs mt-1">{errors.organizer.en.message}</p>}
+                {errors.organizer?.np && <p className="text-red-500 text-xs mt-1">{errors.organizer.np.message}</p>}
+              </div>
+            )}
           />
-          {errors.organizer?.en && <p className="text-red-500 text-xs">{errors.organizer.en.message}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Organizer (Nepali)</label>
-          <input 
-            {...register("organizer.np")} 
-            className="w-full px-4 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1546B0]"
-            placeholder="उदा. राष्ट्रिय युवा संघ नेपाल, गण्डकी प्रदेश"
-          />
-          {errors.organizer?.np && <p className="text-red-500 text-xs">{errors.organizer.np.message}</p>}
         </div>
       </div>
     </div>

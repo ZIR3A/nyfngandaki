@@ -1,6 +1,7 @@
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
+import { InitialNoticePopup } from "@/components/notices/InitialNoticePopup";
 
 export function PublicLayout({ children, settings }) {
   return (
@@ -11,6 +12,7 @@ export function PublicLayout({ children, settings }) {
       </main>
       <Footer settings={settings} />
       <ScrollToTop />
+      <InitialNoticePopup />
     </div>
   );
 }

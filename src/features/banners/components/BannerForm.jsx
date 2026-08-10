@@ -3,56 +3,41 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { createBannerAction, updateBannerAction } from "@/actions/banner.actions";
 import { MediaPicker } from "@/features/storage/components/MediaPicker";
+import { LocalizedInput } from "@/features/admin/about/components/shared/LocalizedInput";
+import { LocalizedTextarea } from "@/features/admin/about/components/shared/LocalizedTextarea";
 import { toast } from "sonner";
 
 export function BannerForm({ initialData = null }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  const [formData, setFormData] = useState({
+    title: initialData?.title || { en: "", np: "" },
+    subtitle: initialData?.subtitle || { en: "", np: "" },
+    description: initialData?.description || { en: "", np: "" },
+    primaryButtonText: initialData?.primaryButtonText || { en: "About Us", np: "हाम्रो बारे" },
+    primaryButtonLink: initialData?.primaryButtonLink || "/about",
+    secondaryButtonText: initialData?.secondaryButtonText || { en: "Our History", np: "हाम्रो इतिहास" },
+    secondaryButtonLink: initialData?.secondaryButtonLink || "/about#history",
+    order: initialData?.order || 0,
+    isActive: initialData ? initialData.isActive : true,
+    imageId: initialData?.imageId || null,
+  });
+
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
-    const formData = new FormData(e.target);
-    
-    // Convert to structured object for the server action
-    const data = {
-      title: {
-        en: formData.get("title.en"),
-        np: formData.get("title.np"),
-      },
-      subtitle: {
-        en: formData.get("subtitle.en"),
-        np: formData.get("subtitle.np"),
-      },
-      description: {
-        en: formData.get("description.en"),
-        np: formData.get("description.np"),
-      },
-      primaryButtonText: {
-        en: formData.get("primaryButtonText.en"),
-        np: formData.get("primaryButtonText.np"),
-      },
-      primaryButtonLink: formData.get("primaryButtonLink"),
-      secondaryButtonText: {
-        en: formData.get("secondaryButtonText.en"),
-        np: formData.get("secondaryButtonText.np"),
-      },
-      secondaryButtonLink: formData.get("secondaryButtonLink"),
-      order: parseInt(formData.get("order")) || 0,
-      isActive: formData.get("isActive") === "on",
-      imageId: formData.get("imageId") || null,
-    };
-
     let result;
     if (initialData?._id) {
-      result = await updateBannerAction(initialData._id, data);
+      result = await updateBannerAction(initialData._id, formData);
     } else {
-      result = await createBannerAction(data);
+      result = await createBannerAction(formData);
     }
 
     try {
@@ -92,116 +77,99 @@ export function BannerForm({ initialData = null }) {
         </div>
       </div>
 
-
-
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
         
         {/* Dual Language Inputs */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-            <h3 className="font-bold text-gray-900">Banner Content (Bilingual)</h3>
-          </div>
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Banner Content (Bilingual)</h3>
           
-          <div className="p-6 space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* English */}
-              <div className="space-y-4">
-                <h4 className="font-bold text-sm text-[#1546B0] uppercase tracking-wider">English Content</h4>
-                
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Title (EN) *</label>
-                  <input required type="text" name="title.en" defaultValue={initialData?.title?.en || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Subtitle (EN) *</label>
-                  <input required type="text" name="subtitle.en" defaultValue={initialData?.subtitle?.en || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
-                </div>
+          <div className="space-y-8">
+            <LocalizedInput
+              label="Title"
+              value={formData.title}
+              onChange={(val) => setFormData({ ...formData, title: val })}
+              required
+            />
+            
+            <LocalizedInput
+              label="Subtitle"
+              value={formData.subtitle}
+              onChange={(val) => setFormData({ ...formData, subtitle: val })}
+              required
+            />
 
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Description (EN)</label>
-                  <textarea name="description.en" defaultValue={initialData?.description?.en || ""} rows={3} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"></textarea>
-                </div>
-              </div>
-
-              {/* Nepali */}
-              <div className="space-y-4">
-                <h4 className="font-bold text-sm text-[#D71920] uppercase tracking-wider">Nepali Content</h4>
-                
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Title (NP) *</label>
-                  <input required type="text" name="title.np" defaultValue={initialData?.title?.np || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500" />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Subtitle (NP) *</label>
-                  <input required type="text" name="subtitle.np" defaultValue={initialData?.subtitle?.np || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500" />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Description (NP)</label>
-                  <textarea name="description.np" defaultValue={initialData?.description?.np || ""} rows={3} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500"></textarea>
-                </div>
-              </div>
-            </div>
+            <LocalizedTextarea
+              label="Description"
+              value={formData.description}
+              onChange={(val) => setFormData({ ...formData, description: val })}
+              rows={3}
+            />
           </div>
         </div>
 
         {/* Action Buttons & Image */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-            <h3 className="font-bold text-gray-900">Buttons & Image</h3>
-          </div>
-          <div className="p-6 grid md:grid-cols-2 gap-6">
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Buttons & Image</h3>
+          
+          <div className="grid md:grid-cols-2 gap-8">
             
-            <div className="space-y-4">
-              <h4 className="font-bold text-sm text-gray-600">Primary Button</h4>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Text (EN)</label>
-                  <input type="text" name="primaryButtonText.en" defaultValue={initialData?.primaryButtonText?.en || "About Us"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <h4 className="font-bold text-sm text-gray-700 border-b pb-1">Primary Button</h4>
+                <LocalizedInput
+                  label="Text"
+                  value={formData.primaryButtonText}
+                  onChange={(val) => setFormData({ ...formData, primaryButtonText: val })}
+                />
+                <div className="space-y-2">
+                  <label className="block text-sm font-bold text-gray-700">Link URL</label>
+                  <Input 
+                    type="text" 
+                    value={formData.primaryButtonLink}
+                    onChange={(e) => setFormData({ ...formData, primaryButtonLink: e.target.value })}
+                  />
                 </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Text (NP)</label>
-                  <input type="text" name="primaryButtonText.np" defaultValue={initialData?.primaryButtonText?.np || "हाम्रो बारे"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Link URL</label>
-                <input type="text" name="primaryButtonLink" defaultValue={initialData?.primaryButtonLink || "/about"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
               </div>
 
-              <h4 className="font-bold text-sm text-gray-600 mt-6">Secondary Button</h4>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Text (EN)</label>
-                  <input type="text" name="secondaryButtonText.en" defaultValue={initialData?.secondaryButtonText?.en || "Our History"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
+              <div className="space-y-4 pt-4">
+                <h4 className="font-bold text-sm text-gray-700 border-b pb-1">Secondary Button</h4>
+                <LocalizedInput
+                  label="Text"
+                  value={formData.secondaryButtonText}
+                  onChange={(val) => setFormData({ ...formData, secondaryButtonText: val })}
+                />
+                <div className="space-y-2">
+                  <label className="block text-sm font-bold text-gray-700">Link URL</label>
+                  <Input 
+                    type="text" 
+                    value={formData.secondaryButtonLink}
+                    onChange={(e) => setFormData({ ...formData, secondaryButtonLink: e.target.value })}
+                  />
                 </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Text (NP)</label>
-                  <input type="text" name="secondaryButtonText.np" defaultValue={initialData?.secondaryButtonText?.np || "हाम्रो इतिहास"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Link URL</label>
-                <input type="text" name="secondaryButtonLink" defaultValue={initialData?.secondaryButtonLink || "/about#history"} className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm" />
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">Banner Image *</label>
                 <MediaPicker 
                   name="imageId" 
                   module="banners" 
-                  initialData={initialData?.imageAsset} 
+                  initialData={initialData?.imageAsset}
+                  onUpload={(asset) => setFormData((fd) => ({ ...fd, imageId: asset._id }))}
+                  onRemove={() => setFormData((fd) => ({ ...fd, imageId: null }))}
                 />
                 <p className="text-xs text-gray-500 mt-2">Full width landscape image.</p>
               </div>
 
               <div className="pt-4 border-t border-gray-100">
                 <label className="flex items-center space-x-3 cursor-pointer">
-                  <input type="checkbox" name="isActive" defaultChecked={initialData ? initialData.isActive : true} className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500" />
+                  <input 
+                    type="checkbox" 
+                    checked={formData.isActive}
+                    onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                    className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500" 
+                  />
                   <div>
                     <span className="block font-bold text-gray-900 text-sm">Active</span>
                     <span className="block text-xs text-gray-500">Show this banner on the homepage.</span>
@@ -211,7 +179,11 @@ export function BannerForm({ initialData = null }) {
 
               <div>
                  <label className="block text-sm font-bold text-gray-700 mb-1">Display Order</label>
-                 <input type="number" name="order" defaultValue={initialData?.order || 0} className="w-32 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
+                 <Input 
+                   type="number" 
+                   value={formData.order}
+                   onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
+                 />
                  <p className="text-xs text-gray-500 mt-1">Lower numbers appear first.</p>
               </div>
             </div>
