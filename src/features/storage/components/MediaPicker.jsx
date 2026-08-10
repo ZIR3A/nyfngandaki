@@ -297,15 +297,21 @@ function MediaLibraryModal({ module, multiple, selectedIds, onSelect, onClose })
         </div>
         {/* Search */}
         <div className="px-6 py-3 border-b border-gray-100 dark:border-gray-800 shrink-0">
-          <form onSubmit={handleSearch} className="relative">
+          <div className="relative">
             <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSearch(e);
+                }
+              }}
               placeholder="Search files…"
               className="w-full pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
             />
-          </form>
+          </div>
         </div>
         {/* Grid */}
         <div className="flex-1 overflow-y-auto p-6">

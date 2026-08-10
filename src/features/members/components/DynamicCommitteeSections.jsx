@@ -10,18 +10,57 @@ function CommitteeSection({ committee, isNepali }) {
   const members = committee.members || [];
   const departments = committee.departments || [];
 
-  // Group members by displayGroup or weight === 1
-  const featuredMembers = members.filter(m => {
-    if (m.position_id?.weight === 1 || m.position_id?.displayGroup === "featured") return true;
+  const isCentralCommittee = committee.organizationLevel === "Central" || committee.organizationLevel === "CENTRAL" || committee.name?.en?.toLowerCase().includes("central");
+
+  // Find the absolute top main leader based on committee type
+  const mainLeader = members.find(m => {
     const posNameEn = m.position_id?.name?.en || m.position?.en || "";
-    return posNameEn.toLowerCase() === "president" || posNameEn.toLowerCase() === "incharge" || posNameEn.toLowerCase().includes("incharge");
+    const posLower = posNameEn.toLowerCase().trim();
+    
+    if (isCentralCommittee) {
+      // Province Incharge is the main person on central committee. 
+      // Strictly avoid 'sub incharge', 'sahaincharge', etc.
+      return posLower === "incharge" || posLower === "province incharge" || posLower === "provience incharge";
+    } else {
+      // For province or other committees, President is usually the main person
+      return posLower === "president";
+    }
+  });
+
+  // Other featured members but excluding the mainLeader
+  const featuredMembers = members.filter(m => {
+    if (mainLeader && m._id === mainLeader._id) return false;
+    
+    const posNameEn = m.position_id?.name?.en || m.position?.en || "";
+    const posLower = posNameEn.toLowerCase().trim();
+    
+    // Explicitly reject sub incharge from getting the featured large card
+    if (posLower.includes("sub") || posLower.includes("deputy") || posLower.includes("saha")) {
+      return false;
+    }
+    
+    if (m.position_id?.weight === 1 || m.position_id?.displayGroup === "featured") return true;
+    
+    // If President is already mainLeader, feature the strict Incharge here, or vice versa
+    return posLower === "president" || posLower === "incharge" || posLower === "province incharge" || posLower === "provience incharge";
   });
   
-  const restMembers = members.filter(m => !featuredMembers.includes(m));
+  const restMembers = members.filter(m => 
+    (!mainLeader || m._id !== mainLeader._id) && !featuredMembers.includes(m)
+  );
 
   const totalToShow = isExpanded ? members.length : 11;
-  const visibleFeatured = featuredMembers.slice(0, totalToShow);
-  const visibleRest = restMembers.slice(0, Math.max(0, totalToShow - visibleFeatured.length));
+  
+  // We need to carefully slice the arrays based on totalToShow.
+  let remainingQuota = totalToShow;
+  
+  const showMainLeader = mainLeader && remainingQuota > 0;
+  if (showMainLeader) remainingQuota--;
+  
+  const visibleFeatured = featuredMembers.slice(0, remainingQuota);
+  remainingQuota -= visibleFeatured.length;
+  
+  const visibleRest = restMembers.slice(0, Math.max(0, remainingQuota));
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -39,16 +78,18 @@ function CommitteeSection({ committee, isNepali }) {
   return (
     <section className="py-24 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-900 last:border-0">
       <div className="container mx-auto px-4 max-w-7xl">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 tracking-tight">
-            {isNepali ? committee.name?.np : committee.name?.en}
-          </h2>
-          {committee.description && (
-            <p className="text-lg text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
-              {isNepali ? committee.description?.np : committee.description?.en}
-            </p>
-          )}
-        </div>
+        {!isCentralCommittee && (
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 tracking-tight">
+              {isNepali ? committee.name?.np : committee.name?.en}
+            </h2>
+            {committee.description && (
+              <p className="text-lg text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+                {isNepali ? committee.description?.np : committee.description?.en}
+              </p>
+            )}
+          </div>
+        )}
 
         <motion.div 
           variants={containerVariants}
@@ -57,6 +98,14 @@ function CommitteeSection({ committee, isNepali }) {
           viewport={{ once: true, margin: "-100px" }}
           className="flex flex-col gap-12"
         >
+          {showMainLeader && (
+            <div className="flex flex-col items-center mb-4">
+              <motion.div variants={itemVariants} className="w-full sm:w-[360px]">
+                <FeaturedLeaderCard member={mainLeader} isNepali={isNepali} />
+              </motion.div>
+            </div>
+          )}
+
           {visibleFeatured.length > 0 && (
             <div className="flex flex-col items-center">
               <div className="flex flex-wrap justify-center w-full gap-6 md:gap-8">
@@ -69,13 +118,15 @@ function CommitteeSection({ committee, isNepali }) {
             </div>
           )}
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-            {visibleRest.map(member => (
-              <motion.div key={member._id} variants={itemVariants} className="w-full">
-                <MemberCard member={member} isNepali={isNepali} />
-              </motion.div>
-            ))}
-          </div>
+          {visibleRest.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+              {visibleRest.map(member => (
+                <motion.div key={member._id} variants={itemVariants} className="w-full">
+                  <MemberCard member={member} isNepali={isNepali} />
+                </motion.div>
+              ))}
+            </div>
+          )}
 
           {/* View More CTA */}
           {members.length > 11 && !isExpanded && (

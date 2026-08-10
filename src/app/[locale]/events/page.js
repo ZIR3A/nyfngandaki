@@ -59,10 +59,11 @@ export default async function EventsPage({ params, searchParams }) {
     eventService.getEventStats()
   ]);
 
-  const events = gridData.events;
+  const events = JSON.parse(JSON.stringify(gridData.events));
   const pagination = gridData.pagination;
-  const featuredEvent = featuredEventsData.events[0];
-  const categories = Array.isArray(categoriesData) ? categoriesData : (categoriesData?.categories || []);
+  const featuredEvent = featuredEventsData.events[0] ? JSON.parse(JSON.stringify(featuredEventsData.events[0])) : null;
+  const rawCategories = Array.isArray(categoriesData) ? categoriesData : (categoriesData?.categories || []);
+  const categories = JSON.parse(JSON.stringify(rawCategories));
   
   const statsPills = [
     {

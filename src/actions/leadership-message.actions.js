@@ -23,7 +23,9 @@ export async function createLeadershipMessageAction(formData) {
     revalidateTag("about-page");
     revalidateTag("homepage");
     
-    return apiResponse(true, newMessage, "Leadership message created successfully.");
+    // Serialize Mongoose document for Next.js Client Components
+    const plainMessage = JSON.parse(JSON.stringify(newMessage));
+    return apiResponse(true, plainMessage, "Leadership message created successfully.");
   } catch (error) {
     console.error("Create Leadership Message Error:", error);
     if (error.name === "ZodError") {
@@ -48,7 +50,9 @@ export async function updateLeadershipMessageAction(id, formData) {
     revalidateTag("about-page");
     revalidateTag("homepage");
     
-    return apiResponse(true, updatedMessage, "Leadership message updated successfully.");
+    // Serialize Mongoose document for Next.js Client Components
+    const plainMessage = JSON.parse(JSON.stringify(updatedMessage));
+    return apiResponse(true, plainMessage, "Leadership message updated successfully.");
   } catch (error) {
     console.error("Update Leadership Message Error:", error);
     if (error.name === "ZodError") {
