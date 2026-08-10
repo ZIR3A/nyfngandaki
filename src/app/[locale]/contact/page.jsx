@@ -27,7 +27,7 @@ export default async function ContactPage({ params }) {
         title={dict.contact.intro.heading}
         subtitle={dict.contact.intro.description}
         label={dict.contact.intro.eyebrow}
-        breadcrumbs={[
+        breadcrumbItems={[
           { label: dict.navigation.home, href: `/${locale}` },
           { label: dict.contact.title }
         ]}

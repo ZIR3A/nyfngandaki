@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useLanguage } from "@/localization/LanguageContext";
-import { Globe, MessageCircle, Share2, Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
 import { Container } from "./Container";
 import { Button } from "../ui/button";
 
@@ -11,8 +12,10 @@ export function Footer({ settings }) {
   const currentYear = new Date().getFullYear();
 
   // Dynamic Contact info
-  const phone = settings?.contact?.phone || "+977 1234567890";
-  const email = settings?.contact?.email || "info@nyfngandaki.org";
+  const primaryPhone = settings?.contact?.phones?.find(p => p.isPrimary) || settings?.contact?.phones?.[0];
+  const primaryEmail = settings?.contact?.emails?.find(e => e.isPrimary) || settings?.contact?.emails?.[0];
+  const phone = primaryPhone?.number || "";
+  const email = primaryEmail?.address || "";
   const address = settings?.contact?.address?.[language] || "Pokhara, Gandaki Province, Nepal";
   const orgName = settings?.organizationName?.[language] || "NYFN Gandaki";
 
@@ -28,15 +31,31 @@ export function Footer({ settings }) {
               National Youth Federation Nepal is the largest youth organization dedicated to social transformation and leadership development.
             </p>
             <div className="flex space-x-4 pt-2">
-              <a href={settings?.socialLinks?.facebook || "#"} aria-label="Facebook" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary active:text-accent transition-colors">
-                <Globe className="w-5 h-5" />
-              </a>
-              <a href={settings?.socialLinks?.twitter || "#"} aria-label="Twitter" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary active:text-accent transition-colors">
-                <MessageCircle className="w-5 h-5" />
-              </a>
-              <a href={settings?.socialLinks?.youtube || "#"} aria-label="Youtube" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary active:text-accent transition-colors">
-                <Share2 className="w-5 h-5" />
-              </a>
+              {settings?.socialLinks?.facebook && (
+                <a href={settings.socialLinks.facebook} aria-label="Facebook" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary active:text-accent transition-colors">
+                  <FaFacebook className="w-5 h-5" />
+                </a>
+              )}
+              {settings?.socialLinks?.twitter && (
+                <a href={settings.socialLinks.twitter} aria-label="Twitter" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary active:text-accent transition-colors">
+                  <FaTwitter className="w-5 h-5" />
+                </a>
+              )}
+              {settings?.socialLinks?.instagram && (
+                <a href={settings.socialLinks.instagram} aria-label="Instagram" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary active:text-accent transition-colors">
+                  <FaInstagram className="w-5 h-5" />
+                </a>
+              )}
+              {settings?.socialLinks?.youtube && (
+                <a href={settings.socialLinks.youtube} aria-label="Youtube" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary active:text-accent transition-colors">
+                  <FaYoutube className="w-5 h-5" />
+                </a>
+              )}
+              {settings?.socialLinks?.tiktok && (
+                <a href={settings.socialLinks.tiktok} aria-label="TikTok" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary active:text-accent transition-colors">
+                  <FaTiktok className="w-5 h-5" />
+                </a>
+              )}
             </div>
           </div>
 
@@ -55,18 +74,24 @@ export function Footer({ settings }) {
           <div className="lg:col-span-1">
             <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">{language === 'en' ? 'Office Info' : 'कार्यालय जानकारी'}</h4>
             <ul className="space-y-4 text-sm text-gray-400">
-              <li className="flex items-start">
-                <MapPin className="w-4 h-4 mr-3 mt-0.5 text-primary shrink-0" />
-                <span>{address}</span>
-              </li>
-              <li className="flex items-center">
-                <Phone className="w-4 h-4 mr-3 text-primary shrink-0" />
-                <span>{phone}</span>
-              </li>
-              <li className="flex items-center">
-                <Mail className="w-4 h-4 mr-3 text-primary shrink-0" />
-                <span>{email}</span>
-              </li>
+              {address && (
+                <li className="flex items-start">
+                  <MapPin className="w-4 h-4 mr-3 mt-0.5 text-primary shrink-0" />
+                  <span>{address}</span>
+                </li>
+              )}
+              {phone && (
+                <li className="flex items-center">
+                  <Phone className="w-4 h-4 mr-3 text-primary shrink-0" />
+                  <a href={`tel:${phone}`} className="hover:text-primary transition-colors">{phone}</a>
+                </li>
+              )}
+              {email && (
+                <li className="flex items-center">
+                  <Mail className="w-4 h-4 mr-3 text-primary shrink-0" />
+                  <a href={`mailto:${email}`} className="hover:text-primary transition-colors">{email}</a>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -80,25 +105,17 @@ export function Footer({ settings }) {
               <li><Link href={`/${language}/terms`} className="hover:text-primary transition-colors">{language === 'en' ? 'Terms of Service' : 'सेवाका सर्तहरू'}</Link></li>
             </ul>
           </div>
-
-          {/* Column 5: Newsletter / Updates (New) */}
+          {/* Column 5: Contact Us CTA */}
           <div className="lg:col-span-1 space-y-4">
-            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Join Our Network</h4>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Stay updated with our latest activities, news, and opportunities in Gandaki Province.
+            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">{language === 'en' ? 'Get In Touch' : 'सम्पर्क गर्नुहोस्'}</h4>
+            <p className="text-gray-400 text-sm leading-relaxed mb-4">
+              {language === 'en' ? 'Have questions or want to collaborate? Reach out to our team.' : 'कुनै प्रश्न छ वा सहकार्य गर्न चाहनुहुन्छ? हाम्रो टोलीलाई सम्पर्क गर्नुहोस्।'}
             </p>
-            <form className="mt-4 flex flex-col space-y-3" onSubmit={(e) => e.preventDefault()}>
-              <input 
-                type="email" 
-                placeholder="Your email address" 
-                className="bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                required
-              />
-              <Button type="submit" className="w-full bg-primary hover:bg-accent text-white rounded-lg flex items-center justify-center transition-colors">
-                <Send className="w-4 h-4 mr-2" />
-                Subscribe
-              </Button>
-            </form>
+            <Button asChild className="w-full bg-primary hover:bg-accent text-white rounded-lg flex items-center justify-center transition-colors">
+              <Link href={`/${language}/contact`}>
+                {language === 'en' ? 'Contact Us' : 'सम्पर्क गर्नुहोस्'}
+              </Link>
+            </Button>
           </div>
 
         </div>

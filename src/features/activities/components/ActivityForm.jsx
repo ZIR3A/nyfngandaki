@@ -58,10 +58,10 @@ export function ActivityForm({ initialData = null }) {
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-900">
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
             {initialData ? "Edit Activity" : "Create New Activity"}
           </h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">
             Fill in the details for the social impact activity in both English and Nepali.
           </p>
         </div>
@@ -72,9 +72,9 @@ export function ActivityForm({ initialData = null }) {
       <form onSubmit={handleSubmit} className="space-y-6">
         
         {/* Dual Language Inputs */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-            <h3 className="font-bold text-gray-900">Content Details</h3>
+        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-800 bg-gray-50 dark:bg-slate-900/50">
+            <h3 className="font-bold text-gray-900 dark:text-white">Content Details</h3>
           </div>
           
           <div className="p-6 space-y-6">
@@ -84,13 +84,13 @@ export function ActivityForm({ initialData = null }) {
                 <h4 className="font-bold text-sm text-[#1546B0] uppercase tracking-wider">English Content</h4>
                 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Title (EN) *</label>
-                  <input required type="text" name="title.en" defaultValue={initialData?.title?.en || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="e.g. Blood Donation Camp" />
+                  <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1">Title (EN) *</label>
+                  <input required type="text" name="title.en" defaultValue={initialData?.title?.en || ""} className="w-full px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="e.g. Blood Donation Camp" />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Description (EN)</label>
-                  <textarea name="description.en" defaultValue={initialData?.description?.en || ""} rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="Describe the activity..."></textarea>
+                  <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1">Description (EN)</label>
+                  <textarea name="description.en" defaultValue={initialData?.description?.en || ""} rows={4} className="w-full px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="Describe the activity..."></textarea>
                 </div>
               </div>
 
@@ -99,13 +99,13 @@ export function ActivityForm({ initialData = null }) {
                 <h4 className="font-bold text-sm text-[#D71920] uppercase tracking-wider">Nepali Content</h4>
                 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Title (NP) *</label>
-                  <input required type="text" name="title.np" defaultValue={initialData?.title?.np || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500" placeholder="उदा. रक्तदान कार्यक्रम" />
+                  <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1">Title (NP) *</label>
+                  <input required type="text" name="title.np" defaultValue={initialData?.title?.np || ""} className="w-full px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500" placeholder="उदा. रक्तदान कार्यक्रम" />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Description (NP)</label>
-                  <textarea name="description.np" defaultValue={initialData?.description?.np || ""} rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500" placeholder="गतिविधिको बारेमा वर्णन गर्नुहोस्..."></textarea>
+                  <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1">Description (NP)</label>
+                  <textarea name="description.np" defaultValue={initialData?.description?.np || ""} rows={4} className="w-full px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg focus:ring-2 focus:ring-red-500/20 focus:border-red-500" placeholder="गतिविधिको बारेमा वर्णन गर्नुहोस्..."></textarea>
                 </div>
               </div>
             </div>
@@ -115,14 +115,14 @@ export function ActivityForm({ initialData = null }) {
         {/* Settings & Statistics */}
         <div className="grid md:grid-cols-2 gap-6">
           
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-              <h3 className="font-bold text-gray-900">Activity Properties</h3>
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-800 bg-gray-50 dark:bg-slate-900/50">
+              <h3 className="font-bold text-gray-900 dark:text-white">Activity Properties</h3>
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Activity Type *</label>
-                <select required name="type" defaultValue={initialData?.type || "Social"} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1">Activity Type *</label>
+                <select required name="type" defaultValue={initialData?.type || "Social"} className="w-full px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
                   <option value="Social">Social</option>
                   <option value="Health">Health</option>
                   <option value="Education">Education</option>
@@ -133,51 +133,51 @@ export function ActivityForm({ initialData = null }) {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Image</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1">Image</label>
                 <MediaPicker name="imageId" module="temp" />
-                <p className="text-xs text-gray-500 mt-1">Upload an image for this activity.</p>
+                <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">Upload an image for this activity.</p>
               </div>
 
-              <div className="pt-4 space-y-3 border-t border-gray-100">
+              <div className="pt-4 space-y-3 border-t border-gray-100 dark:border-slate-800">
                 <label className="flex items-center space-x-3 cursor-pointer">
-                  <input type="checkbox" name="featured" defaultChecked={initialData ? initialData.featured : false} className="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                  <input type="checkbox" name="featured" defaultChecked={initialData ? initialData.featured : false} className="w-5 h-5 rounded border-gray-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500" />
                   <div>
-                    <span className="block font-bold text-gray-900 text-sm">Feature on Homepage</span>
-                    <span className="block text-xs text-gray-500">This activity will be highlighted.</span>
+                    <span className="block font-bold text-gray-900 dark:text-slate-200 text-sm">Feature on Homepage</span>
+                    <span className="block text-xs text-gray-500 dark:text-slate-400">This activity will be highlighted.</span>
                   </div>
                 </label>
 
                 <label className="flex items-center space-x-3 cursor-pointer">
-                  <input type="checkbox" name="visibility" defaultChecked={initialData ? initialData.visibility : true} className="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                  <input type="checkbox" name="visibility" defaultChecked={initialData ? initialData.visibility : true} className="w-5 h-5 rounded border-gray-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500" />
                   <div>
-                    <span className="block font-bold text-gray-900 text-sm">Visible to Public</span>
-                    <span className="block text-xs text-gray-500">Show this activity on the website.</span>
+                    <span className="block font-bold text-gray-900 dark:text-slate-200 text-sm">Visible to Public</span>
+                    <span className="block text-xs text-gray-500 dark:text-slate-400">Show this activity on the website.</span>
                   </div>
                 </label>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-              <h3 className="font-bold text-gray-900">Key Statistic (Optional)</h3>
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-800 bg-gray-50 dark:bg-slate-900/50">
+              <h3 className="font-bold text-gray-900 dark:text-white">Key Statistic (Optional)</h3>
             </div>
             <div className="p-6 space-y-4">
-              <p className="text-sm text-gray-500 mb-2">Display a prominent number associated with this activity (e.g. "150+ Donors").</p>
+              <p className="text-sm text-gray-500 dark:text-slate-400 mb-2">Display a prominent number associated with this activity (e.g. "150+ Donors").</p>
               
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Statistic Value</label>
-                <input type="text" name="statistics.value" defaultValue={initialData?.statistics?.value || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="e.g. 500+" />
+                <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1">Statistic Value</label>
+                <input type="text" name="statistics.value" defaultValue={initialData?.statistics?.value || ""} className="w-full px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="e.g. 500+" />
               </div>
               
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Label (EN)</label>
-                <input type="text" name="statistics.label.en" defaultValue={initialData?.statistics?.label?.en || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="e.g. Participants" />
+                <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1">Label (EN)</label>
+                <input type="text" name="statistics.label.en" defaultValue={initialData?.statistics?.label?.en || ""} className="w-full px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="e.g. Participants" />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Label (NP)</label>
-                <input type="text" name="statistics.label.np" defaultValue={initialData?.statistics?.label?.np || ""} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="e.g. सहभागीहरू" />
+                <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1">Label (NP)</label>
+                <input type="text" name="statistics.label.np" defaultValue={initialData?.statistics?.label?.np || ""} className="w-full px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="e.g. सहभागीहरू" />
               </div>
             </div>
           </div>

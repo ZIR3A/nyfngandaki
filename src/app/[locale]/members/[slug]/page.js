@@ -5,11 +5,13 @@ import { MemberProfileLayout } from "@/features/members/components/MemberProfile
 
 // Deduplicate the DB fetch for both generateMetadata and the Page component
 const getMember = cache(async (slug) => {
-  return await MemberService.getMemberBySlug(slug);
+  const member = await MemberService.getMemberBySlug(slug);
+  return member ? JSON.parse(JSON.stringify(member)) : null;
 });
 
 const getRelated = cache(async (districtId, currentMemberId) => {
-  return await MemberService.getRelatedMembers(districtId, currentMemberId);
+  const members = await MemberService.getRelatedMembers(districtId, currentMemberId);
+  return members ? JSON.parse(JSON.stringify(members)) : [];
 });
 
 export async function generateMetadata({ params }) {

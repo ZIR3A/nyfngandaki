@@ -50,10 +50,10 @@ export function AdminLeadershipMessagesTable({ messages }) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
       
       {/* Toolbar */}
-      <div className="p-4 border-b border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gray-50/50">
+      <div className="p-4 border-b border-gray-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gray-50/50 dark:bg-slate-900/50">
         <div className="relative w-full max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
           <input 
@@ -61,7 +61,7 @@ export function AdminLeadershipMessagesTable({ messages }) {
             placeholder="Search by member, position, or message..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+            className="w-full pl-9 pr-4 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg text-sm text-gray-900 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
           />
         </div>
 
@@ -69,7 +69,7 @@ export function AdminLeadershipMessagesTable({ messages }) {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="w-full sm:w-40 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+            className="w-full sm:w-40 px-3 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
           >
             <option value="all">All Statuses</option>
             <option value="draft">Draft</option>
@@ -80,28 +80,28 @@ export function AdminLeadershipMessagesTable({ messages }) {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
         <table className="w-full text-sm text-left">
-          <thead className="text-xs text-gray-500 uppercase bg-gray-50/50 border-b border-gray-200">
+          <thead className="text-xs text-gray-500 dark:text-slate-400 uppercase bg-gray-50/50 dark:bg-slate-900/50 border-b border-gray-200 dark:border-slate-800">
             <tr>
-              <th className="px-6 py-4 font-semibold text-gray-600">Member</th>
-              <th className="px-6 py-4 font-semibold text-gray-600">Position</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 text-center">Homepage</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 text-center">About</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 text-center">Status</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 text-center">Order</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 text-right">Actions</th>
+              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400">Member</th>
+              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400">Position</th>
+              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400 text-center">Homepage</th>
+              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400 text-center">About</th>
+              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400 text-center">Status</th>
+              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400 text-center">Order</th>
+              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 dark:divide-slate-800">
             {filteredMessages.length > 0 ? (
               filteredMessages.map((msg) => (
-                <tr key={msg._id} className="hover:bg-gray-50/50 transition-colors bg-white">
+                <tr key={msg._id} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors bg-white dark:bg-slate-900">
                   <td className="px-6 py-4">
                     {msg.map ? null : null /* Just a spacer comment */}
                     <div className="flex items-center gap-3">
                       {(msg.is_custom_person ? msg.custom_photo : msg.member_id?.photo) ? (
-                        <div className="w-10 h-10 relative overflow-hidden rounded-full border border-gray-200 bg-gray-50">
+                        <div className="w-10 h-10 relative overflow-hidden rounded-full border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
                           <Image 
                             src={msg.is_custom_person ? msg.custom_photo : msg.member_id.photo} 
                             alt={msg.is_custom_person ? msg.custom_name_en : msg.member_id?.name?.en || "Leader"} 
@@ -111,37 +111,37 @@ export function AdminLeadershipMessagesTable({ messages }) {
                           />
                         </div>
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg border border-blue-100">
+                        <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-lg border border-blue-100 dark:border-blue-800">
                           {(msg.is_custom_person ? msg.custom_name_en : msg.member_id?.name?.en)?.charAt(0) || "U"}
                         </div>
                       )}
                       <div>
-                        <div className="font-semibold text-gray-900">{msg.is_custom_person ? msg.custom_name_en : (msg.member_id?.name?.en || "Unknown")}</div>
-                        <div className="text-xs text-gray-500 mt-0.5 line-clamp-1 max-w-[200px]">{msg.short_message_en}</div>
+                        <div className="font-semibold text-gray-900 dark:text-slate-200">{msg.is_custom_person ? msg.custom_name_en : (msg.member_id?.name?.en || "Unknown")}</div>
+                        <div className="text-xs text-gray-500 dark:text-slate-400 mt-0.5 line-clamp-1 max-w-[200px]">{msg.short_message_en}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-gray-600">
+                  <td className="px-6 py-4 text-gray-600 dark:text-slate-400">
                     {msg.is_custom_person ? msg.custom_position_en : (msg.member_id?.position_id?.name?.en || "N/A")}
                   </td>
                   <td className="px-6 py-4 text-center">
                     {msg.homepage_visible ? (
-                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-700 text-xs">
+                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs">
                         ✓
                       </span>
                     ) : (
-                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 text-xs">
+                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400 text-xs">
                         ×
                       </span>
                     )}
                   </td>
                   <td className="px-6 py-4 text-center">
                     {msg.about_visible ? (
-                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-700 text-xs">
+                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs">
                         ✓
                       </span>
                     ) : (
-                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 text-xs">
+                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400 text-xs">
                         ×
                       </span>
                     )}

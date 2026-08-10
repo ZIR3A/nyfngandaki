@@ -68,10 +68,10 @@ export function BannerForm({ initialData = null }) {
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-900">
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
             {initialData ? "Edit Banner" : "Create New Banner"}
           </h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">
             Design the slider content for the homepage hero section.
           </p>
         </div>
@@ -80,8 +80,8 @@ export function BannerForm({ initialData = null }) {
       <form onSubmit={handleSubmit} className="space-y-8">
         
         {/* Dual Language Inputs */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Banner Content (Bilingual)</h3>
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 border-b dark:border-slate-800 pb-2">Banner Content (Bilingual)</h3>
           
           <div className="space-y-8">
             <LocalizedInput
@@ -108,14 +108,14 @@ export function BannerForm({ initialData = null }) {
         </div>
 
         {/* Action Buttons & Image */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Buttons & Image</h3>
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 border-b dark:border-slate-800 pb-2">Buttons &amp; Image</h3>
           
           <div className="grid md:grid-cols-2 gap-8">
             
             <div className="space-y-6">
               <div className="space-y-4">
-                <h4 className="font-bold text-sm text-gray-700 border-b pb-1">Primary Button</h4>
+                <h4 className="font-bold text-sm text-gray-700 dark:text-slate-300 border-b dark:border-slate-700 pb-1">Primary Button</h4>
                 <LocalizedInput
                   label="Text"
                   value={formData.primaryButtonText}
@@ -132,7 +132,7 @@ export function BannerForm({ initialData = null }) {
               </div>
 
               <div className="space-y-4 pt-4">
-                <h4 className="font-bold text-sm text-gray-700 border-b pb-1">Secondary Button</h4>
+                <h4 className="font-bold text-sm text-gray-700 dark:text-slate-300 border-b dark:border-slate-700 pb-1">Secondary Button</h4>
                 <LocalizedInput
                   label="Text"
                   value={formData.secondaryButtonText}
@@ -151,7 +151,7 @@ export function BannerForm({ initialData = null }) {
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Banner Image *</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Banner Image *</label>
                 <MediaPicker 
                   name="imageId" 
                   module="banners" 
@@ -159,32 +159,32 @@ export function BannerForm({ initialData = null }) {
                   onUpload={(asset) => setFormData((fd) => ({ ...fd, imageId: asset._id }))}
                   onRemove={() => setFormData((fd) => ({ ...fd, imageId: null }))}
                 />
-                <p className="text-xs text-gray-500 mt-2">Full width landscape image.</p>
+                <p className="text-xs text-gray-500 dark:text-slate-400 mt-2">Full width landscape image.</p>
               </div>
 
-              <div className="pt-4 border-t border-gray-100">
+              <div className="pt-4 border-t border-gray-100 dark:border-slate-800">
                 <label className="flex items-center space-x-3 cursor-pointer">
                   <input 
                     type="checkbox" 
                     checked={formData.isActive}
                     onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                    className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500" 
+                    className="w-5 h-5 rounded border-gray-300 dark:border-slate-600 text-green-600 focus:ring-green-500" 
                   />
                   <div>
-                    <span className="block font-bold text-gray-900 text-sm">Active</span>
-                    <span className="block text-xs text-gray-500">Show this banner on the homepage.</span>
+                    <span className="block font-bold text-gray-900 dark:text-slate-200 text-sm">Active</span>
+                    <span className="block text-xs text-gray-500 dark:text-slate-400">Show this banner on the homepage.</span>
                   </div>
                 </label>
               </div>
 
               <div>
-                 <label className="block text-sm font-bold text-gray-700 mb-1">Display Order</label>
+                 <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1">Display Order</label>
                  <Input 
                    type="number" 
                    value={formData.order}
                    onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
                  />
-                 <p className="text-xs text-gray-500 mt-1">Lower numbers appear first.</p>
+                 <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">Lower numbers appear first.</p>
               </div>
             </div>
 

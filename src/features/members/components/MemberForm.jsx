@@ -95,10 +95,10 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
           </Link>
         </Button>
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-900">
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
             {isEdit ? "Edit Member" : "Add New Member"}
           </h1>
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-500 dark:text-slate-400 text-sm">
             {isEdit ? "Update member profile in the directory." : "Create a new member profile in the directory."}
           </p>
         </div>
@@ -109,8 +109,8 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
       <form onSubmit={handleSubmit} className="space-y-8">
         
         {/* Personal Information Section */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Personal Information</h3>
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 border-b dark:border-slate-800 pb-2">Personal Information</h3>
           
           <div className="space-y-8">
             {/* Name */}
@@ -125,9 +125,9 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
             </div>
 
             {/* Photos */}
-            <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+            <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-gray-100 dark:border-slate-800">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Profile Photo (Optional)</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Profile Photo (Optional)</label>
                 <MediaPicker
                   name="profilePhotoId"
                   module="members"
@@ -145,7 +145,7 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Cover Photo (Optional)</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Cover Photo (Optional)</label>
                 <MediaPicker
                   name="coverPhotoId"
                   module="members"
@@ -165,9 +165,9 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
             </div>
 
             {/* Contact */}
-            <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+            <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-gray-100 dark:border-slate-800">
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700">Email Address</label>
+                <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Email Address</label>
                 <Input 
                   type="email"
                   placeholder="email@example.com"
@@ -176,7 +176,7 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700">Phone Number</label>
+                <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Phone Number</label>
                 <Input 
                   placeholder="+977 98..."
                   value={formData.phone}
@@ -184,7 +184,7 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
                 />
               </div>
               <div className="space-y-2 md:col-span-2">
-                <label className="text-sm font-bold text-gray-700">Facebook URL</label>
+                <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Facebook URL</label>
                 <Input 
                   placeholder="https://facebook.com/..."
                   value={formData.facebook}
@@ -194,7 +194,7 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
             </div>
 
             {/* Biography */}
-            <div className="pt-4 border-t border-gray-100">
+            <div className="pt-4 border-t border-gray-100 dark:border-slate-800">
               <LocalizedTextarea
                 label="Biography"
                 placeholder={{ en: "Short bio in English...", np: "छोटो जीवनी..." }}
@@ -207,13 +207,13 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
         </div>
 
         {/* Organization Information Section */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Organization Information</h3>
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 border-b dark:border-slate-800 pb-2">Organization Information</h3>
           
           <div className="space-y-8">
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700">Organization Level <span className="text-red-500">*</span></label>
+                <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Organization Level <span className="text-red-500">*</span></label>
                 <div className="flex gap-4">
                   <label className="flex items-center gap-2 text-sm">
                     <input 
@@ -261,7 +261,7 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
             <div className="grid md:grid-cols-2 gap-6">
               {(formData.organizationLevel === "District" || formData.organizationLevel === "DISTRICT") && (
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700">District Assignment <span className="text-red-500">*</span></label>
+                  <label className="text-sm font-bold text-gray-700 dark:text-slate-300">District Assignment <span className="text-red-500">*</span></label>
                   <select 
                     className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     value={formData.district}
@@ -277,7 +277,7 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
               )}
               
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700">Member Status</label>
+                <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Member Status</label>
                 <select 
                   className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   value={formData.status}
@@ -293,7 +293,7 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
 
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700">Committee</label>
+                <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Committee</label>
                 <select 
                   className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   value={formData.committee_id}
@@ -307,7 +307,7 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700">Department</label>
+                <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Department</label>
                 <select 
                   className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   value={formData.department_id}
@@ -324,7 +324,7 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
 
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700">Position <span className="text-red-500">*</span></label>
+                <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Position <span className="text-red-500">*</span></label>
                 <select 
                   className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   value={formData.position_id}
@@ -339,9 +339,9 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+            <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-gray-100 dark:border-slate-800">
               <div className="space-y-4">
-                <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
+                <label className="flex items-center gap-3 text-sm font-medium text-gray-700 dark:text-slate-300">
                   <input 
                     type="checkbox" 
                     className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"

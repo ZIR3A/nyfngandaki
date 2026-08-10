@@ -174,8 +174,8 @@ export const LeadershipMessageForm = ({ initialData = null }) => {
 
   return (
     <form onSubmit={(e) => handleSave(e, false)} className="pb-24">
-      {/* Sticky Header Actions */}
-      <div className="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 pb-4 mb-8 pt-4 -mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      {/* Header Actions */}
+      <div className="pb-4 mb-8 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-4">
           <Link href="/admin/leadership-messages">
             <Button variant="outline" size="icon" className="h-9 w-9 rounded-full">
@@ -356,7 +356,7 @@ export const LeadershipMessageForm = ({ initialData = null }) => {
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full px-3 py-2 bg-white border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full px-3 py-2 bg-white dark:bg-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                 >
                   <option value="draft">Draft</option>
                   <option value="published">Published</option>
@@ -373,7 +373,7 @@ export const LeadershipMessageForm = ({ initialData = null }) => {
                   min="0"
                   value={formData.display_order}
                   onChange={(e) => setFormData({ ...formData, display_order: parseInt(e.target.value) || 0 })}
-                  className="w-full px-3 py-2 bg-white border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full px-3 py-2 bg-white dark:bg-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                 />
                 <p className="mt-1 text-xs text-slate-500">Lower numbers appear first.</p>
                 {errors.display_order && <p className="mt-1 text-sm text-red-500">{errors.display_order}</p>}

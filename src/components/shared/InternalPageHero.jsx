@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, Star } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { GandakiMap } from '@/features/members/components/GandakiMap';
 
@@ -23,10 +23,7 @@ export default function InternalPageHero({
         <div className="w-full h-full bg-[radial-gradient(circle,#cbd5e1_1px,transparent_1px)] dark:bg-[radial-gradient(circle,#1e293b_1px,transparent_1px)] [background-size:32px_32px]"></div>
       </div>
 
-      {/* Background Star Watermark */}
-      <div className="absolute right-[-10%] lg:right-0 top-1/2 -translate-y-1/2 opacity-[0.03] dark:opacity-5 pointer-events-none">
-        <Star className="w-[800px] h-[800px] text-blue-900 fill-blue-900" />
-      </div>
+
 
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10 flex flex-col lg:flex-row items-center justify-between h-full gap-12 lg:gap-8">
         
@@ -131,13 +128,20 @@ export default function InternalPageHero({
 
         </div>
 
-        {/* Right Side: Map */}
+        {/* Right Side: Map & Star */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="hidden lg:flex w-full lg:w-[45%] h-[400px] xl:h-[500px] items-center justify-center relative mt-12 lg:mt-0 pointer-events-none"
         >
+          {/* Sharp Star Watermark Behind Map */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] dark:opacity-5">
+            <svg viewBox="0 0 24 24" className="w-[800px] h-[800px] min-w-[800px] min-h-[800px] shrink-0 text-blue-900 fill-current max-w-none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+            </svg>
+          </div>
+
           <div className="w-full h-full relative z-10 flex items-center justify-center opacity-80 hover:opacity-100 transition-opacity duration-500">
             <GandakiMap isNepali={isNepali} className="w-[110%] h-[110%] object-contain" selectedDistrict="all" />
           </div>

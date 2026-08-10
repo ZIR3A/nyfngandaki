@@ -18,8 +18,8 @@ export default async function AdminLeadershipMessagesPage() {
     <div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-900">Leadership Messages</h1>
-          <p className="text-gray-500 text-sm mt-1">Manage messages displayed from organizational leaders.</p>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Leadership Messages</h1>
+          <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">Manage messages displayed from organizational leaders.</p>
         </div>
         <Link href="/admin/leadership-messages/new">
           <Button className="bg-blue-600 hover:bg-blue-700">

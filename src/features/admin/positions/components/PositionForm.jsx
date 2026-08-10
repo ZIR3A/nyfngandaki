@@ -54,14 +54,14 @@ export function PositionForm({ initialData = null }) {
     <div className="max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-900">{initialData ? "Edit Position" : "Add New Position"}</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">{initialData ? "Edit Position" : "Add New Position"}</h1>
         </div>
       </div>
 
 
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
           <div className="space-y-6">
             <LocalizedInput
               label="Position Name"
@@ -72,20 +72,20 @@ export function PositionForm({ initialData = null }) {
             />
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Display Weight (Hierarchy order)</label>
+              <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Display Weight (Hierarchy order)</label>
               <input
                 type="number"
-                className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full flex h-10 rounded-md border border-input dark:border-slate-700 bg-background dark:bg-slate-900 px-3 py-2 text-sm text-foreground dark:text-white ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 value={formData.weight}
                 onChange={(e) => setFormData({ ...formData, weight: parseInt(e.target.value) || 0 })}
               />
-              <p className="text-xs text-gray-500">Lower numbers appear first. e.g. 1 for Chairperson.</p>
+              <p className="text-xs text-gray-500 dark:text-slate-400">Lower numbers appear first. e.g. 1 for Chairperson.</p>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Display Group</label>
+              <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Display Group</label>
               <select
-                className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full flex h-10 rounded-md border border-input dark:border-slate-700 bg-background dark:bg-slate-900 px-3 py-2 text-sm text-foreground dark:text-white ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 value={formData.displayGroup}
                 onChange={(e) => setFormData({ ...formData, displayGroup: e.target.value })}
               >
@@ -94,13 +94,13 @@ export function PositionForm({ initialData = null }) {
                 <option value="executive">Executive Grid</option>
                 <option value="committee">Committee Grid</option>
               </select>
-              <p className="text-xs text-gray-500">Dictates how this position is visually presented on the public directory.</p>
+              <p className="text-xs text-gray-500 dark:text-slate-400">Dictates how this position is visually presented on the public directory.</p>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Status</label>
+              <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Status</label>
               <select
-                className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full flex h-10 rounded-md border border-input dark:border-slate-700 bg-background dark:bg-slate-900 px-3 py-2 text-sm text-foreground dark:text-white ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
               >

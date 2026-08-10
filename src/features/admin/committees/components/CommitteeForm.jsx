@@ -53,14 +53,14 @@ export function CommitteeForm({ initialData = null }) {
     <div className="max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-900">{initialData ? "Edit Committee" : "Add New Committee"}</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">{initialData ? "Edit Committee" : "Add New Committee"}</h1>
         </div>
       </div>
 
 
 
       {initialData && (
-        <div className="flex space-x-1 border-b border-gray-200 mb-6">
+        <div className="flex space-x-1 border-b border-gray-200 dark:border-slate-800 mb-6">
           <button
             type="button"
             className={`py-2 px-4 border-b-2 text-sm font-medium ${activeTab === 'basic' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
@@ -70,7 +70,7 @@ export function CommitteeForm({ initialData = null }) {
           </button>
           <button
             type="button"
-            className={`py-2 px-4 border-b-2 text-sm font-medium ${activeTab === 'departments' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            className={`py-2 px-4 border-b-2 text-sm font-medium ${activeTab === 'departments' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 hover:border-gray-300 dark:hover:border-slate-600'}`}
             onClick={() => setActiveTab("departments")}
           >
             Departments
@@ -80,7 +80,7 @@ export function CommitteeForm({ initialData = null }) {
 
       <div style={{ display: activeTab === 'basic' ? 'block' : 'none' }}>
         <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
           <div className="space-y-6">
             <LocalizedInput
               label="Committee Name"
@@ -91,9 +91,9 @@ export function CommitteeForm({ initialData = null }) {
             />
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Organization Level</label>
+              <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Organization Level</label>
               <select
-                className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full flex h-10 rounded-md border border-input dark:border-slate-700 bg-background dark:bg-slate-900 px-3 py-2 text-sm text-foreground dark:text-white ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 value={formData.organizationLevel}
                 onChange={(e) => setFormData({ ...formData, organizationLevel: e.target.value })}
                 required
@@ -105,19 +105,19 @@ export function CommitteeForm({ initialData = null }) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Display Order (Ascending)</label>
+              <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Display Order (Ascending)</label>
               <input
                 type="number"
-                className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full flex h-10 rounded-md border border-input dark:border-slate-700 bg-background dark:bg-slate-900 px-3 py-2 text-sm text-foreground dark:text-white ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 value={formData.displayOrder}
                 onChange={(e) => setFormData({ ...formData, displayOrder: parseInt(e.target.value) || 0 })}
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Status</label>
+              <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Status</label>
               <select
-                className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full flex h-10 rounded-md border border-input dark:border-slate-700 bg-background dark:bg-slate-900 px-3 py-2 text-sm text-foreground dark:text-white ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
               >

@@ -59,14 +59,14 @@ export function DistrictForm({ initialData = null }) {
     <div className="max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-900">{initialData ? "Edit District" : "Add New District"}</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">{initialData ? "Edit District" : "Add New District"}</h1>
         </div>
       </div>
 
 
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
           <div className="space-y-6">
             <LocalizedInput
               label="District Name"
@@ -77,14 +77,14 @@ export function DistrictForm({ initialData = null }) {
             />
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Slug</label>
+              <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Slug</label>
               <Input
                 placeholder="e.g. kaski"
                 value={formData.slug}
                 onChange={(e) => setFormData({ ...formData, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]+/g, '') })}
                 required
               />
-              <p className="text-xs text-gray-500">Unique identifier used in URLs (e.g. /districts/kaski)</p>
+              <p className="text-xs text-gray-500 dark:text-slate-400">Unique identifier used in URLs (e.g. /districts/kaski)</p>
             </div>
 
             <LocalizedTextarea
@@ -95,9 +95,9 @@ export function DistrictForm({ initialData = null }) {
             />
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">Status</label>
+              <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Status</label>
               <select
-                className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full flex h-10 rounded-md border border-input dark:border-slate-700 bg-background dark:bg-slate-900 px-3 py-2 text-sm text-foreground dark:text-white ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
               >

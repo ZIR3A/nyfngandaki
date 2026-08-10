@@ -115,11 +115,11 @@ export function CommitteeDepartmentsTab({ committee }) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-      <div className="p-6 border-b border-gray-200 flex justify-between items-center">
+    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
+      <div className="p-6 border-b border-gray-200 dark:border-slate-800 flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-bold text-gray-900">Departments</h2>
-          <p className="text-sm text-gray-500">Manage departments (bibhag) under this committee</p>
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white">Departments</h2>
+          <p className="text-sm text-gray-500 dark:text-slate-400">Manage departments (bibhag) under this committee</p>
         </div>
         <Button onClick={openAddModal} className="bg-blue-600 hover:bg-blue-700 text-white">
           <Plus className="w-4 h-4 mr-2" />
@@ -137,7 +137,7 @@ export function CommitteeDepartmentsTab({ committee }) {
             <AlertCircle className="w-5 h-5" /> {error}
           </div>
         ) : departments.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-gray-500 dark:text-slate-400">
             <p>No departments found for this committee.</p>
             <Button variant="link" onClick={openAddModal} className="text-blue-600 mt-2">
               Create the first department
@@ -145,8 +145,8 @@ export function CommitteeDepartmentsTab({ committee }) {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-gray-500">
-              <thead className="bg-gray-50 text-xs uppercase text-gray-700">
+            <table className="w-full text-left text-sm text-gray-500 dark:text-slate-400">
+              <thead className="bg-gray-50 dark:bg-slate-800/50 text-xs uppercase text-gray-700 dark:text-slate-400 border-b border-gray-200 dark:border-slate-800">
                 <tr>
                   <th className="px-6 py-4 font-bold">Name (EN/NP)</th>
                   <th className="px-6 py-4 font-bold text-center">Display Order</th>
@@ -154,27 +154,27 @@ export function CommitteeDepartmentsTab({ committee }) {
                   <th className="px-6 py-4 font-bold text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 dark:divide-slate-800">
                 {departments.map((dept) => (
-                  <tr key={dept._id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={dept._id} className="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900">{dept.name?.en}</div>
-                      <div className="text-gray-500">{dept.name?.np}</div>
+                      <div className="font-medium text-gray-900 dark:text-slate-200">{dept.name?.en}</div>
+                      <div className="text-gray-500 dark:text-slate-400">{dept.name?.np}</div>
                     </td>
-                    <td className="px-6 py-4 text-center font-mono text-gray-600">
+                    <td className="px-6 py-4 text-center font-mono text-gray-600 dark:text-slate-400">
                       {dept.displayOrder}
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${dept.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-100 text-gray-700 border-gray-200'}`}>
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${dept.status === 'Active' ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800' : 'bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 border-gray-200 dark:border-slate-700'}`}>
                         {dept.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer" onClick={() => openEditModal(dept)}>
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 cursor-pointer" onClick={() => openEditModal(dept)}>
                             <Edit2 className="w-4 h-4" />
                           </Button>
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer" onClick={() => handleDelete(dept._id)} disabled={saving}>
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/30 cursor-pointer" onClick={() => handleDelete(dept._id)} disabled={saving}>
                             <Trash2 className="w-4 h-4" />
                           </Button>
                       </div>
@@ -190,12 +190,12 @@ export function CommitteeDepartmentsTab({ committee }) {
       {/* Modal overlay */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10">
-              <h3 className="text-lg font-bold text-gray-900">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="px-6 py-4 border-b border-gray-100 dark:border-slate-800 flex justify-between items-center sticky top-0 bg-white dark:bg-slate-900 z-10">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
                 {editingDepartment ? "Edit Department" : "Add Department"}
               </h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+              <button onClick={() => setIsModalOpen(false)} className="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 text-xl font-bold">&times;</button>
             </div>
             
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
@@ -217,7 +217,7 @@ export function CommitteeDepartmentsTab({ committee }) {
 
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700">Display Order</label>
+                  <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Display Order</label>
                   <Input 
                     type="number"
                     value={formData.displayOrder}
@@ -225,7 +225,7 @@ export function CommitteeDepartmentsTab({ committee }) {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700">Status</label>
+                  <label className="text-sm font-bold text-gray-700 dark:text-slate-300">Status</label>
                   <select 
                     className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     value={formData.status}
@@ -237,7 +237,7 @@ export function CommitteeDepartmentsTab({ committee }) {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+              <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-slate-800">
                 <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)} disabled={saving}>
                   Cancel
                 </Button>

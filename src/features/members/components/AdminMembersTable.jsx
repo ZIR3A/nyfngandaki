@@ -44,27 +44,27 @@ export function AdminMembersTable({ members, districts }) {
   }, [members, searchQuery, filterDistrict]);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
       
       {/* Toolbar */}
-      <div className="p-4 border-b border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gray-50/50">
+      <div className="p-4 border-b border-gray-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gray-50/50 dark:bg-slate-900/50">
         <div className="relative w-full max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-slate-500" />
           <input 
             type="text"
             placeholder="Search members by name or position..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+            className="w-full pl-9 pr-4 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg text-sm text-gray-900 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
           />
         </div>
         
         <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
-          <Filter className="h-4 w-4 text-gray-500 hidden sm:block" />
+          <Filter className="h-4 w-4 text-gray-500 dark:text-slate-400 hidden sm:block" />
           <select
             value={filterLevel}
             onChange={(e) => setFilterLevel(e.target.value)}
-            className="w-full sm:w-40 py-2 px-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+            className="w-full sm:w-40 py-2 px-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
           >
             <option value="all">All Levels</option>
             <option value="PROVINCE">Province</option>
@@ -74,7 +74,7 @@ export function AdminMembersTable({ members, districts }) {
           <select
             value={filterDistrict}
             onChange={(e) => setFilterDistrict(e.target.value)}
-            className="w-full sm:w-48 py-2 px-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+            className="w-full sm:w-48 py-2 px-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
           >
             <option value="all">All Districts</option>
             {districts.map(d => (
@@ -87,7 +87,7 @@ export function AdminMembersTable({ members, districts }) {
       {/* Data Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm whitespace-nowrap">
-          <thead className="bg-gray-50 text-gray-600 font-bold border-b border-gray-200">
+          <thead className="bg-gray-50 dark:bg-slate-900/50 text-gray-600 dark:text-slate-400 font-bold border-b border-gray-200 dark:border-slate-800">
             <tr>
               <th className="px-6 py-4">Name (English)</th>
               <th className="px-6 py-4">Level</th>
@@ -99,45 +99,45 @@ export function AdminMembersTable({ members, districts }) {
               <th className="px-6 py-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
             {filteredMembers.length === 0 ? (
               <tr>
-                <td colSpan="8" className="px-6 py-12 text-center text-gray-500">
+                <td colSpan="8" className="px-6 py-12 text-center text-gray-500 dark:text-slate-400">
                   No members found matching your criteria.
                 </td>
               </tr>
             ) : (
               filteredMembers.map((member) => (
-                <tr key={member._id.toString()} className="hover:bg-gray-50/50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-gray-900">
+                <tr key={member._id.toString()} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-slate-200">
                     {member.name?.en || "-"}
                   </td>
-                  <td className="px-6 py-4 text-gray-600">
+                  <td className="px-6 py-4 text-gray-600 dark:text-slate-400">
                     <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-semibold border ${member.organizationLevel === 'Central' ? 'bg-red-50 text-red-700 border-red-100' : (member.organizationLevel === 'Province' || member.organizationLevel === 'PROVINCE') ? 'bg-purple-50 text-purple-700 border-purple-100' : 'bg-orange-50 text-orange-700 border-orange-100'}`}>
                       {member.organizationLevel || "Province"}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-gray-600">
+                  <td className="px-6 py-4 text-gray-600 dark:text-slate-400">
                     {member.committee_id?.name?.en || "-"}
                   </td>
-                  <td className="px-6 py-4 text-gray-600">
+                  <td className="px-6 py-4 text-gray-600 dark:text-slate-400">
                     {member.department_id?.name?.en || "-"}
                   </td>
-                  <td className="px-6 py-4 text-gray-600">
+                  <td className="px-6 py-4 text-gray-600 dark:text-slate-400">
                     {member.position_id?.name?.en || "-"}
                   </td>
-                  <td className="px-6 py-4 text-gray-600">
+                  <td className="px-6 py-4 text-gray-600 dark:text-slate-400">
                     {(member.organizationLevel === 'Central' || member.organizationLevel === 'Province' || member.organizationLevel === 'PROVINCE') ? (
-                      <span className="text-gray-400 italic">N/A</span>
+                      <span className="text-gray-400 dark:text-slate-500 italic">N/A</span>
                     ) : (
-                      <span className="inline-flex items-center px-2 py-1 rounded bg-blue-50 text-blue-700 text-xs font-semibold border border-blue-100">
+                      <span className="inline-flex items-center px-2 py-1 rounded bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-semibold border border-blue-100 dark:border-blue-800/50">
                         {member.district?.name?.en || "Unassigned"}
                       </span>
                     )}
                   </td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${
-                      member.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                      member.status === 'Active' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' : 'bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-slate-300'
                     }`}>
                       {member.status}
                     </span>
@@ -145,7 +145,7 @@ export function AdminMembersTable({ members, districts }) {
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Link href={`/admin/members/${member._id}/edit`}>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer" title="Edit">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 cursor-pointer" title="Edit">
                           <Edit className="h-4 w-4" />
                         </Button>
                       </Link>
