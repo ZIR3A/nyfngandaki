@@ -10,6 +10,7 @@ export function DistrictExplorerSection({ isNepali }) {
   const { selectedDistrictSlug, setSelectedDistrictSlug } = useDistrictExplorer();
   const [districts, setDistricts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState("grid");
 
   useEffect(() => {
     async function fetchDistricts() {
@@ -93,18 +94,32 @@ export function DistrictExplorerSection({ isNepali }) {
           <div className="w-full lg:w-[55%] p-6 md:p-8 flex flex-col h-full bg-white dark:bg-slate-900">
             <div className="flex items-center justify-end mb-6">
               <div className="inline-flex border border-slate-200 dark:border-slate-700 rounded-lg p-0.5 bg-slate-50 dark:bg-slate-800">
-                <button className="px-3 py-1.5 rounded-md bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 text-xs font-bold shadow-sm flex items-center gap-1.5">
+                <button 
+                  onClick={() => setViewMode("grid")}
+                  className={`px-3 py-1.5 rounded-md text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer ${
+                    viewMode === "grid" 
+                      ? "bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm" 
+                      : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+                  }`}
+                >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                   Grid
                 </button>
-                <button className="px-3 py-1.5 rounded-md text-slate-500 dark:text-slate-400 text-xs font-bold hover:text-slate-700 dark:hover:text-slate-200 flex items-center gap-1.5 transition-colors">
+                <button 
+                  onClick={() => setViewMode("list")}
+                  className={`px-3 py-1.5 rounded-md text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer ${
+                    viewMode === "list" 
+                      ? "bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm" 
+                      : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+                  }`}
+                >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
                   List
                 </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 overflow-y-auto pr-2 max-h-[450px]">
+            <div className={`grid gap-3 mb-8 overflow-y-auto pr-2 max-h-[450px] ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
               {districts.map(district => {
                 const isSelected = selectedDistrictSlug === district.slug;
                 const name = isNepali ? district.name?.np || district.name?.en : district.name?.en;

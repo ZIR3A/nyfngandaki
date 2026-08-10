@@ -157,7 +157,7 @@ export function DistrictMembersSection({ isNepali }) {
                     });
                     const restMembers = filteredMembers.filter(m => !featuredMembers.includes(m));
 
-                    const totalToShow = isExpanded ? filteredMembers.length : 11;
+                    const totalToShow = isExpanded ? filteredMembers.length : 6;
                     const visibleFeatured = featuredMembers.slice(0, totalToShow);
                     const visibleRest = restMembers.slice(0, Math.max(0, totalToShow - visibleFeatured.length));
 
@@ -173,16 +173,16 @@ export function DistrictMembersSection({ isNepali }) {
                           </div>
                         )}
                         
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+                        <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
                           {visibleRest.map(member => (
-                            <div key={member._id} className="w-full">
+                            <div key={member._id} className="w-[calc(50%-8px)] sm:w-[calc(33.333%-16px)] md:w-[calc(25%-18px)] lg:w-[calc(20%-19.2px)]">
                               <MemberCard member={member} isNepali={isNepali} />
                             </div>
                           ))}
                         </div>
 
                         {/* View More CTA */}
-                        {filteredMembers.length > 11 && !isExpanded && (
+                        {filteredMembers.length > 6 && !isExpanded && (
                           <div className="flex justify-center mt-6 mb-4">
                             <button 
                               onClick={() => setIsExpanded(true)}
@@ -196,7 +196,7 @@ export function DistrictMembersSection({ isNepali }) {
                           </div>
                         )}
 
-                        {filteredMembers.length > 11 && isExpanded && (
+                        {filteredMembers.length > 6 && isExpanded && (
                           <div className="flex justify-center mt-6 mb-4">
                             <button 
                               onClick={() => setIsExpanded(false)}

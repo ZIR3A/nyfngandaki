@@ -330,80 +330,70 @@ export function MemberCard({ member, isNepali }) {
   return (
     <>
       <motion.div
-        whileHover={{ y: -6, boxShadow: "0 20px 48px rgba(0,0,0,0.12)" }}
-        transition={{ type: "spring", stiffness: 300, damping: 22 }}
-        className="relative bg-white dark:bg-gray-900 rounded-[20px] border border-gray-100 dark:border-gray-800 shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:border-[#1546B0]/20 dark:hover:border-[#1546B0]/30 flex flex-col overflow-hidden group cursor-pointer transition-colors duration-300"
+        className="relative flex flex-col items-center group cursor-pointer"
       >
-        {/* ── Entire top area → profile link ─────────────────────────────── */}
-        <Link href={href} className="flex flex-col text-center h-full" tabIndex={0}>
-
-          {/* Full Width Photo */}
-          <div className="relative w-full aspect-[4/3] bg-gray-100 dark:bg-gray-800 overflow-hidden shrink-0">
-            {member.photo ? (
-              <Image
-                src={member.photo}
-                alt={name || "Member"}
-                fill
-                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 250px"
-                className="object-cover object-top group-hover:scale-105 transition-transform duration-500 ease-out"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <User className="w-12 h-12 text-gray-300 dark:text-gray-600" />
-              </div>
-            )}
+        <Link href={href} className="flex flex-col items-center text-center outline-none" tabIndex={0}>
+          {/* Circular Photo with Shadow and White Border */}
+          <div className="relative mb-3">
+            <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 relative rounded-full overflow-hidden border-[4px] border-white dark:border-gray-800 shadow-lg z-10 transition-transform duration-500 group-hover:scale-105 bg-gray-100 flex-shrink-0">
+              {member.photo ? (
+                <Image
+                  src={member.photo}
+                  alt={name || "Member"}
+                  fill
+                  sizes="(max-width: 768px) 128px, 144px"
+                  className="object-cover object-top"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <User className="w-12 h-12 text-gray-300 dark:text-gray-600" />
+                </div>
+              )}
+            </div>
 
             {/* Position Badge Overlay */}
             {position && (
-              <div className="absolute top-3 right-3 z-10">
-                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold shadow-sm backdrop-blur-md ${color.bg} ${color.text}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${color.dot}`} />
+              <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
+                <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md border border-white/40 ${color.bg} ${color.text}`}>
                   {position}
                 </span>
               </div>
             )}
           </div>
 
-          <div className="flex flex-col flex-1 p-4 justify-center">
+          <div className="mt-4 flex flex-col items-center">
             {/* Name */}
-            <h3 className="text-[17px] sm:text-lg font-black text-gray-900 dark:text-white group-hover:text-[#1546B0] dark:group-hover:text-blue-400 transition-colors line-clamp-2 leading-snug mb-1">
+            <h3 className="text-lg sm:text-[19px] font-black text-[#0f172a] dark:text-white group-hover:text-[#1546B0] dark:group-hover:text-blue-400 transition-colors tracking-tight leading-tight mb-1">
               {name}
             </h3>
 
             {/* District */}
             {district && (
-              <div className="flex items-center justify-center gap-1.5 mt-2 text-[12px] text-gray-500 dark:text-gray-400 font-medium">
+              <p className="flex items-center justify-center gap-1 mt-1 text-[13px] text-gray-500 dark:text-gray-400 font-medium">
                 <MapPin className="w-3.5 h-3.5 shrink-0" />
                 <span className="line-clamp-1">{district}</span>
-              </div>
+              </p>
             )}
           </div>
         </Link>
 
-        {/* ── Divider ─────────────────────────────────────────────────────── */}
-        <div className="border-t border-gray-100 dark:border-gray-800" />
-
-        {/* ── Action Bar ──────────────────────────────────────────────────── */}
-        <div className="flex divide-x divide-gray-100 dark:divide-gray-800 mt-auto">
+        {/* Minimal Action Buttons (QR & Share) */}
+        <div className="flex items-center justify-center gap-2 mt-4">
           <button
             onClick={e => { e.stopPropagation(); e.preventDefault(); setShowQR(true); }}
+            className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-center text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 hover:scale-110 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label={t("qrCode", isNepali)}
-            className="flex-1 flex flex-col items-center gap-1 py-3 hover:bg-blue-50/60 dark:hover:bg-blue-900/10 transition-all rounded-bl-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1546B0] group/btn"
+            title={t("qrCode", isNepali)}
           >
-            <div className="p-1.5 rounded-full bg-blue-100/50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover/btn:scale-110 transition-transform">
-              <QrCode className="w-4 h-4" />
-            </div>
-            <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 group-hover/btn:text-blue-600 dark:group-hover/btn:text-blue-400 transition-colors">{t("qrCode", isNepali)}</span>
+            <QrCode className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={e => { e.stopPropagation(); e.preventDefault(); setShowShare(true); }}
+            className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-center text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:border-purple-200 hover:scale-110 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
             aria-label={t("share", isNepali)}
-            className="flex-1 flex flex-col items-center gap-1 py-3 hover:bg-purple-50/60 dark:hover:bg-purple-900/10 transition-all rounded-br-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 group/btn"
+            title={t("share", isNepali)}
           >
-            <div className="p-1.5 rounded-full bg-purple-100/50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 group-hover/btn:scale-110 transition-transform">
-              <Share2 className="w-4 h-4" />
-            </div>
-            <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 group-hover/btn:text-purple-600 dark:group-hover/btn:text-purple-400 transition-colors">{t("share", isNepali)}</span>
+            <Share2 className="w-3.5 h-3.5" />
           </button>
         </div>
       </motion.div>
@@ -514,17 +504,15 @@ export function FeaturedLeaderCard({ member, isNepali }) {
 // ─────────────────────────────────────────────────────────────────────────────
 export function MemberCardSkeleton() {
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-[20px] border border-gray-100 dark:border-gray-800 shadow-[0_2px_12px_rgba(0,0,0,0.06)] animate-pulse flex flex-col overflow-hidden">
-      <div className="flex flex-col items-center pt-6 pb-4 px-4 gap-3">
-        <div className="h-5 w-24 bg-gray-100 dark:bg-gray-800 rounded-full" />
-        <div className="w-[90px] h-[90px] rounded-full bg-gray-200 dark:bg-gray-700" />
-        <div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded-lg" />
-        <div className="h-3 w-20 bg-gray-100 dark:bg-gray-800 rounded-lg" />
+    <div className="relative flex flex-col items-center animate-pulse mt-4">
+      <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 rounded-full bg-gray-200 dark:bg-gray-800 border-[4px] border-white dark:border-gray-800 shadow-lg mb-3" />
+      <div className="flex flex-col items-center gap-2 w-full mt-2">
+        <div className="h-5 w-3/4 max-w-[140px] bg-gray-200 dark:bg-gray-800 rounded-full" />
+        <div className="h-3 w-1/2 max-w-[100px] bg-gray-100 dark:bg-gray-800/60 rounded-full" />
       </div>
-      <div className="mx-4 border-t border-gray-100 dark:border-gray-800" />
-      <div className="flex divide-x divide-gray-100 dark:divide-gray-800">
-        <div className="flex-1 h-12 bg-gray-50 dark:bg-gray-800/50 rounded-bl-[20px]" />
-        <div className="flex-1 h-12 bg-gray-50 dark:bg-gray-800/50 rounded-br-[20px]" />
+      <div className="flex items-center justify-center gap-2 mt-4">
+        <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800" />
+        <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800" />
       </div>
     </div>
   );

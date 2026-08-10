@@ -49,7 +49,7 @@ function CommitteeSection({ committee, isNepali }) {
     (!mainLeader || m._id !== mainLeader._id) && !featuredMembers.includes(m)
   );
 
-  const totalToShow = isExpanded ? members.length : 11;
+  const totalToShow = isExpanded ? members.length : 6;
   
   // We need to carefully slice the arrays based on totalToShow.
   let remainingQuota = totalToShow;
@@ -100,9 +100,9 @@ function CommitteeSection({ committee, isNepali }) {
         >
           {showMainLeader && (
             <div className="flex flex-col items-center mb-4">
-              <motion.div variants={itemVariants} className="w-full sm:w-[360px]">
+              <div className="w-full sm:w-[360px]">
                 <FeaturedLeaderCard member={mainLeader} isNepali={isNepali} />
-              </motion.div>
+              </div>
             </div>
           )}
 
@@ -110,27 +110,27 @@ function CommitteeSection({ committee, isNepali }) {
             <div className="flex flex-col items-center">
               <div className="flex flex-wrap justify-center w-full gap-6 md:gap-8">
                 {visibleFeatured.map(member => (
-                  <motion.div key={member._id} variants={itemVariants} className="w-full sm:w-[360px]">
+                  <div key={member._id} className="w-full sm:w-[360px]">
                     <FeaturedLeaderCard member={member} isNepali={isNepali} />
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
           )}
 
           {visibleRest.length > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
               {visibleRest.map(member => (
-                <motion.div key={member._id} variants={itemVariants} className="w-full">
+                <div key={member._id} className="w-[calc(50%-8px)] sm:w-[calc(33.333%-16px)] md:w-[calc(25%-18px)] lg:w-[calc(20%-19.2px)]">
                   <MemberCard member={member} isNepali={isNepali} />
-                </motion.div>
+                </div>
               ))}
             </div>
           )}
 
           {/* View More CTA */}
-          {members.length > 11 && !isExpanded && (
-            <motion.div variants={itemVariants} className="flex justify-center mt-4 mb-4">
+          {members.length > 6 && !isExpanded && (
+            <div className="flex justify-center mt-4 mb-4">
               <button 
                 onClick={() => setIsExpanded(true)}
                 className="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm md:text-base font-bold text-white transition-all duration-300 bg-[#1546B0] rounded-[20px] hover:bg-[#0D2E78] focus:outline-none cursor-pointer shadow-md hover:shadow-xl hover:-translate-y-1"
@@ -140,12 +140,12 @@ function CommitteeSection({ committee, isNepali }) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-            </motion.div>
+            </div>
           )}
           
           
-          {members.length > 11 && isExpanded && (
-            <motion.div variants={itemVariants} className="flex justify-center mt-4 mb-4">
+          {members.length > 6 && isExpanded && (
+            <div className="flex justify-center mt-4 mb-4">
               <button 
                 onClick={() => setIsExpanded(false)}
                 className="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 bg-slate-100 dark:bg-slate-800 rounded-[20px] hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none cursor-pointer shadow-sm hover:shadow-md"
@@ -155,7 +155,7 @@ function CommitteeSection({ committee, isNepali }) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
                 </svg>
               </button>
-            </motion.div>
+            </div>
           )}
 
           {departments.map(dept => (
@@ -170,11 +170,11 @@ function CommitteeSection({ committee, isNepali }) {
                   </p>
                 )}
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+              <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
                 {dept.members.map(member => (
-                  <motion.div key={member._id} variants={itemVariants} className="w-full">
+                  <div key={member._id} className="w-[calc(50%-8px)] sm:w-[calc(33.333%-16px)] md:w-[calc(25%-18px)] lg:w-[calc(20%-19.2px)]">
                     <MemberCard member={member} isNepali={isNepali} />
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>

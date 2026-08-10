@@ -17,7 +17,9 @@ export async function GET(request) {
     let filters = {};
 
     if (level && level !== "all") {
-      filters.organizationLevel = level.toUpperCase();
+      const upper = level.toUpperCase();
+      const capitalized = level.charAt(0).toUpperCase() + level.slice(1).toLowerCase();
+      filters.organizationLevel = { $in: [upper, capitalized, level] };
     }
 
     if (status && status !== "all") {
