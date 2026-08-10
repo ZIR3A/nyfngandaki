@@ -16,7 +16,7 @@ export default function InternalPageHero({
   children
 }) {
   return (
-    <section className="relative w-full min-h-[50vh] lg:min-h-[60vh] flex items-center bg-[#f8fafe] dark:bg-[#0A0F1C] overflow-hidden py-16 lg:py-24 z-40 border-b border-blue-900/5">
+    <section className="relative w-full min-h-[50vh] lg:min-h-[60vh] flex items-center bg-[#f8fafe] dark:bg-[#0A0F1C] py-16 lg:py-24 z-50 border-b border-blue-900/5">
       
       {/* Mesh Pattern Background (Very faint dotted) */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">

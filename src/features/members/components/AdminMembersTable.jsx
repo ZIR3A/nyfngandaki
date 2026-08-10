@@ -14,8 +14,11 @@ export function AdminMembersTable({ members, districts }) {
   const filteredMembers = useMemo(() => {
     return members.filter(member => {
       // Level filter
-      if (filterLevel !== "all" && member.organizationLevel !== filterLevel) {
-        return false;
+      if (filterLevel !== "all") {
+        const level = member.organizationLevel?.toUpperCase() || "";
+        if (level !== filterLevel) {
+          return false;
+        }
       }
 
       // District filter
@@ -41,7 +44,7 @@ export function AdminMembersTable({ members, districts }) {
 
       return true;
     });
-  }, [members, searchQuery, filterDistrict]);
+  }, [members, searchQuery, filterDistrict, filterLevel]);
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
@@ -67,6 +70,7 @@ export function AdminMembersTable({ members, districts }) {
             className="w-full sm:w-40 py-2 px-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
           >
             <option value="all">All Levels</option>
+            <option value="CENTRAL">Central</option>
             <option value="PROVINCE">Province</option>
             <option value="DISTRICT">District</option>
           </select>
