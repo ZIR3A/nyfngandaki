@@ -145,5 +145,72 @@ export const en = {
       markAttendance: "Mark Attendance",
       reports: "Event Reports"
     }
+  },
+  contact: {
+    title: "Contact Us",
+    subtitle: "Get in touch with the National Youth Federation Nepal - Gandaki Province Committee.",
+    officeLocation: "Office Location",
+    officeHours: "Office Hours",
+    socialMedia: "Connect With Us",
+    intro: {
+      eyebrow: "GET IN TOUCH",
+      heading: "We're here to hear from you",
+      description: "Have a question, suggestion or enquiry? Reach out to the NYFN Gandaki team through any of the channels below.",
+      callUs: "CALL US",
+      emailUs: "EMAIL US",
+      visitUs: "VISIT US"
+    },
+    form: {
+      eyebrow: "SEND US A MESSAGE",
+      heading: "Have something to say?",
+      description: "Have a question, suggestion or enquiry? Send us a message and our team will get back to you.",
+      title: "Send a Message",
+      name: "Full Name",
+      email: "Email Address",
+      phone: "Phone Number (Optional)",
+      subject: "Subject",
+      message: "Your Message",
+      submit: "Send Message",
+      sending: "Sending...",
+      success: "Your message has been sent successfully. We will get back to you soon.",
+      error: "Failed to send message. Please try again later.",
+      errors: {
+        nameRequired: "Name must be at least 2 characters.",
+        emailInvalid: "Please enter a valid email address.",
+        subjectRequired: "Subject must be at least 5 characters.",
+        messageRequired: "Message must be at least 10 characters."
+      }
+    },
+    info: {
+      heading: "CONTACT INFORMATION",
+      description: "We're available through the following channels.",
+      office: "OFFICE",
+      phone: "PHONE",
+      email: "EMAIL",
+      officeHours: "OFFICE HOURS",
+      socialMedia: "CONNECT WITH US",
+      callOffice: "Call Office",
+      sendEmail: "Send Email"
+    },
+    location: {
+      eyebrow: "OFFICE LOCATION",
+      heading: "Visit Our Office",
+      description: "Find us at our office in Gandaki Province. Use the map below to view our location and plan your visit.",
+      office: "OFFICE",
+      address: "OFFICE ADDRESS",
+      phone: "PHONE",
+      officeHours: "OFFICE HOURS",
+      getDirections: "Get Directions",
+      viewOnMap: "View on Google Maps",
+      mapError: "Unable to load the map.",
+      mapUnavailable: "Our office location is currently unavailable online. Please contact us directly for directions."
+    },
+    cta: {
+      eyebrow: "NEED MORE INFORMATION?",
+      heading: "We're Here to Help",
+      description: "Have a question, suggestion or need additional information? Reach out through the contact channels available to you.",
+      callUs: "Call Us",
+      emailUs: "Send an Email"
+    }
   }
 };

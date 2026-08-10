@@ -7,7 +7,7 @@ import {
   LayoutDashboard, Users, UserCog, LogOut, Menu, X, Search, 
   Bell, MessageSquare, Plus, Sun, Moon, ChevronRight, Home, ChevronDown,
   HeartPulse, Calendar, FileText, Settings, HardDrive, Image as ImageIcon,
-  Layers, Briefcase, MapPin, BookOpen, Globe
+  Layers, Briefcase, MapPin, BookOpen, Globe, Mail, PhoneCall
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
@@ -59,6 +59,7 @@ export function AdminShell({ children, user }) {
         { name: "Bidhan (Constitution)", href: `/admin/bidhan`, icon: BookOpen },
         { name: "Homepage Settings", href: `/admin/settings/homepage`, icon: Settings },
         { name: "About Page Settings", href: `/admin/content/about`, icon: FileText },
+        { name: "Contact Settings", href: `/admin/settings/contact`, icon: PhoneCall },
         { name: "Leadership Messages", href: `/admin/leadership-messages`, icon: MessageSquare },
         { name: "Banners", href: `/admin/banners`, icon: ImageIcon },
         { name: "Media Library", href: `/admin/storage`, icon: HardDrive },
@@ -71,6 +72,7 @@ export function AdminShell({ children, user }) {
       label: "Communications",
       items: [
         { name: "Notices", href: `/admin/notices`, icon: Bell },
+        { name: "Contact Messages", href: `/admin/contact-messages`, icon: Mail },
       ]
     },
     {

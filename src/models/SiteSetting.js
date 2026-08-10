@@ -50,15 +50,42 @@ const SiteSettingSchema = new mongoose.Schema(
 
     footer: { type: LocalizedStringSchema },
     contact: {
-      phone: { type: String, trim: true },
-      email: { type: String, trim: true },
+      phones: [
+        {
+          label: LocalizedStringSchema,
+          number: { type: String, trim: true },
+          primary: { type: Boolean, default: false }
+        }
+      ],
+      emails: [
+        {
+          label: LocalizedStringSchema,
+          email: { type: String, trim: true },
+          primary: { type: Boolean, default: false }
+        }
+      ],
       address: LocalizedStringSchema,
+      website: { type: String, trim: true },
+      location: {
+        latitude: { type: Number, default: null },
+        longitude: { type: Number, default: null }
+      }
     },
     socialLinks: {
       facebook: { type: String, trim: true },
       twitter: { type: String, trim: true },
       instagram: { type: String, trim: true },
       youtube: { type: String, trim: true },
+      tiktok: { type: String, trim: true },
+    },
+    officeHours: {
+      sunday: { enabled: { type: Boolean, default: true }, open: { type: String, default: "10:00" }, close: { type: String, default: "17:00" } },
+      monday: { enabled: { type: Boolean, default: true }, open: { type: String, default: "10:00" }, close: { type: String, default: "17:00" } },
+      tuesday: { enabled: { type: Boolean, default: true }, open: { type: String, default: "10:00" }, close: { type: String, default: "17:00" } },
+      wednesday: { enabled: { type: Boolean, default: true }, open: { type: String, default: "10:00" }, close: { type: String, default: "17:00" } },
+      thursday: { enabled: { type: Boolean, default: true }, open: { type: String, default: "10:00" }, close: { type: String, default: "17:00" } },
+      friday: { enabled: { type: Boolean, default: true }, open: { type: String, default: "10:00" }, close: { type: String, default: "17:00" } },
+      saturday: { enabled: { type: Boolean, default: false }, open: { type: String, default: "10:00" }, close: { type: String, default: "17:00" } },
     },
     logoId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -76,6 +103,9 @@ const SiteSettingSchema = new mongoose.Schema(
   }
 );
 
-const SiteSetting = mongoose.models.SiteSetting || mongoose.model("SiteSetting", SiteSettingSchema);
+if (mongoose.models.SiteSetting) {
+  delete mongoose.models.SiteSetting;
+}
+const SiteSetting = mongoose.model("SiteSetting", SiteSettingSchema);
 
 export default SiteSetting;

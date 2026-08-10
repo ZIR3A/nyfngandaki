@@ -37,7 +37,7 @@ export class SiteSettingService {
       if (!settings) {
         settings = new SiteSetting(data);
       } else {
-        Object.assign(settings, data);
+        settings.set(data);
       }
       
       const savedSettings = await settings.save();
