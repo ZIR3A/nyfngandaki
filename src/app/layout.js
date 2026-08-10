@@ -3,6 +3,7 @@ import "@/app/globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const notoSansDevanagari = Noto_Sans_Devanagari({ subsets: ["devanagari"], weight: ["400", "500", "600", "700"], variable: "--font-noto-sans-devanagari" });
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster position="bottom-right" richColors />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
