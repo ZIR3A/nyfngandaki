@@ -129,7 +129,7 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
             >
               {activeBanners[selectedIndex] && (
                 <>
-                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 tracking-tight drop-shadow-2xl">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-4 tracking-tight drop-shadow-2xl">
                     {activeBanners[selectedIndex].title?.[language]}
                   </h2>
                   {activeBanners[selectedIndex].subtitle?.[language] && (
@@ -143,18 +143,18 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
                     </p>
                   )}
 
-                  <div className="flex flex-wrap items-center justify-center gap-6">
+                  <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 mt-2 md:mt-0">
                     {activeBanners[selectedIndex].primaryButtonText?.[language] && (
-                      <Link href={activeBanners[selectedIndex].primaryButtonLink || "/about"} className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-3.5 bg-white text-[#153E90] hover:bg-gray-100 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl group">
+                      <Link href={activeBanners[selectedIndex].primaryButtonLink || "/about"} className="inline-flex items-center justify-center px-5 md:px-8 py-2 md:py-3.5 text-sm md:text-base bg-white text-[#153E90] hover:bg-gray-100 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl group">
                         {activeBanners[selectedIndex].primaryButtonText?.[language]}
-                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="ml-1.5 md:ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                       </Link>
                     )}
                     
                     {activeBanners[selectedIndex].secondaryButtonText?.[language] && (
-                      <Link href={activeBanners[selectedIndex].secondaryButtonLink || "/about"} className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-3.5 bg-transparent border-2 border-white text-white hover:bg-white/10 rounded-full font-bold transition-all duration-300">
+                      <Link href={activeBanners[selectedIndex].secondaryButtonLink || "/about"} className="inline-flex items-center justify-center px-5 md:px-8 py-2 md:py-3.5 text-sm md:text-base bg-transparent border-2 border-white text-white hover:bg-white/10 rounded-full font-bold transition-all duration-300">
                         {activeBanners[selectedIndex].secondaryButtonText?.[language]}
-                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="ml-1.5 md:ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                       </Link>
                     )}
                   </div>
@@ -169,14 +169,14 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
           <>
             <button 
               onClick={scrollPrev}
-              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm transition-all z-30"
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 hidden md:flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm transition-all z-30"
               aria-label="Previous slide"
             >
               <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
             </button>
             <button 
               onClick={scrollNext}
-              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm transition-all z-30"
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 hidden md:flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm transition-all z-30"
               aria-label="Next slide"
             >
               <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
