@@ -11,9 +11,10 @@ export default function OrganizationStructure() {
   const structures = [
     { level: language === 'en' ? "National" : "राष्ट्रिय", title: language === 'en' ? "Central Committee" : "केन्द्रीय कमिटी" },
     { level: language === 'en' ? "Province" : "प्रदेश", title: language === 'en' ? "Province Committee" : "प्रदेश कमिटी" },
-    { level: language === 'en' ? "District" : "जिल्ला", title: language === 'en' ? "District Committees" : "जिल्ला कमिटीहरू" },
-    { level: language === 'en' ? "Municipality" : "नगर/पालिका", title: language === 'en' ? "Municipality Committees" : "नगर/पालिका कमिटीहरू" },
-    { level: language === 'en' ? "Ward" : "वडा", title: language === 'en' ? "Ward Committees" : "वडा कमिटीहरू" },
+    { level: language === 'en' ? "District" : "जिल्ला", title: language === 'en' ? "District Committee" : "जिल्ला कमिटी" },
+    { level: language === 'en' ? "Municipality" : "नगर/पालिका", title: language === 'en' ? "Municipality Committee" : "नगर/पालिका कमिटी" },
+    { level: language === 'en' ? "Ward" : "वडा", title: language === 'en' ? "Ward Committee" : "वडा कमिटी" },
+    { level: language === 'en' ? "Tole" : "टोल", title: language === 'en' ? "Tole Committee" : "टोल कमिटी" },
   ];
 
   const SHOW_ORGANIZATION_MODULE = false;
