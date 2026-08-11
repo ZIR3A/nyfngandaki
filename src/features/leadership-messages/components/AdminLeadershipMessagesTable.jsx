@@ -50,7 +50,7 @@ export function AdminLeadershipMessagesTable({ messages }) {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm">
       
       {/* Toolbar */}
       <div className="p-4 border-b border-gray-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gray-50/50 dark:bg-slate-900/50">
@@ -80,23 +80,23 @@ export function AdminLeadershipMessagesTable({ messages }) {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
-        <table className="w-full text-sm text-left">
-          <thead className="text-xs text-gray-500 dark:text-slate-400 uppercase bg-gray-50/50 dark:bg-slate-900/50 border-b border-gray-200 dark:border-slate-800">
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-800">
             <tr>
-              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400">Member</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400">Position</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400 text-center">Homepage</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400 text-center">About</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400 text-center">Status</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400 text-center">Order</th>
-              <th className="px-6 py-4 font-semibold text-gray-600 dark:text-slate-400 text-right">Actions</th>
+              <th scope="col" className="px-6 py-4">Member</th>
+              <th scope="col" className="px-6 py-4">Position</th>
+              <th scope="col" className="px-6 py-4 text-center">Homepage</th>
+              <th scope="col" className="px-6 py-4 text-center">About</th>
+              <th scope="col" className="px-6 py-4 text-center">Status</th>
+              <th scope="col" className="px-6 py-4 text-center">Order</th>
+              <th scope="col" className="px-6 py-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-slate-800">
+          <tbody>
             {filteredMessages.length > 0 ? (
               filteredMessages.map((msg) => (
-                <tr key={msg._id} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors bg-white dark:bg-slate-900">
+                <tr key={msg._id} className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                   <td className="px-6 py-4">
                     {msg.map ? null : null /* Just a spacer comment */}
                     <div className="flex items-center gap-3">

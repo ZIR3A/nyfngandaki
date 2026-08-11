@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Save, Loader2, MapPin, Share2, Clock, Phone, Mail, Plus, Trash2 } from "lucide-react";
+import { Save, Loader2, MapPin, Share2, Clock, Phone, Mail, Plus, Trash2, ArrowLeft } from "lucide-react";
 import { updateContactSettings } from "../actions/setting.actions";
 import { LocalizedInput } from "@/features/admin/about/components/shared/LocalizedInput";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export function ContactSettingsForm({ initialData = {} }) {
   const router = useRouter();
@@ -130,52 +131,57 @@ export function ContactSettingsForm({ initialData = {} }) {
   const daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
   return (
-    <div className="max-w-5xl pb-24">
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Contact Settings</h1>
-          <p className="text-gray-500 text-sm mt-1">Manage office location, hours, and social media links.</p>
+    <div className="max-w-5xl mx-auto pb-24">
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4 flex-1">
+          <div>
+            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Contact Settings</h1>
+            <p className="text-gray-500 text-sm mt-1">Manage office location, hours, and social media links.</p>
+          </div>
         </div>
-        <Button onClick={() => document.getElementById("contact-settings-form").requestSubmit()} disabled={loading} className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">
-          {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-          Save All Changes
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button type="button" variant="outline" asChild>
+            <Link href="/admin/settings">Cancel</Link>
+          </Button>
+          <Button onClick={() => document.getElementById("contact-settings-form").requestSubmit()} disabled={loading} variant="crm-primary" size="crm-primary">
+            {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+            Save All Changes
+          </Button>
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col md:flex-row gap-6">
         
         {/* Sidebar Navigation */}
-        <div className="w-full lg:w-64 shrink-0">
-          <nav className="flex lg:flex-col space-x-2 lg:space-x-0 lg:space-y-1 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
-            {tabs.map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors whitespace-nowrap ${
-                    isActive 
-                      ? "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" 
-                      : "text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <tab.icon className={`w-4 h-4 mr-3 ${isActive ? "text-blue-600 dark:text-blue-400" : "text-gray-400"}`} />
-                  {tab.label}
-                </button>
-              );
-            })}
-          </nav>
+        <div className="w-full md:w-64 shrink-0 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-y-auto no-scrollbar pb-4 md:pb-0 pr-0 md:pr-4 hide-scrollbar">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
+                  isActive 
+                    ? "bg-[#1546B0] text-white" 
+                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                }`}
+              >
+                <tab.icon className={`w-5 h-5 shrink-0 ${isActive ? "text-white" : "text-slate-400"}`} />
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
         {/* Form Content */}
         <div className="flex-1 min-w-0">
-          <form id="contact-settings-form" onSubmit={handleSubmit} className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
+          <form id="contact-settings-form" onSubmit={handleSubmit} className="w-full">
             
             {/* GENERAL CONTACT TAB */}
-            <div className={activeTab === "general" ? "block p-6 space-y-10" : "hidden"}>
+            <div className={activeTab === "general" ? "block space-y-6" : "hidden"}>
               
-              <section>
+              <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
                 <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center border-b border-gray-100 dark:border-slate-800 pb-4">
                   <MapPin className="w-5 h-5 mr-2 text-blue-600" />
                   Location & Web
@@ -225,7 +231,7 @@ export function ContactSettingsForm({ initialData = {} }) {
                 </div>
               </section>
 
-              <section>
+              <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
                 <div className="flex items-center justify-between border-b border-gray-100 dark:border-slate-800 pb-4 mb-6">
                   <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center">
                     <Phone className="w-5 h-5 mr-2 text-blue-600" />
@@ -279,7 +285,7 @@ export function ContactSettingsForm({ initialData = {} }) {
                 </div>
               </section>
 
-              <section>
+              <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
                 <div className="flex items-center justify-between border-b border-gray-100 dark:border-slate-800 pb-4 mb-6">
                   <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center">
                     <Mail className="w-5 h-5 mr-2 text-blue-600" />
@@ -336,7 +342,7 @@ export function ContactSettingsForm({ initialData = {} }) {
             </div>
 
             {/* OFFICE HOURS TAB */}
-            <div className={activeTab === "hours" ? "block p-6" : "hidden"}>
+            <div className={activeTab === "hours" ? "block bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6" : "hidden"}>
               <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center border-b border-gray-100 dark:border-slate-800 pb-4">
                 <Clock className="w-5 h-5 mr-2 text-blue-600" />
                 Office Hours
@@ -386,7 +392,7 @@ export function ContactSettingsForm({ initialData = {} }) {
             </div>
 
             {/* SOCIAL MEDIA TAB */}
-            <div className={activeTab === "social" ? "block p-6" : "hidden"}>
+            <div className={activeTab === "social" ? "block bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6" : "hidden"}>
               <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center border-b border-gray-100 dark:border-slate-800 pb-4">
                 <Share2 className="w-5 h-5 mr-2 text-blue-600" />
                 Social Media Links

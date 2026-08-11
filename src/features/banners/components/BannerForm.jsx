@@ -60,24 +60,39 @@ export function BannerForm({ initialData = null }) {
   }
 
   return (
-    <div className="max-w-4xl">
-      <div className="flex items-center gap-4 mb-8">
-        <Link href="/admin/banners">
-          <Button variant="outline" size="icon" className="h-10 w-10">
-            <ArrowLeft className="h-4 w-4" />
+    <div className="max-w-5xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4 flex-1">
+          <Button variant="outline" size="icon" asChild>
+            <Link href="/admin/banners">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
           </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
-            {initialData ? "Edit Banner" : "Create New Banner"}
-          </h1>
-          <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">
-            Design the slider content for the homepage hero section.
-          </p>
+          <div>
+            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
+              {initialData ? "Edit Banner" : "Create New Banner"}
+            </h1>
+            <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">
+              Design the slider content for the homepage hero section.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button type="button" variant="outline" size="crm-primary" asChild>
+            <Link href="/admin/banners">Cancel</Link>
+          </Button>
+          <Button 
+            onClick={() => document.getElementById("banner-form").requestSubmit()} 
+            disabled={loading} 
+            variant="crm-primary" size="crm-primary"
+          >
+            {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+            {initialData ? "Update Banner" : "Save Banner"}
+          </Button>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form id="banner-form" onSubmit={handleSubmit} className="space-y-8">
         
         {/* Dual Language Inputs */}
         <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
@@ -155,7 +170,7 @@ export function BannerForm({ initialData = null }) {
                 <MediaPicker 
                   name="imageId" 
                   module="banners" 
-                  initialData={initialData?.imageAsset}
+                  initialData={initialData?.imageId && initialData?.imageUrl ? { _id: initialData.imageId, publicUrl: initialData.imageUrl, mimeType: "image/jpeg" } : null}
                   onUpload={(asset) => setFormData((fd) => ({ ...fd, imageId: asset._id }))}
                   onRemove={() => setFormData((fd) => ({ ...fd, imageId: null }))}
                 />
@@ -191,23 +206,6 @@ export function BannerForm({ initialData = null }) {
           </div>
         </div>
 
-        {/* Submit Actions */}
-        <div className="flex justify-end gap-4 pt-6">
-          <Link href="/admin/banners">
-            <Button variant="outline" type="button" disabled={loading} className="px-8">
-              Cancel
-            </Button>
-          </Link>
-          <Button type="submit" disabled={loading} className="px-8 bg-blue-600 hover:bg-blue-700 text-white">
-            {loading ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4 mr-2" />
-            )}
-            {initialData ? "Update Banner" : "Save Banner"}
-          </Button>
-        </div>
-        
       </form>
     </div>
   );

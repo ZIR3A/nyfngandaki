@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, Mail, Eye, Trash2, Filter } from "lucide-react";
+import { Search, Mail, Eye, Trash2, Filter, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { deleteContactMessageAction, updateMessageStatusAction } from "@/actions/contact.actions";
@@ -65,10 +65,10 @@ export function AdminContactMessagesTable({ initialData = [], pagination, search
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Contact Messages</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Contact Messages</h1>
           <p className="text-slate-500 mt-2">Manage incoming public inquiries and feedback.</p>
         </div>
       </div>
@@ -103,73 +103,87 @@ export function AdminContactMessagesTable({ initialData = [], pagination, search
           </div>
         </div>
 
-        {/* Table Header */}
-        <div className="p-4 border-b border-slate-200 dark:border-slate-800 grid grid-cols-12 gap-4 text-xs font-bold text-slate-500 uppercase tracking-wider hidden md:grid">
-          <div className="col-span-3">Sender</div>
-          <div className="col-span-4">Subject</div>
-          <div className="col-span-2">Date</div>
-          <div className="col-span-1 text-center">Status</div>
-          <div className="col-span-2 text-right">Actions</div>
+        {/* Data Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-800">
+              <tr>
+                <th scope="col" className="px-6 py-4">Sender</th>
+                <th scope="col" className="px-6 py-4">Subject</th>
+                <th scope="col" className="px-6 py-4">Date</th>
+                <th scope="col" className="px-6 py-4">Status</th>
+                <th scope="col" className="px-6 py-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            {messages.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
+                  No messages found.
+                </td>
+              </tr>
+            ) : (
+              messages.map((message) => (
+                <tr key={message._id} className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                  <td className="px-6 py-4">
+                    <div className={`font-medium ${message.status === 'Unread' ? 'text-gray-900 dark:text-white font-bold' : 'text-gray-700 dark:text-gray-300'}`}>
+                      {message.name}
+                    </div>
+                    <div className="text-xs text-gray-500 flex items-center gap-1 mt-1">
+                      <Mail className="w-3 h-3" />
+                      {message.email}
+                    </div>
+                  </td>
+                  
+                  <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                    {message.subject}
+                  </td>
+                  
+                  <td className="px-6 py-4 text-sm text-gray-500">
+                    {new Date(message.createdAt).toLocaleDateString()}
+                  </td>
+                  
+                  <td className="px-6 py-4">
+                    <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                      message.status === 'Unread' 
+                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' 
+                        : message.status === 'Archived'
+                        ? 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
+                        : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                    }`}>
+                      {message.status}
+                    </span>
+                  </td>
+                  
+                  <td className="px-6 py-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <button 
+                        onClick={() => setSelectedMessage(message)}
+                        className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors"
+                        title="View Message"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      <button 
+                        onClick={() => deleteMessage(message._id)}
+                        disabled={deleting === message._id}
+                        className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors disabled:opacity-50"
+                        title="Delete Message"
+                      >
+                        {deleting === message._id ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Trash2 className="w-4 h-4" />
+                        )}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+            </tbody>
+          </table>
         </div>
-
-        {/* Table Body */}
-        {messages.length === 0 ? (
-          <div className="p-12 text-center text-slate-500">
-            No messages found.
-          </div>
-        ) : (
-          <div className="divide-y divide-slate-100 dark:divide-slate-800/50">
-            {messages.map((message) => (
-              <div key={message._id} className={`p-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-center hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors ${message.status === 'Unread' ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`}>
-                <div className="col-span-1 md:col-span-3">
-                  <div className={`font-medium ${message.status === 'Unread' ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-700 dark:text-slate-300'}`}>
-                    {message.name}
-                  </div>
-                  <div className="text-xs text-slate-500 flex items-center gap-1 mt-1">
-                    <Mail className="w-3 h-3" />
-                    {message.email}
-                  </div>
-                </div>
-                
-                <div className="col-span-1 md:col-span-4 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
-                  {message.subject}
-                </div>
-                
-                <div className="col-span-1 md:col-span-2 text-sm text-slate-500">
-                  {new Date(message.createdAt).toLocaleDateString()}
-                </div>
-                
-                <div className="col-span-1 md:col-span-1 flex justify-start md:justify-center">
-                  <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                    message.status === 'Unread' 
-                      ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' 
-                      : message.status === 'Archived'
-                      ? 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
-                      : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
-                  }`}>
-                    {message.status}
-                  </span>
-                </div>
-                
-                <div className="col-span-1 md:col-span-2 flex justify-start md:justify-end gap-2">
-                  {message.status === 'Unread' && (
-                    <Button size="sm" variant="outline" className="h-8 text-xs bg-white dark:bg-slate-900" onClick={() => handleStatusChange(message._id, "Read")}>
-                      Mark Read
-                    </Button>
-                  )}
-                  <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50" asChild>
-                    <Link href={`/admin/contact-messages/${message._id}`}>
-                      <Eye className="w-4 h-4" />
-                    </Link>
-                  </Button>
-                  <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50" onClick={() => handleDelete(message._id)} disabled={isDeleting}>
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
 
         {/* Pagination */}
         {pagination?.totalPages > 1 && (

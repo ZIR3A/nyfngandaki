@@ -23,9 +23,9 @@ const seed = async () => {
     console.log('Connected.');
 
     const provinceId = process.env.NEXT_PUBLIC_PROVINCE_ID || '64f0b2f6e4b0a1b2c3d4e5f6';
-    
+
     // Default system user ID for seeding (or just use a dummy one if required)
-    const userId = new mongoose.Types.ObjectId(); 
+    const userId = new mongoose.Types.ObjectId();
 
     console.log(`Seeding About Page data for province: ${provinceId}`);
 

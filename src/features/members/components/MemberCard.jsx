@@ -317,7 +317,7 @@ function ShareSheet({ member, isNepali, onClose }) {
 // ─────────────────────────────────────────────────────────────────────────────
 // MemberCard — THE single unified card
 // ─────────────────────────────────────────────────────────────────────────────
-export function MemberCard({ member, isNepali }) {
+export function MemberCard({ member, isNepali, hideActions = false, noShadow = false }) {
   const [showQR, setShowQR] = useState(false);
   const [showShare, setShowShare] = useState(false);
 
@@ -335,7 +335,7 @@ export function MemberCard({ member, isNepali }) {
         <Link href={href} className="flex flex-col items-center text-center outline-none" tabIndex={0}>
           {/* Circular Photo with Shadow and White Border */}
           <div className="relative mb-3">
-            <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 relative rounded-full overflow-hidden border-[4px] border-white dark:border-gray-800 shadow-lg z-10 transition-transform duration-500 group-hover:scale-105 bg-gray-100 flex-shrink-0">
+            <div className={`w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 relative rounded-full overflow-hidden border-[4px] border-white dark:border-gray-800 ${noShadow ? '' : 'shadow-lg'} z-10 transition-transform duration-500 group-hover:scale-105 bg-gray-100 flex-shrink-0`}>
               {member.photo ? (
                 <Image
                   src={member.photo}
@@ -378,24 +378,26 @@ export function MemberCard({ member, isNepali }) {
         </Link>
 
         {/* Minimal Action Buttons (QR & Share) */}
-        <div className="flex items-center justify-center gap-2 mt-4">
-          <button
-            onClick={e => { e.stopPropagation(); e.preventDefault(); setShowQR(true); }}
-            className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-center text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 hover:scale-110 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-            aria-label={t("qrCode", isNepali)}
-            title={t("qrCode", isNepali)}
-          >
-            <QrCode className="w-3.5 h-3.5" />
-          </button>
-          <button
-            onClick={e => { e.stopPropagation(); e.preventDefault(); setShowShare(true); }}
-            className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-center text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:border-purple-200 hover:scale-110 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
-            aria-label={t("share", isNepali)}
-            title={t("share", isNepali)}
-          >
-            <Share2 className="w-3.5 h-3.5" />
-          </button>
-        </div>
+        {!hideActions && (
+          <div className="flex items-center justify-center gap-2 mt-4">
+            <button
+              onClick={e => { e.stopPropagation(); e.preventDefault(); setShowQR(true); }}
+              className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-center text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 hover:scale-110 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              aria-label={t("qrCode", isNepali)}
+              title={t("qrCode", isNepali)}
+            >
+              <QrCode className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={e => { e.stopPropagation(); e.preventDefault(); setShowShare(true); }}
+              className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-center text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:border-purple-200 hover:scale-110 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
+              aria-label={t("share", isNepali)}
+              title={t("share", isNepali)}
+            >
+              <Share2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
       </motion.div>
 
       {/* Modals */}

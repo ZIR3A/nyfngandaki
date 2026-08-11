@@ -99,13 +99,13 @@ export default function ChaptersManagement() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Chapters</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Chapters</h1>
           <p className="text-slate-500 mt-2">Manage the organizational structure of the constitution.</p>
         </div>
-        <Button onClick={() => handleOpenDialog()} className="gap-2">
+        <Button onClick={() => handleOpenDialog()} variant="crm-primary" size="crm-primary" className="gap-2">
           <Plus className="w-4 h-4" />
           Create Chapter
         </Button>
@@ -194,9 +194,9 @@ export default function ChaptersManagement() {
             />
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="outline" type="button" disabled={isSaving}>Cancel</Button>
+                <Button variant="outline" size="crm-primary" type="button" disabled={isSaving}>Cancel</Button>
               </DialogClose>
-              <Button type="submit" disabled={isSaving}>
+              <Button type="submit" disabled={isSaving} variant="crm-primary" size="crm-primary">
                 {isSaving ? "Saving..." : "Save Chapter"}
               </Button>
             </DialogFooter>
@@ -206,3 +206,6 @@ export default function ChaptersManagement() {
     </div>
   );
 }
+
+
+

@@ -46,7 +46,7 @@ export default function AmendmentTimeline({ t, locale, amendments }) {
                         {t("bidhan.affectedChapters") || "Affected Chapters:"}
                       </span>
                       {amendment.affectedChapters.map((chNum) => (
-                        <Badge key={chNum} variant="outline" className="border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/10">
+                        <Badge key={chNum} variant="outline" size="crm-primary" className="border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/10">
                           {t("bidhan.chapter") || "Chapter"} {chNum}
                         </Badge>
                       ))}

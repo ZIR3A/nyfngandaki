@@ -12,6 +12,14 @@ export function ContactInformation({ dict, settings, locale }) {
   const officeHours = settings?.officeHours || {};
   const socialLinks = settings?.socialLinks || {};
 
+  const latitude = settings?.contact?.location?.latitude;
+  const longitude = settings?.contact?.location?.longitude;
+  const hasCoordinates = latitude && longitude;
+
+  const embedUrl = hasCoordinates 
+    ? `https://www.openstreetmap.org/export/embed.html?bbox=${longitude-0.01}%2C${latitude-0.01}%2C${longitude+0.01}%2C${latitude+0.01}&layer=mapnik&marker=${latitude}%2C${longitude}`
+    : null;
+
   const daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
   const getDayName = (day) => {
@@ -51,7 +59,7 @@ export function ContactInformation({ dict, settings, locale }) {
       
       {/* Header */}
       <div className="mb-8">
-        <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
           {dict.contact.info.heading}
         </h2>
         <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
@@ -68,10 +76,10 @@ export function ContactInformation({ dict, settings, locale }) {
               <MapPin className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 {dict.contact.info.office}
               </h3>
-              <p className="text-slate-900 dark:text-white font-medium whitespace-pre-wrap">
+              <p className="text-base text-slate-900 dark:text-white font-medium whitespace-pre-wrap">
                 {address}
               </p>
             </div>
@@ -85,17 +93,17 @@ export function ContactInformation({ dict, settings, locale }) {
               <Phone className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
                 {dict.contact.info.phone}
               </h3>
               <div className="space-y-4">
                 {phones.map((p, idx) => (
                   <div key={idx} className="flex flex-col items-start gap-1">
-                    <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                       {p.label?.[locale] || p.label?.en || "Phone"}
                     </span>
                     <div className="flex flex-wrap items-center justify-between w-full gap-2">
-                      <span className="text-slate-900 dark:text-white font-bold">{p.number}</span>
+                      <span className="text-base text-slate-900 dark:text-white font-medium">{p.number}</span>
                       <a href={`tel:${p.number}`} className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium">
                         {dict.contact.info.callOffice} &rarr;
                       </a>
@@ -114,17 +122,17 @@ export function ContactInformation({ dict, settings, locale }) {
               <Mail className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
                 {dict.contact.info.email}
               </h3>
               <div className="space-y-4">
                 {emails.map((em, idx) => (
                   <div key={idx} className="flex flex-col items-start gap-1">
-                    <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                       {em.label?.[locale] || em.label?.en || "Email"}
                     </span>
                     <div className="flex flex-wrap items-center justify-between w-full gap-2">
-                      <span className="text-slate-900 dark:text-white font-bold break-all">{em.email}</span>
+                      <span className="text-base text-slate-900 dark:text-white font-medium break-all">{em.email}</span>
                       <a href={`mailto:${em.email}`} className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium shrink-0">
                         {dict.contact.info.sendEmail} &rarr;
                       </a>
@@ -143,19 +151,19 @@ export function ContactInformation({ dict, settings, locale }) {
               <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
                 {dict.contact.info.officeHours}
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-3">
                 {daysOfWeek.map((day) => (
-                  <li key={day} className="flex items-center justify-between text-sm">
-                    <span className="font-medium text-slate-700 dark:text-slate-300">{getDayName(day)}</span>
+                  <li key={day} className="flex items-center justify-between">
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{getDayName(day)}</span>
                     {officeHours[day]?.enabled ? (
-                      <span className="text-slate-600 dark:text-slate-400 font-mono">
+                      <span className="text-base text-slate-900 dark:text-white font-medium">
                         {officeHours[day].open} – {officeHours[day].close}
                       </span>
                     ) : (
-                      <span className="text-slate-500 dark:text-slate-500 font-bold text-xs uppercase tracking-wider">
+                      <span className="text-sm text-slate-500 dark:text-slate-500 font-bold uppercase tracking-wider">
                         {getStatusText(false)}
                       </span>
                     )}

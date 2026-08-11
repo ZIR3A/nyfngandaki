@@ -89,21 +89,22 @@ export function AdminMembersTable({ members, districts }) {
       </div>
 
       {/* Data Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm whitespace-nowrap">
-          <thead className="bg-gray-50 dark:bg-slate-900/50 text-gray-600 dark:text-slate-400 font-bold border-b border-gray-200 dark:border-slate-800">
-            <tr>
-              <th className="px-6 py-4">Name (English)</th>
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-800">
+              <tr>
+                <th scope="col" className="px-6 py-4">Name (English)</th>
               <th className="px-6 py-4">Level</th>
               <th className="px-6 py-4">Committee</th>
               <th className="px-6 py-4">Department</th>
-              <th className="px-6 py-4">Position</th>
-              <th className="px-6 py-4">District</th>
-              <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4 text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+                <th scope="col" className="px-6 py-4">Position</th>
+                <th scope="col" className="px-6 py-4">District</th>
+                <th scope="col" className="px-6 py-4">Status</th>
+                <th scope="col" className="px-6 py-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
             {filteredMembers.length === 0 ? (
               <tr>
                 <td colSpan="8" className="px-6 py-12 text-center text-gray-500 dark:text-slate-400">
@@ -112,8 +113,8 @@ export function AdminMembersTable({ members, districts }) {
               </tr>
             ) : (
               filteredMembers.map((member) => (
-                <tr key={member._id.toString()} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-slate-200">
+                <tr key={member._id.toString()} className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                     {member.name?.en || "-"}
                   </td>
                   <td className="px-6 py-4 text-gray-600 dark:text-slate-400">
@@ -162,6 +163,7 @@ export function AdminMembersTable({ members, districts }) {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 }

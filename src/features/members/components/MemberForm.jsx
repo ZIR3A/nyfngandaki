@@ -87,26 +87,34 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
   const isEdit = !!initialData;
 
   return (
-    <div className="max-w-4xl">
-      <div className="flex items-center gap-4 mb-8">
-        <Button variant="outline" size="icon" asChild>
-          <Link href="/admin/members">
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
-            {isEdit ? "Edit Member" : "Add New Member"}
-          </h1>
-          <p className="text-gray-500 dark:text-slate-400 text-sm">
-            {isEdit ? "Update member profile in the directory." : "Create a new member profile in the directory."}
-          </p>
+    <div className="max-w-4xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4 flex-1">
+          <Button variant="outline" size="icon" asChild>
+            <Link href="/admin/members">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+          <div>
+            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
+              {isEdit ? "Edit Member" : "Add New Member"}
+            </h1>
+            <p className="text-gray-500 dark:text-slate-400 text-sm">
+              {isEdit ? "Update member profile in the directory." : "Create a new member profile in the directory."}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button type="button" variant="outline" size="crm-primary" onClick={() => router.back()}>
+            Cancel
+          </Button>
+          <Button onClick={() => document.getElementById("member-form").requestSubmit()} disabled={loading} variant="crm-primary" size="crm-primary">
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Save className="h-4 w-4 mr-2" /> {isEdit ? "Update Member" : "Save Member"}</>}
+          </Button>
         </div>
       </div>
 
-
-
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form id="member-form" onSubmit={handleSubmit} className="space-y-8">
         
         {/* Personal Information Section */}
         <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
@@ -390,15 +398,6 @@ export const MemberForm = ({ initialData = null, districts = [], committees = []
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => router.back()}>
-            Cancel
-          </Button>
-          <Button type="submit" disabled={loading} className="bg-blue-600 hover:bg-blue-700 text-white min-w-[120px]">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Save className="h-4 w-4 mr-2" /> {isEdit ? "Update Member" : "Save Member"}</>}
-          </Button>
         </div>
 
       </form>

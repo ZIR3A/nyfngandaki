@@ -8,7 +8,8 @@ import { LocalizedInput } from "@/features/admin/about/components/shared/Localiz
 import { LocalizedTextarea } from "@/features/admin/about/components/shared/LocalizedTextarea";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-
+import Link from "next/link";
+import { ArrowLeft, Save, Loader2 } from "lucide-react";
 export function DistrictForm({ initialData = null }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -56,16 +57,39 @@ export function DistrictForm({ initialData = null }) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">{initialData ? "Edit District" : "Add New District"}</h1>
+        <div className="flex items-center gap-4 flex-1">
+          <Button variant="outline" size="icon" asChild>
+            <Link href="/admin/districts">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+          <div>
+            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
+              {initialData ? "Edit District" : "Add New District"}
+            </h1>
+            <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">
+              Manage district information.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button type="button" variant="outline" size="crm-primary" asChild>
+            <Link href="/admin/districts">Cancel</Link>
+          </Button>
+          <Button 
+            onClick={() => document.getElementById("district-form").requestSubmit()} 
+            disabled={loading} 
+            variant="crm-primary" size="crm-primary"
+          >
+            {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+            {initialData ? "Update District" : "Save District"}
+          </Button>
         </div>
       </div>
 
-
-
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form id="district-form" onSubmit={handleSubmit} className="space-y-8">
         <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
           <div className="space-y-6">
             <LocalizedInput
@@ -108,14 +132,6 @@ export function DistrictForm({ initialData = null }) {
           </div>
         </div>
 
-        <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => router.push("/admin/districts")} disabled={loading}>
-            Cancel
-          </Button>
-          <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={loading}>
-            {loading ? "Saving..." : "Save District"}
-          </Button>
-        </div>
       </form>
     </div>
   );

@@ -5,10 +5,12 @@ import { ArrowRight, Mail, Link as LinkIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/localization/LanguageContext";
+import { MemberCard } from "@/features/members/components/MemberCard";
 
 export default function FeaturedLeadership({ dictionary, featuredMembers = [] }) {
   const dict = dictionary.home.leadership;
   const { language } = useLanguage();
+  const isNepali = language === 'np';
 
   return (
     <section className="py-24 bg-white dark:bg-[#0A0F1C] relative overflow-hidden">
@@ -40,7 +42,7 @@ export default function FeaturedLeadership({ dictionary, featuredMembers = [] })
              <p className="text-slate-500 dark:text-slate-400">{dict.emptyDesc}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
             {featuredMembers.slice(0, 10).map((member, idx) => (
               <motion.div 
                 key={member._id}
@@ -48,51 +50,11 @@ export default function FeaturedLeadership({ dictionary, featuredMembers = [] })
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group relative bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col cursor-pointer"
+                className="flex flex-col w-[calc(50%-8px)] sm:w-[calc(33.333%-11px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] xl:w-[calc(20%-20px)]"
               >
-                <Link href={`/${language === 'np' ? 'np' : 'en'}/members/${member.slug || member._id}`} className="flex flex-col h-full">
-                  {/* Portrait */}
-                  <div className="relative h-48 sm:h-56 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                     {member.photo ? (
-                        <Image 
-                          src={member.photo} 
-                          alt={member.name[language] || member.name.en} 
-                          fill
-                          className="object-cover object-top group-hover:scale-110 transition-transform duration-700 ease-out"
-                        />
-                     ) : (
-                        <div className="w-full h-full flex items-center justify-center text-slate-400">
-                          <span className="font-medium text-sm">No Photo</span>
-                        </div>
-                     )}
-                     
-                     {/* Hover Overlay */}
-                     <div className="absolute inset-0 bg-gradient-to-t from-[#153E90]/90 via-[#153E90]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
-                        <span className="text-white font-bold text-sm flex items-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                          View Profile <ArrowRight className="ml-1.5 w-4 h-4" />
-                        </span>
-                     </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4 text-center flex-1 flex flex-col items-center justify-center relative">
-                    {/* Decorative Red Accent Line */}
-                    <div className="w-8 h-1 bg-[#D81E27] mx-auto rounded-full mb-3"></div>
-
-                    <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white leading-tight mb-1">
-                      {member.name[language] || member.name.en}
-                    </h3>
-                    <p className="text-[#153E90] dark:text-blue-400 text-xs sm:text-sm font-semibold mb-2 line-clamp-1">
-                      {member.position?.[language] || member.position?.en}
-                    </p>
-                    
-                    {member.district && (
-                      <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-xs font-bold uppercase tracking-widest mt-auto pt-2">
-                        {member.district.name?.[language] || member.district.name?.en}
-                      </p>
-                    )}
-                  </div>
-                </Link>
+                <div className="flex-1 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 p-6 flex flex-col h-full justify-center">
+                   <MemberCard member={member} isNepali={isNepali} hideActions={true} noShadow={true} />
+                </div>
               </motion.div>
             ))}
           </div>

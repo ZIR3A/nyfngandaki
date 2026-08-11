@@ -12,20 +12,19 @@ export default async function AdminBannersPage() {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Banners Management</h1>
           <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">Manage homepage slider banners.</p>
         </div>
-        <Link href="/admin/banners/new">
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Banner
-          </Button>
-        </Link>
+        <Button asChild variant="crm-primary" size="crm-primary">
+          <Link href="/admin/banners/new">
+            <Plus className="w-4 h-4 mr-2" /> Add Banner
+          </Link>
+        </Button>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm">
         
         {/* Toolbar */}
         <div className="p-4 border-b border-gray-200 dark:border-slate-800 flex items-center justify-between bg-gray-50/50 dark:bg-slate-900/50">
@@ -41,16 +40,16 @@ export default async function AdminBannersPage() {
 
         {/* Data Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-gray-50 dark:bg-slate-900/50 text-gray-600 dark:text-slate-400 font-bold border-b border-gray-200 dark:border-slate-800">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-800">
               <tr>
-                <th className="px-6 py-4">Title (English)</th>
-                <th className="px-6 py-4">Order</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th scope="col" className="px-6 py-4">Title (English)</th>
+                <th scope="col" className="px-6 py-4">Order</th>
+                <th scope="col" className="px-6 py-4">Status</th>
+                <th scope="col" className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+            <tbody>
               {banners.length === 0 ? (
                 <tr>
                   <td colSpan="4" className="px-6 py-12 text-center text-gray-500 dark:text-slate-400">
@@ -59,8 +58,8 @@ export default async function AdminBannersPage() {
                 </tr>
               ) : (
                 banners.map((banner) => (
-                  <tr key={banner._id.toString()} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-slate-200 truncate max-w-xs">
+                  <tr key={banner._id.toString()} className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap truncate max-w-xs">
                       {banner.title?.en || "-"}
                     </td>
                     <td className="px-6 py-4 text-gray-600 dark:text-slate-400">
@@ -101,3 +100,6 @@ export default async function AdminBannersPage() {
     </div>
   );
 }
+
+
+

@@ -55,26 +55,40 @@ export function EventForm({ initialData = null }) {
   };
 
   return (
-    <div className="max-w-4xl">
-      <div className="flex items-center gap-4 mb-8">
-        <Link href="/admin/events">
-          <Button variant="outline" size="icon" className="h-10 w-10">
-            <ArrowLeft className="h-4 w-4" />
+    <div className="max-w-5xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4 flex-1">
+          <Button variant="outline" size="icon" asChild>
+            <Link href="/admin/events">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
           </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-extrabold text-gray-900">
-            {initialData ? "Edit Event" : "Create New Event"}
-          </h1>
-          <p className="text-gray-500 text-sm mt-1">
-            Fill in the details for the upcoming event or program.
-          </p>
+          <div>
+            <h1 className="text-2xl font-extrabold text-gray-900">
+              {initialData ? "Edit Event" : "Create New Event"}
+            </h1>
+            <p className="text-gray-500 text-sm mt-1">
+              Fill in the details for the upcoming event or program.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button type="button" variant="outline" size="crm-primary" asChild>
+            <Link href="/admin/events">Cancel</Link>
+          </Button>
+          <Button 
+            onClick={() => document.getElementById("event-form").requestSubmit()} 
+            disabled={loading} 
+            variant="crm-primary"
+            size="crm-primary"
+          >
+            {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+            {initialData ? "Update Event" : "Save Event"}
+          </Button>
         </div>
       </div>
 
-
-
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form id="event-form" onSubmit={handleSubmit} className="space-y-6">
         
         {/* Dual Language Inputs */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -196,23 +210,6 @@ export function EventForm({ initialData = null }) {
           </div>
         </div>
 
-        {/* Submit Actions */}
-        <div className="flex justify-end gap-4 pt-6">
-          <Link href="/admin/events">
-            <Button variant="outline" type="button" disabled={loading} className="px-8">
-              Cancel
-            </Button>
-          </Link>
-          <Button type="submit" disabled={loading} className="px-8 bg-blue-600 hover:bg-blue-700 text-white">
-            {loading ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4 mr-2" />
-            )}
-            {initialData ? "Update Event" : "Save Event"}
-          </Button>
-        </div>
-        
       </form>
     </div>
   );

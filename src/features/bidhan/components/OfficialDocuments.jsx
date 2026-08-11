@@ -94,7 +94,7 @@ export default function OfficialDocuments({ t, locale, documents }) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <Badge variant="outline" className="text-xs bg-slate-50 dark:bg-slate-900">
+                    <Badge variant="outline" size="crm-primary" className="text-xs bg-slate-50 dark:bg-slate-900">
                       {doc.categoryId?.name?.[locale] || "General"}
                     </Badge>
                     <Badge variant="secondary" className="text-xs">
@@ -116,11 +116,11 @@ export default function OfficialDocuments({ t, locale, documents }) {
               </div>
 
               <div className="mt-auto flex gap-3">
-                <Button className="flex-1 rounded-xl group/btn" variant="outline" onClick={() => doc.driveUrl && setSelectedDoc(doc)}>
+                <Button className="flex-1 rounded-xl group/btn" variant="outline" size="crm-primary" onClick={() => doc.driveUrl && setSelectedDoc(doc)}>
                   <Eye className="w-4 h-4 mr-2 text-slate-400 group-hover/btn:text-primary transition-colors" />
                   {t("bidhan.readOnline") || "Read"}
                 </Button>
-                <Button className="flex-1 rounded-xl group/btn" variant="outline" onClick={() => handleDownload(doc.driveUrl, doc.title?.[locale] || "Constitution_Document")}>
+                <Button className="flex-1 rounded-xl group/btn" variant="outline" size="crm-primary" onClick={() => handleDownload(doc.driveUrl, doc.title?.[locale] || "Constitution_Document")}>
                   <Download className="w-4 h-4 mr-2 text-slate-400 group-hover/btn:text-primary transition-colors" />
                   {t("bidhan.download") || "Download"}
                 </Button>

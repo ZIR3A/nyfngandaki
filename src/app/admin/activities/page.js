@@ -12,7 +12,7 @@ export default async function AdminActivitiesPage() {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Activities Management</h1>
           <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">Manage social impact activities displayed on the homepage.</p>
@@ -111,3 +111,6 @@ export default async function AdminActivitiesPage() {
     </div>
   );
 }
+
+
+

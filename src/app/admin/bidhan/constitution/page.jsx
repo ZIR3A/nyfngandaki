@@ -63,13 +63,13 @@ export default function ConstitutionManagement() {
   };
 
   return (
-    <div className="space-y-8 max-w-4xl">
+    <div className="space-y-6 w-full">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Constitution Details</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Constitution Details</h1>
           <p className="text-slate-500 mt-2">Manage the core metadata of the active Digital Constitution.</p>
         </div>
-        <Button onClick={handleSave} disabled={isSaving} className="gap-2">
+        <Button onClick={handleSave} disabled={isSaving} className="gap-2" variant="crm-primary" size="crm-primary">
           <Save className="w-4 h-4" />
           {isSaving ? "Saving..." : "Save Changes"}
         </Button>
@@ -123,3 +123,6 @@ export default function ConstitutionManagement() {
     </div>
   );
 }
+
+
+

@@ -40,37 +40,48 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
     emblaApi.on("reInit", onSelect);
   }, [emblaApi, onSelect]);
 
-  // Fallback banners if none provided
-  const activeBanners = banners && banners.length > 0 ? banners : [
+  const fallbackBanners = [
     {
       _id: "default-1",
       image: settings?.banner || "/placeholder-banner.jpg",
-      title: {
-        en: "Youth Leadership",
-        np: "युवा नेतृत्व"
-      },
-      subtitle: {
-        en: "Building the Future",
-        np: "भविष्यको निर्माण"
-      },
-      description: {
-        en: "Working for democracy, social justice, and economic prosperity.",
-        np: "लोकतन्त्र, सामाजिक न्याय र आर्थिक समृद्धिका लागि काम गर्दै।"
-      },
+      title: { en: "Youth Leadership", np: "युवा नेतृत्व" },
+      subtitle: { en: "Building the Future", np: "भविष्यको निर्माण" },
+      description: { en: "Working for democracy, social justice, and economic prosperity.", np: "लोकतन्त्र, सामाजिक न्याय र आर्थिक समृद्धिका लागि काम गर्दै।" },
       primaryButtonText: { en: "About Us", np: "हाम्रो बारे" },
       primaryButtonLink: "/about",
       secondaryButtonText: { en: "Our History", np: "हाम्रो इतिहास" },
       secondaryButtonLink: "/about#history",
+      order: 0,
+      createdAt: new Date().toISOString()
     }
   ];
+
+  const rawBanners = banners && banners.length > 0 ? banners : fallbackBanners;
+  
+  // Explicitly sort banners by order (asc) then createdAt (desc) to ensure correct display order
+  const activeBanners = [...rawBanners].sort((a, b) => {
+    const orderA = typeof a.order === 'number' ? a.order : 0;
+    const orderB = typeof b.order === 'number' ? b.order : 0;
+    if (orderA !== orderB) return orderA - orderB;
+    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+    return dateB - dateA;
+  });
 
   // Dynamic stats
   let stats = [];
   if (settings?.stats && settings.stats.length > 0) {
-    stats = settings.stats.map(s => ({
+    const iconList = [
+      <Users className="w-6 h-6 text-blue-600" />,
+      <MapPin className="w-6 h-6 text-blue-600" />,
+      <Activity className="w-6 h-6 text-blue-600" />,
+      <FileText className="w-6 h-6 text-blue-600" />,
+    ];
+    
+    stats = settings.stats.map((s, idx) => ({
       value: s.value,
       label: s.label?.[language] || "",
-      icon: <Activity className="w-6 h-6 text-blue-600" />
+      icon: iconList[idx % iconList.length]
     }));
   } else {
     stats = [
@@ -206,16 +217,7 @@ export default function HeroSection({ dictionary, settings, banners = [] }) {
                 ? "National Youth Federation Nepal (NYFN) Gandaki is committed to building responsible, disciplined, and patriotic youth."
                 : "राष्ट्रिय युवा संघ नेपाल (रा.यु.संघ.) गण्डकी जिम्मेवार, अनुशासित र देशभक्त युवा निर्माण गर्न प्रतिबद्ध छ।"}
             </p>
-            <div className="flex flex-wrap items-center justify-center xl:justify-start gap-2 pt-1">
-              <Link href="/about" className="inline-flex items-center justify-center px-4 py-2 bg-[#153E90] hover:bg-blue-800 text-white rounded-full text-xs font-semibold transition-all shadow-md group">
-                {language === 'en' ? "About Us" : "हाम्रो बारे"}
-                <ArrowRight className="ml-1.5 w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link href="/about#history" className="inline-flex items-center justify-center px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-semibold transition-all">
-                {language === 'en' ? "Our History" : "हाम्रो इतिहास"}
-                <ArrowRight className="ml-1.5 w-3.5 h-3.5 text-gray-400" />
-              </Link>
-            </div>
+
           </div>
 
           {/* Stats Cards Right */}

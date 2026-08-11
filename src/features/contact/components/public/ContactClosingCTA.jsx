@@ -42,18 +42,18 @@ export function ContactClosingCTA({ dict, settings }) {
 
           <div className="w-full md:w-auto flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4 shrink-0">
             {hasPhone && (
-              <Button asChild className="w-full sm:w-auto bg-primary-blue hover:bg-blue-700 text-white shadow-sm">
+              <Button asChild className="w-full sm:w-auto px-8 py-6 text-base bg-primary-blue hover:bg-blue-700 text-white shadow-sm">
                 <a href={`tel:${primaryPhone.number}`}>
-                  <Phone className="w-4 h-4 mr-2" />
+                  <Phone className="w-5 h-5 mr-3" />
                   {dict.contact.cta.callUs}
                 </a>
               </Button>
             )}
 
             {hasEmail && (
-              <Button asChild variant="outline" className="w-full sm:w-auto bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900">
+              <Button asChild variant="outline" size="crm-primary" className="w-full sm:w-auto px-8 py-6 text-base bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900">
                 <a href={`mailto:${primaryEmail.address}`}>
-                  <Mail className="w-4 h-4 mr-2" />
+                  <Mail className="w-5 h-5 mr-3" />
                   {dict.contact.cta.emailUs}
                 </a>
               </Button>

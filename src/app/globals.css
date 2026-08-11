@@ -167,4 +167,9 @@
   .label {
     @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
   }
+  
+  /* Global Interaction Fixes */
+  button, a, [role="tab"], [role="button"] {
+    @apply cursor-pointer;
+  }
 }

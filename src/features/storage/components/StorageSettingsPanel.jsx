@@ -161,7 +161,7 @@ export function StorageSettingsPanel({ isSuperAdmin, initialStatus = null }) {
                 <ConnectionStatusBadge isConnected={status?.isConnected} />
               )}
               <Button
-                variant="outline"
+                variant="outline" size="crm-primary"
                 size="sm"
                 onClick={fetchStatus}
                 disabled={loading}
@@ -241,7 +241,7 @@ export function StorageSettingsPanel({ isSuperAdmin, initialStatus = null }) {
                 <>
                   <Button
                     onClick={handleConnect}
-                    variant="outline"
+                    variant="outline" size="crm-primary"
                     className="gap-2"
                     disabled={!!actionLoading}
                   >
@@ -250,7 +250,7 @@ export function StorageSettingsPanel({ isSuperAdmin, initialStatus = null }) {
                   </Button>
                   <Button
                     onClick={handleTest}
-                    variant="outline"
+                    variant="outline" size="crm-primary"
                     className="gap-2"
                     disabled={!!actionLoading}
                   >
@@ -270,7 +270,7 @@ export function StorageSettingsPanel({ isSuperAdmin, initialStatus = null }) {
                   </a>
                   <Button
                     onClick={handleDisconnect}
-                    variant="outline"
+                    variant="outline" size="crm-primary"
                     className="gap-2 text-red-600 hover:text-red-700 border-red-200 hover:border-red-300 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20 ml-auto"
                     disabled={!!actionLoading}
                   >

@@ -109,15 +109,15 @@ export default function ArticlesManagement() {
 
   if (isEditing) {
     return (
-      <div className="space-y-6 max-w-5xl">
+      <div className="space-y-6 w-full">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Edit Article</h1>
+            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Edit Article</h1>
             <p className="text-slate-500 mt-2">Modify the rich text content of the article.</p>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline" onClick={() => setIsEditing(false)} disabled={isSaving}>Cancel</Button>
-            <Button onClick={handleSave} disabled={isSaving}>{isSaving ? "Saving..." : "Save Article"}</Button>
+            <Button variant="outline" size="crm-primary" onClick={() => setIsEditing(false)} disabled={isSaving}>Cancel</Button>
+            <Button onClick={handleSave} disabled={isSaving} variant="crm-primary" size="crm-primary">{isSaving ? "Saving..." : "Save Article"}</Button>
           </div>
         </div>
 
@@ -192,14 +192,14 @@ export default function ArticlesManagement() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Articles</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Articles</h1>
           <p className="text-slate-500 mt-2">Manage the granular articles of the constitution.</p>
         </div>
         <div className="flex gap-3">
-          <Button className="gap-2" onClick={() => handleOpenForm()}>
+          <Button variant="crm-primary" size="crm-primary" className="gap-2" onClick={() => handleOpenForm()}>
             <Plus className="w-4 h-4" />
             Create Article
           </Button>
@@ -290,3 +290,6 @@ export default function ArticlesManagement() {
     </div>
   );
 }
+
+
+

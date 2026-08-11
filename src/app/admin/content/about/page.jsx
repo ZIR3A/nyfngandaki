@@ -7,12 +7,14 @@ export const metadata = {
 
 export default function AboutSettingsPage() {
   return (
-    <div className="w-full h-full flex flex-col">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">About Page Settings</h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Manage every section displayed on the public About page.
-        </p>
+    <div className="max-w-5xl mx-auto space-y-6 w-full">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">About Page Settings</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            Manage every section displayed on the public About page.
+          </p>
+        </div>
       </div>
       
       {/* We pass control to the client orchestrator for the vertical tabs */}
@@ -20,3 +22,4 @@ export default function AboutSettingsPage() {
     </div>
   );
 }
+

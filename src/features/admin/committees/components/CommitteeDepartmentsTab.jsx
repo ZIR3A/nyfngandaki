@@ -238,7 +238,7 @@ export function CommitteeDepartmentsTab({ committee }) {
               </div>
 
               <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-slate-800">
-                <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)} disabled={saving}>
+                <Button type="button" variant="outline" size="crm-primary" onClick={() => setIsModalOpen(false)} disabled={saving}>
                   Cancel
                 </Button>
                 <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={saving}>

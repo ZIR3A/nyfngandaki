@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
@@ -8,8 +8,15 @@ export default function WhoWeAreCTA({ ctaData, locale = 'en' }) {
   if (!ctaData) return null;
 
   const isNp = locale === 'np';
-  const primaryText = ctaData.title?.[locale] || (isNp ? 'à¤¥à¤ª à¤œà¤¾à¤¨à¥à¤¨à¥à¤¹à¥‹à¤¸à¥' : 'Explore Organization');
-  const primaryLink = ctaData.link || `/${locale}/about/details`;
+  const primaryText = ctaData.title?.[locale] || (isNp ? 'थप जान्नुहोस्' : 'Explore Organization');
+  let primaryLink = ctaData.link || `/${locale}/about/details`;
+
+  // Force redirect to contact page if link is /join
+  if (!primaryLink || primaryLink === '/join') {
+    primaryLink = `/${locale}/contact`;
+  } else if (primaryLink.startsWith('/') && !primaryLink.startsWith(`/${locale}`)) {
+    primaryLink = `/${locale}${primaryLink}`;
+  }
 
   return (
     <motion.div 

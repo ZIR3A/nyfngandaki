@@ -53,7 +53,7 @@ export default function HeroSection({
           <FileText className="w-4 h-4 mr-2" />
           {t("bidhan.readOnline") || "Read Constitution"}
         </Button>
-        <Button size="lg" onClick={onDownloadClick} variant="outline" className="rounded-xl px-6 bg-white/50 dark:bg-slate-900/50 hover:-translate-y-0.5 transition-transform duration-200">
+        <Button size="lg" onClick={onDownloadClick} variant="outline" size="crm-primary" className="rounded-xl px-6 bg-white/50 dark:bg-slate-900/50 hover:-translate-y-0.5 transition-transform duration-200">
           <Download className="w-4 h-4 mr-2" />
           {t("bidhan.downloadPdf") || "Download PDF"}
         </Button>

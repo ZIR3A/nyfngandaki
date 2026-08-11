@@ -47,16 +47,16 @@ export function AdminContactMessageDetail({ message: initialMessage }) {
           </Link>
         </Button>
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Message Details</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Message Details</h1>
         </div>
         <div className="ml-auto flex items-center gap-2">
           {message.status !== "Archived" ? (
-            <Button variant="outline" onClick={() => handleStatusChange("Archived")} className="bg-white dark:bg-slate-900">
+            <Button variant="outline" size="crm-primary" onClick={() => handleStatusChange("Archived")} className="bg-white dark:bg-slate-900">
               <Archive className="w-4 h-4 mr-2" />
               Archive
             </Button>
           ) : (
-            <Button variant="outline" onClick={() => handleStatusChange("Read")} className="bg-white dark:bg-slate-900">
+            <Button variant="outline" size="crm-primary" onClick={() => handleStatusChange("Read")} className="bg-white dark:bg-slate-900">
               Move to Inbox
             </Button>
           )}
@@ -125,3 +125,4 @@ export function AdminContactMessageDetail({ message: initialMessage }) {
     </div>
   );
 }
+

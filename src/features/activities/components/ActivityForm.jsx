@@ -187,7 +187,7 @@ export function ActivityForm({ initialData = null }) {
         {/* Submit Actions */}
         <div className="flex justify-end gap-4 pt-6">
           <Link href="/admin/activities">
-            <Button variant="outline" type="button" disabled={loading} className="px-8">
+            <Button variant="outline" size="crm-primary" type="button" disabled={loading} className="px-8">
               Cancel
             </Button>
           </Link>

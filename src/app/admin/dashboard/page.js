@@ -30,7 +30,7 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col pt-6">
+    <div className="flex flex-col w-full">
       <DashboardContainer>
         {error && (
           <div className="bg-red-50 text-red-600 p-4 rounded-xl mb-6">

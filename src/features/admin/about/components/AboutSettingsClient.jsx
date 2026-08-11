@@ -56,33 +56,28 @@ export default function AboutSettingsClient() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 w-full">
+    <div className="flex flex-col md:flex-row gap-6 w-full">
       {/* Left Navigation */}
-      <div className="w-full lg:w-64 flex-shrink-0">
-        <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm overflow-hidden sticky top-[104px]">
-          <div className="flex flex-col p-3">
-            {ABOUT_TABS.map((tab) => {
-              const isActive = activeTabId === tab.id;
-              const Icon = TAB_ICONS[tab.id] || FileText;
+      <div className="w-full md:w-64 shrink-0 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-y-auto no-scrollbar pb-4 md:pb-0 pr-0 md:pr-4 hide-scrollbar">
+        {ABOUT_TABS.map((tab) => {
+          const isActive = activeTabId === tab.id;
+          const Icon = TAB_ICONS[tab.id] || FileText;
 
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabChange(tab.id)}
-                  className={`
-                    flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium relative group
-                    ${isActive 
-                      ? 'text-primary-blue bg-blue-50 dark:bg-blue-900/20' 
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'}
-                  `}
-                >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-primary-blue' : 'text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'}`} />
-                  <span className="relative z-10">{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+          return (
+            <button
+              key={tab.id}
+              onClick={() => handleTabChange(tab.id)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
+                isActive
+                  ? "bg-[#1546B0] text-white"
+                  : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              <Icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+              <span className="relative z-10">{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Right Content Area */}

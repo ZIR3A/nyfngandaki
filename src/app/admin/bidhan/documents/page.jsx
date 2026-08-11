@@ -65,10 +65,10 @@ export default function DocumentManagement() {
     <div className="space-y-8">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Official Documents</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Official Documents</h1>
           <p className="text-slate-500 mt-2">Manage downloadable constitution files and directives.</p>
         </div>
-        <Button className="gap-2" onClick={() => setIsUploadOpen(true)}>
+        <Button variant="crm-primary" size="crm-primary" className="gap-2" onClick={() => setIsUploadOpen(true)}>
           <UploadCloud className="w-4 h-4" />
           Upload Document
         </Button>
@@ -82,7 +82,7 @@ export default function DocumentManagement() {
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <Input className="pl-9 bg-white dark:bg-slate-900" placeholder="Search documents..." />
           </div>
-          <Button variant="outline" className="bg-white dark:bg-slate-900">
+          <Button variant="outline" size="crm-primary" className="bg-white dark:bg-slate-900">
             <Filter className="w-4 h-4 mr-2" />
             Filter
           </Button>
@@ -179,3 +179,4 @@ export default function DocumentManagement() {
     </div>
   );
 }
+

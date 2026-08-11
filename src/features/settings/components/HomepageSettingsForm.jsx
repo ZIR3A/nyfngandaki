@@ -3,10 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Save, Loader2, Link as LinkIcon, Image as ImageIcon, MapPin, TrendingUp, Info, User, Zap } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import { ArrowLeft, Save, Loader2, TrendingUp, Info } from "lucide-react";
 import { updateHomepageSettings } from "../actions/setting.actions";
 import { MediaPicker } from "@/features/storage/components/MediaPicker";
 import { toast } from "sonner";
+import { LocalizedInput } from "@/features/admin/about/components/shared/LocalizedInput";
 
 export function HomepageSettingsForm({ initialData = {} }) {
   const router = useRouter();
@@ -37,6 +40,10 @@ export function HomepageSettingsForm({ initialData = {} }) {
     
     // Append stats data appropriately
     formData.append("statsCount", stats.length.toString());
+    stats.forEach((stat, idx) => {
+      formData.append(`stats[${idx}].label.en`, stat.label?.en || "");
+      formData.append(`stats[${idx}].label.np`, stat.label?.np || "");
+    });
     
     const result = await updateHomepageSettings(formData);
 
@@ -59,49 +66,54 @@ export function HomepageSettingsForm({ initialData = {} }) {
   }
 
   return (
-    <div className="max-w-5xl">
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Homepage Settings</h1>
-          <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">Manage the core content displayed on the public homepage.</p>
+    <div className="max-w-5xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4 flex-1">
+          <div>
+            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Homepage Settings</h1>
+            <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">Manage the core content displayed on the public homepage.</p>
+          </div>
         </div>
-        <Button onClick={() => document.getElementById("homepage-settings-form").requestSubmit()} disabled={loading} className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">
-          {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-          Save All Changes
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button type="button" variant="outline" asChild>
+            <Link href="/admin/settings">Cancel</Link>
+          </Button>
+          <Button onClick={() => document.getElementById("homepage-settings-form").requestSubmit()} disabled={loading} variant="crm-primary" size="crm-primary">
+            {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+            Save All Changes
+          </Button>
+        </div>
       </div>
 
 
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col md:flex-row gap-6">
         
         {/* Sidebar Navigation */}
-        <div className="w-full lg:w-64 shrink-0">
-          <nav className="flex lg:flex-col space-x-2 lg:space-x-0 lg:space-y-1 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
-            {tabs.map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors whitespace-nowrap ${
-                    isActive 
-                      ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400" 
-                      : "text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <tab.icon className={`w-4 h-4 mr-3 ${isActive ? "text-blue-600 dark:text-blue-400" : "text-gray-400 dark:text-slate-500"}`} />
-                  {tab.label}
-                </button>
-              );
-            })}
-          </nav>
+        <div className="w-full md:w-64 shrink-0 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-y-auto no-scrollbar pb-4 md:pb-0 pr-0 md:pr-4 hide-scrollbar">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
+                  isActive 
+                    ? "bg-[#1546B0] text-white" 
+                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                }`}
+              >
+                <tab.icon className={`w-5 h-5 shrink-0 ${isActive ? "text-white" : "text-slate-400"}`} />
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
         {/* Form Content */}
         <div className="flex-1 min-w-0">
-          <form id="homepage-settings-form" onSubmit={handleSubmit} className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
+          <form id="homepage-settings-form" onSubmit={handleSubmit} className="w-full">
             
             {/* OVERVIEW & MISSION TAB */}
             <div className={activeTab === "overview" ? "block p-6" : "hidden"}>
@@ -155,18 +167,39 @@ export function HomepageSettingsForm({ initialData = {} }) {
                     </button>
                     <h5 className="font-bold text-gray-700 dark:text-slate-300 mb-3 text-sm">Statistic {index + 1}</h5>
                     
-                    <div className="grid md:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-xs font-bold text-gray-600 dark:text-slate-400 mb-1">Value (e.g. "11")</label>
-                        <input type="text" name={`stats[${index}].value`} defaultValue={stat.value || ""} className="w-full px-3 py-1.5 bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
+                    <div className="grid md:grid-cols-2 gap-4 items-start">
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center justify-between min-h-[28px]">
+                          <label className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                            Value (e.g. "11")
+                          </label>
+                        </div>
+                        <input 
+                          type="text" 
+                          name={`stats[${index}].value`} 
+                          value={stat.value || ""} 
+                          onChange={(e) => {
+                            const newStats = [...stats];
+                            newStats[index].value = e.target.value;
+                            setStats(newStats);
+                          }}
+                          className="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:focus:ring-blue-400/20 transition-all font-medium text-gray-900 dark:text-white placeholder:text-gray-400" 
+                        />
                       </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-600 dark:text-slate-400 mb-1">Label (EN)</label>
-                        <input type="text" name={`stats[${index}].label.en`} defaultValue={stat.label?.en || ""} className="w-full px-3 py-1.5 bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-600 dark:text-slate-400 mb-1">Label (NP)</label>
-                        <input type="text" name={`stats[${index}].label.np`} defaultValue={stat.label?.np || ""} className="w-full px-3 py-1.5 bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 rounded text-sm focus:ring-2 focus:ring-red-500/20 focus:border-red-500" />
+                      <div className="md:col-span-1">
+                        <LocalizedInput
+                          label="Statistic Label"
+                          value={{
+                            en: stat.label?.en || "",
+                            np: stat.label?.np || ""
+                          }}
+                          onChange={(val) => {
+                            const newStats = [...stats];
+                            newStats[index].label = val;
+                            setStats(newStats);
+                          }}
+                          required={false}
+                        />
                       </div>
                     </div>
                   </div>

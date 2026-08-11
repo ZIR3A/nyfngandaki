@@ -60,7 +60,7 @@ export default function CenterReadingArea({
         {/* Navigation Buttons */}
         <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
           <Button
-            variant="outline"
+            variant="outline" size="crm-primary"
             onClick={onPrevious}
             className="flex-1 sm:flex-none sm:w-auto h-auto py-3 px-4 justify-start rounded-xl group"
           >
@@ -77,7 +77,7 @@ export default function CenterReadingArea({
           </Button>
 
           <Button
-            variant="outline"
+            variant="outline" size="crm-primary"
             onClick={onNext}
             className="flex-1 sm:flex-none sm:w-auto h-auto py-3 px-4 justify-end rounded-xl group ml-4"
           >

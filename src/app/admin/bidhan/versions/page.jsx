@@ -82,13 +82,13 @@ export default function VersionsManagement() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Version History</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Version History</h1>
           <p className="text-slate-500 mt-2">Manage major versions and historical records of the constitution.</p>
         </div>
-        <Button className="gap-2" onClick={() => setIsDialogOpen(true)}>
+        <Button variant="crm-primary" size="crm-primary" className="gap-2" onClick={() => setIsDialogOpen(true)}>
           <Plus className="w-4 h-4" />
           Create New Version
         </Button>
@@ -202,9 +202,9 @@ export default function VersionsManagement() {
             />
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="outline" type="button" disabled={isSaving}>Cancel</Button>
+                <Button variant="outline" size="crm-primary" type="button" disabled={isSaving}>Cancel</Button>
               </DialogClose>
-              <Button type="submit" disabled={isSaving}>
+              <Button type="submit" disabled={isSaving} variant="crm-primary" size="crm-primary">
                 {isSaving ? "Saving..." : "Save Version"}
               </Button>
             </DialogFooter>
@@ -214,3 +214,6 @@ export default function VersionsManagement() {
     </div>
   );
 }
+
+
+

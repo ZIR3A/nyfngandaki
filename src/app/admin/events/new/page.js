@@ -6,6 +6,9 @@ import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { eventSchema } from "@/features/events/validations/event.validation";
 import { createEventAction } from "@/features/events/actions/event.actions";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 import EventFormTabs from "@/features/events/components/admin/EventFormTabs";
 import EventActionButtons from "@/features/events/components/admin/EventActionButtons";
@@ -85,11 +88,18 @@ export default function CreateEventPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-[calc(100vh-100px)]">
           {/* Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 shrink-0">
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Create New Event</h1>
-              <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
-                Fill out the form across the tabs to publish a new event.
-              </p>
+            <div className="flex items-center gap-4">
+              <Link href="/admin/events">
+                <Button type="button" variant="outline" size="icon" className="h-9 w-9 rounded-full">
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
+              </Link>
+              <div>
+                <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Create New Event</h1>
+                <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
+                  Fill out the form across the tabs to publish a new event.
+                </p>
+              </div>
             </div>
             <EventActionButtons isSubmitting={isSubmitting} isDirty={isDirty} />
           </div>
@@ -121,3 +131,4 @@ export default function CreateEventPage() {
     </div>
   );
 }
+

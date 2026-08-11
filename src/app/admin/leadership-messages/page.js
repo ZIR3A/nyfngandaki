@@ -21,12 +21,11 @@ export default async function AdminLeadershipMessagesPage() {
           <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Leadership Messages</h1>
           <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">Manage messages displayed from organizational leaders.</p>
         </div>
-        <Link href="/admin/leadership-messages/new">
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Message
-          </Button>
-        </Link>
+        <Button asChild variant="crm-primary" size="crm-primary">
+          <Link href="/admin/leadership-messages/new">
+            <Plus className="w-4 h-4 mr-2" /> Add Message
+          </Link>
+        </Button>
       </div>
 
       <AdminLeadershipMessagesTable messages={plainMessages} />

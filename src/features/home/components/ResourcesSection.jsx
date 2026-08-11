@@ -44,7 +44,7 @@ export default function ResourcesSection({ dictionary, resources = [] }) {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="flex flex-wrap justify-center gap-8">
           {allResources.map((resource, idx) => (
             <motion.div 
               key={resource._id}
@@ -52,7 +52,7 @@ export default function ResourcesSection({ dictionary, resources = [] }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[24px] p-8 hover:bg-white/15 transition-all duration-300 group flex flex-col md:flex-row items-start md:items-center gap-6"
+              className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[24px] p-8 hover:bg-white/15 transition-all duration-300 group flex flex-col md:flex-row items-start md:items-center gap-6 w-full md:w-[calc(50%-16px)]"
             >
               {/* Icon */}
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#D81E27] to-red-800 flex items-center justify-center shadow-lg shrink-0 group-hover:scale-105 transition-transform">

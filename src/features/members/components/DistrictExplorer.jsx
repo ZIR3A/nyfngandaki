@@ -60,7 +60,7 @@ export function DistrictExplorer({ isNepali, className }) {
       <div className="p-5 bg-destructive/5 border border-destructive/20 rounded-2xl text-center">
         <AlertCircle className="w-8 h-8 text-destructive/80 mx-auto mb-2" />
         <p className="text-sm font-medium text-destructive">{isNepali ? "जिल्लाहरू लोड गर्न सकिएन" : "Failed to load districts"}</p>
-        <Button onClick={() => window.location.reload()} variant="outline" size="sm" className="mt-3 border-destructive/20 text-destructive hover:bg-destructive/10">
+        <Button onClick={() => window.location.reload()} variant="outline" size="crm-primary" size="sm" className="mt-3 border-destructive/20 text-destructive hover:bg-destructive/10">
           {isNepali ? "फेरि प्रयास गर्नुहोस्" : "Retry"}
         </Button>
       </div>

@@ -129,7 +129,7 @@ export function MemberFilterBar({ isNepali, className }) {
         {renderFilterSelect("status", isNepali ? "स्थिति" : "Status", filterOptions.statuses)}
         
         <Button 
-          variant="outline" 
+          variant="outline" size="crm-primary" 
           onClick={clearFilters}
           className="h-11 px-6 bg-white dark:bg-card border-border/60 hover:bg-muted text-foreground flex items-center gap-2 rounded-xl cursor-pointer ml-auto"
         >
@@ -142,7 +142,7 @@ export function MemberFilterBar({ isNepali, className }) {
       <div className="md:hidden">
         <Drawer>
           <DrawerTrigger asChild>
-            <Button variant="outline" className="w-full h-12 rounded-xl border-border/80 shadow-sm flex items-center justify-center gap-2 bg-background text-foreground cursor-pointer">
+            <Button variant="outline" size="crm-primary" className="w-full h-12 rounded-xl border-border/80 shadow-sm flex items-center justify-center gap-2 bg-background text-foreground cursor-pointer">
               <SlidersHorizontal className="w-4 h-4" />
               <span className="font-semibold">{isNepali ? "फिल्टर गर्नुहोस्" : "Filters"}</span>
               {hasActiveFilters && (
@@ -167,7 +167,7 @@ export function MemberFilterBar({ isNepali, className }) {
 
             <DrawerFooter className="px-0 pt-4 flex-row gap-3">
               <Button 
-                variant="outline" 
+                variant="outline" size="crm-primary" 
                 onClick={clearFilters}
                 className="flex-1 h-12 rounded-xl cursor-pointer"
                 disabled={!hasActiveFilters}

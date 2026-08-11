@@ -38,7 +38,7 @@ export default function BidhanDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
+        <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Dashboard</h1>
         <p className="text-slate-500 mt-2">Overview of the Digital Constitution and Official Documents.</p>
       </div>
 
@@ -84,25 +84,25 @@ export default function BidhanDashboard() {
             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
               <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Quick Actions</h2>
               <div className="grid grid-cols-2 gap-4">
-                <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-center gap-2">
+                <Button asChild variant="outline" size="crm-primary" className="h-auto py-4 flex flex-col items-center gap-2">
                   <Link href="/admin/bidhan/chapters">
                     <Files className="w-5 h-5" />
                     Manage Chapters
                   </Link>
                 </Button>
-                <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-center gap-2">
+                <Button asChild variant="outline" size="crm-primary" className="h-auto py-4 flex flex-col items-center gap-2">
                   <Link href="/admin/bidhan/articles">
                     <FileText className="w-5 h-5" />
                     Manage Articles
                   </Link>
                 </Button>
-                <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-center gap-2">
+                <Button asChild variant="outline" size="crm-primary" className="h-auto py-4 flex flex-col items-center gap-2">
                   <Link href="/admin/bidhan/documents">
                     <Download className="w-5 h-5" />
                     Upload Document
                   </Link>
                 </Button>
-                <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-center gap-2">
+                <Button asChild variant="outline" size="crm-primary" className="h-auto py-4 flex flex-col items-center gap-2">
                   <Link href="/admin/bidhan/versions">
                     <History className="w-5 h-5" />
                     Version History
@@ -134,3 +134,4 @@ export default function BidhanDashboard() {
     </div>
   );
 }
+

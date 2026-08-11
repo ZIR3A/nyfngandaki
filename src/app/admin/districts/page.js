@@ -10,19 +10,18 @@ export default async function DistrictsPage() {
   const districts = await DistrictService.getAll({}); // fetch all districts including inactive
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Districts</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">Manage districts and their descriptions.</p>
         </div>
-        <Link 
-          href="/admin/districts/new" 
-          className="inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-blue-600 text-white hover:bg-blue-700 h-10 py-2 px-4"
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Add District
-        </Link>
+        <Button asChild variant="crm-primary" size="crm-primary">
+          <Link href="/admin/districts/new">
+            <Plus className="w-4 h-4 mr-2" />
+            Add District
+          </Link>
+        </Button>
       </div>
 
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm">
@@ -82,3 +81,6 @@ export default async function DistrictsPage() {
     </div>
   );
 }
+
+
+

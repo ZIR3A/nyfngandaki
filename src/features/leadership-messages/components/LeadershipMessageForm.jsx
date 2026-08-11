@@ -34,7 +34,7 @@ const HomepagePreview = ({ member, shortMessage, isNepali }) => (
       <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-4">
         {isNepali ? (shortMessage.np || 'Short message content...') : (shortMessage.en || 'Short message content...')}
       </p>
-      <Button variant="outline" className="w-full mt-auto rounded-full">
+      <Button variant="outline" size="crm-primary" className="w-full mt-auto rounded-full">
         {isNepali ? 'थप पढ्नुहोस्' : 'Read Full Message'}
       </Button>
     </div>
@@ -183,20 +183,20 @@ export const LeadershipMessageForm = ({ initialData = null }) => {
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
               {initialData ? "Edit Leadership Message" : "New Leadership Message"}
             </h1>
             <p className="text-sm text-slate-500">Configure what leaders have to say.</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button type="button" variant="outline" onClick={() => setActiveTab(activeTab === "form" ? "preview" : "form")}>
+          <Button type="button" variant="outline" size="crm-primary" onClick={() => setActiveTab(activeTab === "form" ? "preview" : "form")}>
             {activeTab === "form" ? <><Eye className="w-4 h-4 mr-2"/> Preview</> : <><Layout className="w-4 h-4 mr-2"/> Edit Form</>}
           </Button>
           <Button type="button" variant="secondary" onClick={(e) => handleSave(e, true)} disabled={loading}>
             Save Draft
           </Button>
-          <Button type="submit" disabled={loading} className="bg-blue-600 hover:bg-blue-700">
+          <Button type="submit" disabled={loading} variant="crm-primary" size="crm-primary">
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             <Save className="h-4 w-4 mr-2" />
             {initialData ? "Save Changes" : "Publish Message"}
@@ -455,3 +455,4 @@ export const LeadershipMessageForm = ({ initialData = null }) => {
     </form>
   );
 }
+

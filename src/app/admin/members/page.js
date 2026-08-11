@@ -19,20 +19,22 @@ export default async function AdminMembersPage() {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Members Directory</h1>
           <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">Manage organization members and their profiles.</p>
         </div>
-        <Link href="/admin/members/new">
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Member
-          </Button>
-        </Link>
+        <Button asChild variant="crm-primary" size="crm-primary">
+          <Link href="/admin/members/new">
+            <Plus className="w-4 h-4 mr-2" /> Add Member
+          </Link>
+        </Button>
       </div>
 
       <AdminMembersTable members={plainMembers} districts={plainDistricts} />
     </div>
   );
 }
+
+
+

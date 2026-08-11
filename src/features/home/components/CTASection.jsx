@@ -26,7 +26,7 @@ export default function CTASection({ dictionary, settings }) {
   const ctaButtonLink = settings?.ctaButtonLink || "/committee";
 
   return (
-    <section ref={containerRef} className="relative w-full py-32 overflow-hidden bg-gradient-to-br from-[#153E90] via-[#102C69] to-[#0a1b42] flex items-center justify-center" style={{ backgroundImage: 'url("/2.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <section ref={containerRef} className="relative w-full py-32 overflow-hidden bg-gradient-to-br from-[#153E90] via-[#102C69] to-[#0a1b42] flex items-center justify-center" style={{ backgroundImage: 'url("/1.png")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
       
       {/* Background Layers */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#153E90]/80">

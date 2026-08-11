@@ -63,9 +63,7 @@ export function AdminShell({ children, user }) {
         { name: "Leadership Messages", href: `/admin/leadership-messages`, icon: MessageSquare },
         { name: "Banners", href: `/admin/banners`, icon: ImageIcon },
         { name: "Media Library", href: `/admin/storage`, icon: HardDrive },
-        { name: "Activities", href: `/admin/activities`, icon: HeartPulse },
         { name: "Events", href: `/admin/events`, icon: Calendar },
-        { name: "Resources", href: `/admin/resources`, icon: FileText },
       ]
     },
     {
@@ -208,36 +206,11 @@ export function AdminShell({ children, user }) {
             </div>
           </div>
           
-          {/* Center: Global Search */}
-          <div className="hidden lg:flex flex-1 max-w-md mx-8">
-            <div className="relative w-full group">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-[#1546B0] dark:group-focus-within:text-blue-400 transition-colors" />
-              <input 
-                type="text" 
-                placeholder="Search everywhere..." 
-                className="w-full bg-[#F1F5F9] dark:bg-gray-800 border border-transparent text-sm rounded-xl pl-10 pr-4 py-2 outline-none hover:bg-[#E5E7EB]/50 dark:hover:bg-gray-700 focus:bg-white dark:focus:bg-gray-900 focus:border-[#1546B0] dark:focus:border-blue-500 focus:ring-4 focus:ring-[#1546B0]/10 dark:focus:ring-blue-500/20 transition-all font-medium text-[#111827] dark:text-white placeholder:text-[#4B5563] dark:placeholder:text-gray-500"
-              />
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <kbd className="hidden xl:inline-flex items-center bg-white dark:bg-gray-700 border border-[#E5E7EB] dark:border-gray-600 px-1.5 py-0.5 rounded text-[10px] font-bold text-gray-400 dark:text-gray-300 shadow-sm">⌘K</kbd>
-              </div>
-            </div>
-          </div>
+
  
           {/* Right: Actions */}
           <div className="flex items-center gap-3 sm:gap-4">
-            <button className="hidden sm:flex items-center bg-[#111827] dark:bg-gray-800 hover:bg-[#1f2937] dark:hover:bg-gray-700 text-white rounded-lg px-4 py-2 text-sm font-bold shadow-sm transition-colors border border-transparent dark:border-gray-700">
-              <Plus className="h-4 w-4 mr-1.5" />
-              Quick Create
-            </button>
-            
             <div className="flex items-center gap-1 border-r border-[#E5E7EB] dark:border-gray-800 pr-3 sm:pr-4">
-              <button className="p-2 text-gray-400 hover:text-[#111827] dark:hover:text-white hover:bg-[#F1F5F9] dark:hover:bg-gray-800 rounded-lg transition-colors relative">
-                <MessageSquare className="h-5 w-5" />
-              </button>
-              <button className="p-2 text-gray-400 hover:text-[#111827] dark:hover:text-white hover:bg-[#F1F5F9] dark:hover:bg-gray-800 rounded-lg transition-colors relative">
-                <Bell className="h-5 w-5" />
-                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-[#D71920] border-2 border-white dark:border-gray-900"></span>
-              </button>
               
               {/* Dark Mode Switch */}
               <button 
@@ -276,21 +249,6 @@ export function AdminShell({ children, user }) {
                     </div>
                     
                     <div className="py-2">
-                      <Link href="/admin/profile" onClick={() => setProfileOpen(false)} className="flex items-center px-4 py-2 text-sm text-[#4B5563] dark:text-gray-400 hover:bg-[#F1F5F9] dark:hover:bg-gray-800 hover:text-[#111827] dark:hover:text-white transition-colors">
-                        <UserCog className="h-4 w-4 mr-3" />
-                        Profile
-                      </Link>
-                      <Link href="/admin/profile/password" onClick={() => setProfileOpen(false)} className="flex items-center px-4 py-2 text-sm text-[#4B5563] dark:text-gray-400 hover:bg-[#F1F5F9] dark:hover:bg-gray-800 hover:text-[#111827] dark:hover:text-white transition-colors">
-                        <Settings className="h-4 w-4 mr-3" />
-                        Change Password
-                      </Link>
-                    </div>
-
-                    <div className="border-t border-[#E5E7EB] dark:border-gray-800 py-2">
-                      <button className="w-full flex items-center px-4 py-2 text-sm text-[#4B5563] dark:text-gray-400 hover:bg-[#F1F5F9] dark:hover:bg-gray-800 hover:text-[#111827] dark:hover:text-white transition-colors">
-                        <Globe className="h-4 w-4 mr-3" />
-                        Language (English)
-                      </button>
                       <button 
                         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                         className="w-full flex items-center px-4 py-2 text-sm text-[#4B5563] dark:text-gray-400 hover:bg-[#F1F5F9] dark:hover:bg-gray-800 hover:text-[#111827] dark:hover:text-white transition-colors"

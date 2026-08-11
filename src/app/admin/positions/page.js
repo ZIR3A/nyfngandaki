@@ -16,34 +16,33 @@ export default async function AdminPositionsPage() {
           <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Positions</h1>
           <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">Manage organizational positions and hierarchy.</p>
         </div>
-        <Link href="/admin/positions/new">
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Position
-          </Button>
-        </Link>
+        <Button asChild variant="crm-primary" size="crm-primary">
+          <Link href="/admin/positions/new">
+            <Plus className="w-4 h-4 mr-2" /> Add Position
+          </Link>
+        </Button>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-gray-50 dark:bg-slate-900/50 text-gray-600 dark:text-slate-400 font-bold border-b border-gray-200 dark:border-slate-800">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-800">
               <tr>
-                <th className="px-6 py-4">Name</th>
-                <th className="px-6 py-4">Weight</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th scope="col" className="px-6 py-4">Name</th>
+                <th scope="col" className="px-6 py-4">Weight</th>
+                <th scope="col" className="px-6 py-4">Status</th>
+                <th scope="col" className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+            <tbody>
               {positions.length === 0 ? (
                 <tr>
                   <td colSpan="4" className="px-6 py-12 text-center text-gray-500 dark:text-slate-400">No positions found.</td>
                 </tr>
               ) : (
                 positions.map((item) => (
-                  <tr key={item._id.toString()} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-slate-200">{item.name?.en}</td>
+                  <tr key={item._id.toString()} className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">{item.name?.en}</td>
                     <td className="px-6 py-4 text-gray-600 dark:text-slate-400">{item.weight}</td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${

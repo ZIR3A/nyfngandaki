@@ -46,7 +46,7 @@ export default function RightSidebar({ t }) {
           </div>
           
           <Button 
-            variant="outline" 
+            variant="outline" size="crm-primary" 
             className="w-full justify-start rounded-xl bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
@@ -61,7 +61,7 @@ export default function RightSidebar({ t }) {
           </Button>
 
           <Button 
-            variant="outline" 
+            variant="outline" size="crm-primary" 
             className="w-full justify-start rounded-xl bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
             onClick={handlePrint}
           >
@@ -78,7 +78,7 @@ export default function RightSidebar({ t }) {
         </h3>
         <div className="space-y-2">
           <Button 
-            variant="outline" 
+            variant="outline" size="crm-primary" 
             className="w-full justify-start rounded-xl bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
             onClick={handleCopyLink}
           >
@@ -86,7 +86,7 @@ export default function RightSidebar({ t }) {
             {t("bidhan.copyLink") || "Copy Link"}
           </Button>
           <Button 
-            variant="outline" 
+            variant="outline" size="crm-primary" 
             className="w-full justify-start rounded-xl bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
           >
             <Share2 className="w-4 h-4 mr-3" />

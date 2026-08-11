@@ -10,8 +10,9 @@ import { LocalizedInput } from "@/features/admin/about/components/shared/Localiz
 import { LocalizedTextarea } from "@/features/admin/about/components/shared/LocalizedTextarea";
 import { MediaPicker } from "@/features/storage/components/MediaPicker";
 import { createNoticeAction, updateNoticeAction } from "@/actions/notice.actions";
-import { Calendar, Image as ImageIcon, Video, FileText, Settings, AlignLeft, AlertTriangle } from "lucide-react";
-
+import { Calendar, Image as ImageIcon, Video, FileText, Settings, AlignLeft, AlertTriangle, ArrowLeft, Save, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 // Basic schema for Notice
 const noticeSchema = z.object({
   title: z.object({
@@ -206,7 +207,39 @@ export function NoticeForm({ initialData }) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-4 flex-1">
+            <Button variant="outline" size="icon" asChild>
+              <Link href="/admin/notices">
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+            </Button>
+            <div>
+              <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
+                {isEditing ? "Edit Notice" : "Create Notice"}
+              </h1>
+              <p className="text-sm text-gray-500 dark:text-slate-400 mt-1">
+                {isEditing ? "Update an existing public announcement." : "Create a new announcement for the public website."}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button type="button" variant="outline" size="crm-primary" onClick={() => router.push("/admin/notices")}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={() => document.getElementById("notice-form").requestSubmit()} 
+              disabled={isSubmitting} 
+              variant="crm-primary" size="crm-primary"
+            >
+              {isSubmitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+              {isEditing ? "Update Notice" : "Create Notice"}
+            </Button>
+          </div>
+        </div>
+
+      <form id="notice-form" onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         {/* 1. Basic Information */}
         <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center">
@@ -431,23 +464,8 @@ export function NoticeForm({ initialData }) {
           </div>
         </div>
 
-        <div className="flex justify-end gap-4">
-          <button
-            type="button"
-            onClick={() => router.push("/admin/notices")}
-            className="px-6 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="px-6 py-2.5 bg-[#1546B0] text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? "Saving..." : (isEditing ? "Update Notice" : "Create Notice")}
-          </button>
-        </div>
       </form>
+      </div>
     </>
   );
 }
