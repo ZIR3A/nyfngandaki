@@ -40,11 +40,7 @@ export class NoticeService {
     };
   }
 
-  /**
-   * Get the active notice (for public homepage)
-   * Must be published, popupEnabled=true, and within valid dates
-   */
-  static async getActiveNotice() {
+  static async getActiveNotices() {
     await connectToDatabase();
     
     const now = new Date();
@@ -69,16 +65,12 @@ export class NoticeService {
     };
 
     // Sort by priority (critical > high > normal > low) then by newest
-    // Since priority is a string, we might need to handle sorting in memory or use an aggregation pipeline.
-    // To simplify, let's fetch all eligible and sort in memory if needed, or map priority to a number.
-    // Given the small number of active notices, fetching and sorting is fine.
-    
     const notices = await Notice.find(query)
       .sort({ publishedAt: -1 })
       .populate('attachments.storageId')
       .lean();
     
-    if (!notices.length) return null;
+    if (!notices.length) return [];
 
     const priorityWeight = {
       critical: 4,
@@ -97,7 +89,7 @@ export class NoticeService {
       return dateB - dateA;
     });
 
-    return JSON.parse(JSON.stringify(notices[0]));
+    return JSON.parse(JSON.stringify(notices));
   }
 
   /**

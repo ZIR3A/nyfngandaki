@@ -7,18 +7,18 @@ export const revalidate = 60; // Cache for 60 seconds
 
 export async function GET() {
   try {
-    const activeNotice = await NoticeService.getActiveNotice();
+    const activeNotices = await NoticeService.getActiveNotices();
     
-    if (!activeNotice) {
+    if (!activeNotices || activeNotices.length === 0) {
       return NextResponse.json({
         success: true,
-        data: null,
-        message: "No active notice found"
+        data: [],
+        message: "No active notices found"
       }, { status: 200 });
     }
 
     // Filter sensitive fields before returning to public
-    const publicNoticeData = {
+    const publicNoticesData = activeNotices.map(activeNotice => ({
       id: activeNotice._id,
       title: activeNotice.title,
       summary: activeNotice.summary,
@@ -28,12 +28,12 @@ export async function GET() {
       displayFrequency: activeNotice.displayFrequency,
       popupDelay: activeNotice.popupDelay,
       attachments: activeNotice.attachments || []
-    };
+    }));
 
     return NextResponse.json({
       success: true,
-      data: publicNoticeData,
-      message: "Active notice fetched successfully"
+      data: publicNoticesData,
+      message: "Active notices fetched successfully"
     }, { status: 200 });
 
   } catch (error) {

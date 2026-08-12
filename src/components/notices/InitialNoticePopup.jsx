@@ -6,7 +6,8 @@ import { useLanguage } from "@/localization/LanguageContext";
 import Image from "next/image";
 
 export function InitialNoticePopup() {
-  const [notice, setNotice] = useState(null);
+  const [notices, setNotices] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const { language } = useLanguage();
 
@@ -17,16 +18,16 @@ export function InitialNoticePopup() {
         if (!res.ok) return;
         const result = await res.json();
         
-        if (result.success && result.data) {
-          const activeNotice = result.data;
+        if (result.success && result.data && Array.isArray(result.data)) {
+          // Filter to only notices that should show according to display rules
+          const noticesToShow = result.data.filter(checkDisplayRules);
           
-          // Check display frequency rules
-          const shouldShow = checkDisplayRules(activeNotice);
-          
-          if (shouldShow) {
-            setNotice(activeNotice);
-            // Apply delay
-            const delayMs = (activeNotice.popupDelay || 2) * 1000;
+          if (noticesToShow.length > 0) {
+            setNotices(noticesToShow);
+            
+            // Apply delay for the first notice
+            const firstNotice = noticesToShow[0];
+            const delayMs = (firstNotice.popupDelay || 2) * 1000;
             setTimeout(() => {
               setIsOpen(true);
             }, delayMs);
@@ -75,6 +76,7 @@ export function InitialNoticePopup() {
 
   const handleClose = () => {
     setIsOpen(false);
+    const notice = notices[currentIndex];
     if (!notice) return;
     
     const { id, displayFrequency } = notice;
@@ -93,6 +95,18 @@ export function InitialNoticePopup() {
     } catch (e) {
       console.error("Failed to save notice state", e);
     }
+
+    // Check if there are more notices to show
+    if (currentIndex < notices.length - 1) {
+      const nextNotice = notices[currentIndex + 1];
+      const delayMs = (nextNotice.popupDelay || 0) * 1000;
+      
+      // Give a small default delay for smooth transition between popups
+      setTimeout(() => {
+        setCurrentIndex(prev => prev + 1);
+        setIsOpen(true);
+      }, delayMs > 0 ? delayMs : 400); 
+    }
   };
 
   // Close on ESC
@@ -104,8 +118,9 @@ export function InitialNoticePopup() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, notice]);
+  }, [isOpen, notices, currentIndex]);
 
+  const notice = notices[currentIndex];
   if (!isOpen || !notice) return null;
 
   // Render content based on localized language, fallback to EN
