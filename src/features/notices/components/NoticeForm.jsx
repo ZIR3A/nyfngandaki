@@ -143,7 +143,7 @@ export function NoticeForm({ initialData }) {
                  : asset.mimeType?.startsWith('video/') ? 'video' 
                  : asset.mimeType === 'application/pdf' ? 'pdf' 
                  : data.type === 'mixed' ? 'image' : data.type, // fallback
-            storageId: asset._id || asset.storageId?._id || asset.storageId,
+            storageId: asset.storageId?._id || asset.storageId || asset._id,
             displayOrder: formattedAttachments.length + index
           });
         });

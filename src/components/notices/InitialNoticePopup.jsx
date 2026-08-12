@@ -122,12 +122,12 @@ export function InitialNoticePopup() {
         {sortedAttachments.map((media, index) => {
           if (media.type === "image" && media.storageId?.publicUrl) {
             return (
-              <div key={index} className="relative w-full h-48 md:h-64 rounded-lg overflow-hidden group">
+              <div key={index} className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden group bg-slate-100 dark:bg-slate-800">
                 <Image 
                   src={media.storageId.publicUrl} 
                   alt={t('title')} 
                   fill
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="object-contain object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
               </div>
             );
@@ -216,13 +216,6 @@ export function InitialNoticePopup() {
           ${notice.priority === 'critical' ? 'bg-red-50 dark:bg-red-900/20' : ''}
         `}>
           <div>
-            <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider mb-2 ${
-              notice.priority === 'critical' ? 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300' :
-              notice.priority === 'high' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300' :
-              'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300'
-            }`}>
-              {notice.priority} Notice
-            </span>
             <h2 id="notice-title" className="text-xl font-bold text-slate-900 dark:text-white">
               {t('title')}
             </h2>
