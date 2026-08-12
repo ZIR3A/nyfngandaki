@@ -2,12 +2,14 @@ import Link from "next/link";
 import { Plus, Search, MoreVertical, Edit, Trash2, Copy, Archive, Eye } from "lucide-react";
 import { eventService } from "@/features/events/services/eventService";
 import { Button } from "@/components/ui/button";
+import { DeleteEventButton } from "@/features/events/components/admin/DeleteEventButton";
 
 export const metadata = {
   title: "Events Dashboard | Admin CRM",
 };
 
-export default async function AdminEventsDashboard({ searchParams }) {
+export default async function AdminEventsDashboard(props) {
+  const searchParams = await props.searchParams;
   const page = parseInt(searchParams?.page || "1", 10);
   const search = searchParams?.search || "";
   
@@ -105,9 +107,7 @@ export default async function AdminEventsDashboard({ searchParams }) {
                             <Edit className="w-4 h-4" />
                           </Button>
                         </Link>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer" title="Delete">
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
+                        <DeleteEventButton id={event._id?.toString() || event._id} title={event.title?.en} />
                       </div>
                     </td>
                   </tr>

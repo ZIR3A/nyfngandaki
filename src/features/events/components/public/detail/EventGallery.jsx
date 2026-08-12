@@ -7,6 +7,10 @@ import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 export default function EventGallery({ images, locale }) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // Touch state for swipe
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
 
   if (!images || images.length === 0) return null;
 
@@ -27,6 +31,29 @@ export default function EventGallery({ images, locale }) {
 
   const prevImage = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+    
+    if (isLeftSwipe) {
+      nextImage();
+    }
+    if (isRightSwipe) {
+      prevImage();
+    }
   };
 
   return (
@@ -57,7 +84,12 @@ export default function EventGallery({ images, locale }) {
 
       {/* Lightbox Overlay */}
       {lightboxOpen && (
-        <div className="fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-xl flex items-center justify-center opacity-100 animate-in fade-in duration-200">
+        <div 
+          className="fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-xl flex items-center justify-center opacity-100 animate-in fade-in duration-200"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           
           <button 
             onClick={closeLightbox}

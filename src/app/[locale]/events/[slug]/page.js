@@ -58,9 +58,10 @@ export default async function EventDetailPage({ params }) {
 
   const galleryImages = event.media?.filter(m => m.type === 'image') || [];
   const videos = event.media?.filter(m => m.type === 'video') || [];
+  const documents = event.media?.filter(m => m.type === 'document') || [];
 
-  if (galleryImages.length > 0 || videos.length > 0) {
-    scrollSections.push({ id: "gallery", labelEn: "Gallery", labelNp: "ग्यालरी" });
+  if (galleryImages.length > 0 || videos.length > 0 || documents.length > 0) {
+    scrollSections.push({ id: "gallery", labelEn: "Media & Documents", labelNp: "ग्यालरी र कागजात" });
   }
 
   const isNepali = locale === "np";
@@ -114,29 +115,65 @@ export default async function EventDetailPage({ params }) {
             </section>
 
             {/* Gallery & Video Section */}
-            {(galleryImages.length > 0 || videos.length > 0) && (
+            {(galleryImages.length > 0 || videos.length > 0 || documents.length > 0) && (
               <section id="gallery" className="scroll-mt-[150px]">
                 <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-8">
-                  {isNepali ? "ग्यालरी" : "Media Gallery"}
+                  {isNepali ? "मिडिया र कागजातहरू" : "Media & Documents"}
                 </h2>
                 <div className="space-y-12">
                   {videos.length > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {videos.map((vid, idx) => (
-                        <div key={idx} className="aspect-video rounded-2xl overflow-hidden bg-slate-900">
-                          <iframe 
-                            src={vid.url} 
-                            className="w-full h-full border-0" 
-                            allowFullScreen
-                            loading="lazy"
-                          />
-                        </div>
-                      ))}
+                      {videos.map((vid, idx) => {
+                        const isMp4 = vid.url?.toLowerCase().includes('.mp4');
+                        return (
+                          <div key={idx} className="aspect-video rounded-2xl overflow-hidden bg-slate-900">
+                            {isMp4 ? (
+                              <video src={vid.url} controls className="w-full h-full object-contain bg-black" />
+                            ) : (
+                              <iframe 
+                                src={vid.url} 
+                                className="w-full h-full border-0" 
+                                allowFullScreen
+                                loading="lazy"
+                              />
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                   
                   {galleryImages.length > 0 && (
                     <EventGallery images={galleryImages} locale={locale} />
+                  )}
+                  
+                  {documents.length > 0 && (
+                    <div className="flex flex-col gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                        {isNepali ? "डाउनलोडहरू" : "Downloads"}
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {documents.map((doc, idx) => (
+                          <a 
+                            key={idx} 
+                            href={doc.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-[#1546B0] hover:shadow-md transition-all group"
+                          >
+                            <div className="w-12 h-12 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg flex items-center justify-center shrink-0">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold text-slate-900 dark:text-white truncate">
+                                {locale === "np" && doc.title?.np ? doc.title.np : (doc.title?.en || "Document")}
+                              </p>
+                              <p className="text-sm text-[#1546B0] font-medium mt-0.5 group-hover:underline">View / Download PDF</p>
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
                   )}
                 </div>
               </section>
