@@ -6,7 +6,7 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import {
   UploadCloud, X, Loader2, Image as ImageIcon,
   File as FileIcon, Library, Search, CheckCircle2,
-  GripVertical, Star, Type
+  GripVertical, Star, Type, Play, ExternalLink
 } from "lucide-react";
 
 export function AdvancedMediaPicker({
@@ -32,6 +32,10 @@ export function AdvancedMediaPicker({
     if (asset?.url) return /\.(jpg|jpeg|png|gif|webp|svg|avif)(\?|$)/i.test(asset.url);
     if (asset?.publicUrl) return /\.(jpg|jpeg|png|gif|webp|svg|avif)(\?|$)/i.test(asset.publicUrl);
     return false;
+  };
+
+  const isVideo = (asset) => {
+    return asset?.mimeType?.startsWith("video/");
   };
 
   const handleFiles = async (selectedFiles) => {
@@ -237,9 +241,15 @@ export function AdvancedMediaPicker({
                             <GripVertical size={20} />
                           </div>
                           
-                          <div className="relative w-20 h-20 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 overflow-hidden shrink-0">
+                          <div className="relative w-20 h-20 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 overflow-hidden shrink-0 group">
                             {isImage(item) && item.url ? (
                               <Image src={item.url} alt={item.originalName} fill className="object-cover" />
+                            ) : isVideo(item) ? (
+                              <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900">
+                                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-blue-500 transition-colors">
+                                  <Play size={14} className="text-white ml-0.5" fill="currentColor" />
+                                </div>
+                              </div>
                             ) : (
                               <div className="w-full h-full flex flex-col items-center justify-center text-slate-400">
                                 <FileIcon size={24} />
@@ -265,6 +275,17 @@ export function AdvancedMediaPicker({
                                   <Star size={12} className={item.isFeatured ? "fill-current" : ""} />
                                   {item.isFeatured ? "Featured" : "Set Featured"}
                                 </button>
+                                {isVideo(item) && item.url && (
+                                  <a
+                                    href={item.url.replace('/view', '/preview')}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-1.5 text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                                    title="Preview Video"
+                                  >
+                                    <ExternalLink size={16} />
+                                  </a>
+                                )}
                                 <button
                                   type="button"
                                   onClick={() => removeItem(item._id)}
@@ -414,6 +435,12 @@ function MediaLibraryModal({ module, multiple, selectedIds, onSelect, onClose })
                   >
                     {isImg && asset.publicUrl ? (
                       <Image src={asset.publicUrl} alt={asset.originalName} fill className="object-cover" />
+                    ) : asset.mimeType?.startsWith("video/") ? (
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900">
+                        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-blue-500 transition-colors">
+                          <Play size={18} className="text-white ml-1" fill="currentColor" />
+                        </div>
+                      </div>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
                         <FileIcon size={24} className="text-gray-400" />

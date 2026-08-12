@@ -28,11 +28,10 @@ export async function parseUploadRequest(request) {
     const mimeType = file.type;
     const size = file.size;
 
-    // Determine category based on logical folder mapping (simplified, defaults to images)
-    // You could map this more strictly based on the 'module' or 'folder'
+    // Determine category based on logical folder mapping or mimeType (defaults to images)
     let category = 'images';
-    if (folder.includes('document') || folder.includes('pdf')) category = 'documents';
-    if (folder.includes('video')) category = 'videos';
+    if (mimeType.startsWith('video/') || folder.includes('video')) category = 'videos';
+    else if (mimeType === 'application/pdf' || mimeType.includes('document') || folder.includes('document') || folder.includes('pdf')) category = 'documents';
 
     const validation = validateStorageFile(filename, mimeType, size, category);
     

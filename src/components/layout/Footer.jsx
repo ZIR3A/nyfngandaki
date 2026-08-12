@@ -124,7 +124,7 @@ export function Footer({ settings }) {
         <div className="border-t border-slate-800/80 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
           <p>&copy; {currentYear} {orgName}. All rights reserved.</p>
           <p className="mt-2 md:mt-0">
-            Designed & Developed by <a href="https://www.saranbaral.com.np/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-medium">Saran Baral</a>
+            Designed & Developed by <a href="https://www.saranbaral.com.np/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-accent hover:underline transition-colors font-medium">Saran Baral</a>
           </p>
         </div>
       </Container>

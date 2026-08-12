@@ -1,5 +1,3 @@
-"use client";
-
 import { MapPin, Calendar, Clock, Building2, Phone, Mail, Globe, Map } from "lucide-react";
 
 export default function EventInfoCard({ event, locale }) {
@@ -7,6 +5,7 @@ export default function EventInfoCard({ event, locale }) {
   
   // Clean values with fallback
   const startDate = event.startDate ? new Date(event.startDate).toLocaleDateString(isNepali ? 'ne-NP' : 'en-US', {
+    timeZone: 'Asia/Kathmandu',
     weekday: 'long',
     year: 'numeric',
     month: 'long',

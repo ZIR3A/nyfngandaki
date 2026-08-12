@@ -121,30 +121,8 @@ export default async function EventDetailPage({ params }) {
                   {isNepali ? "मिडिया र कागजातहरू" : "Media & Documents"}
                 </h2>
                 <div className="space-y-12">
-                  {videos.length > 0 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {videos.map((vid, idx) => {
-                        const isMp4 = vid.url?.toLowerCase().includes('.mp4');
-                        return (
-                          <div key={idx} className="aspect-video rounded-2xl overflow-hidden bg-slate-900">
-                            {isMp4 ? (
-                              <video src={vid.url} controls className="w-full h-full object-contain bg-black" />
-                            ) : (
-                              <iframe 
-                                src={vid.url} 
-                                className="w-full h-full border-0" 
-                                allowFullScreen
-                                loading="lazy"
-                              />
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                  
-                  {galleryImages.length > 0 && (
-                    <EventGallery images={galleryImages} locale={locale} />
+                  {(galleryImages.length > 0 || videos.length > 0) && (
+                    <EventGallery images={galleryImages} videos={videos} locale={locale} />
                   )}
                   
                   {documents.length > 0 && (

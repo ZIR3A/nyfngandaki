@@ -19,6 +19,7 @@ export default function GalleryTab() {
         render={({ field }) => (
           <AdvancedMediaPicker
             module="events"
+            accept="image/*,video/*,application/pdf"
             initialData={field.value || []}
             onChange={(items) => field.onChange(items)}
           />

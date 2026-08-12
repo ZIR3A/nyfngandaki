@@ -123,7 +123,7 @@ export const eventService = {
     
     if (data.media && Array.isArray(data.media)) {
       formattedMedia = data.media.map(m => ({
-        type: m.mimeType?.startsWith('video/') ? 'video' : m.mimeType?.includes('pdf') || m.mimeType?.includes('document') ? 'document' : 'image',
+        type: m.type || (m.mimeType?.startsWith('video/') ? 'video' : m.mimeType?.includes('pdf') || m.mimeType?.includes('document') ? 'document' : 'image'),
         url: m.url,
         title: {
           en: m.caption?.en || m.originalName || '',
@@ -169,7 +169,7 @@ export const eventService = {
     // Process media and cover image if media is provided
     if (data.media && Array.isArray(data.media)) {
       updateData.media = data.media.map(m => ({
-        type: m.mimeType?.startsWith('video/') ? 'video' : m.mimeType?.includes('pdf') || m.mimeType?.includes('document') ? 'document' : 'image',
+        type: m.type || (m.mimeType?.startsWith('video/') ? 'video' : m.mimeType?.includes('pdf') || m.mimeType?.includes('document') ? 'document' : 'image'),
         url: m.url,
         title: {
           en: m.caption?.en || m.originalName || '',
