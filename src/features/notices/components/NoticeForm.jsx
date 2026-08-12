@@ -394,10 +394,10 @@ export function NoticeForm({ initialData }) {
                     {...register("displayFrequency")}
                     className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1546B0] text-sm text-slate-900 dark:text-white"
                   >
-                    <option value="once">Show Once per user</option>
-                    <option value="session">Every Session</option>
-                    <option value="daily">Once Per Day</option>
-                    <option value="always">Always Until Expiry</option>
+                    <option value="once">Show Once only (Never again after closing)</option>
+                    <option value="session">Every Browser Session (Shows once per visit)</option>
+                    <option value="daily">Once Per Day (Shows again the next day)</option>
+                    <option value="always">Always Show (Every time page refreshes)</option>
                   </select>
                 </div>
                 
