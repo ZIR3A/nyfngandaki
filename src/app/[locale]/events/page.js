@@ -26,6 +26,23 @@ export async function generateMetadata({ params }) {
         "x-default": `https://nyfngandaki.org/en/events`,
       },
     },
+    openGraph: {
+      title: locale === "np" ? "कार्यक्रमहरू | NYFN Gandaki" : "Events | NYFN Gandaki",
+      description: locale === "np" 
+        ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशद्वारा आयोजित आगामी र विगतका कार्यक्रमहरू अन्वेषण गर्नुहोस्।" 
+        : "Explore upcoming and past events organized by NYFN Gandaki Province.",
+      url: `https://nyfngandaki.org/${locale}/events`,
+      type: "website",
+      siteName: "NYFN Gandaki",
+      locale: locale === "np" ? "ne_NP" : "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: locale === "np" ? "कार्यक्रमहरू | NYFN Gandaki" : "Events | NYFN Gandaki",
+      description: locale === "np" 
+        ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशद्वारा आयोजित आगामी र विगतका कार्यक्रमहरू अन्वेषण गर्नुहोस्।" 
+        : "Explore upcoming and past events organized by NYFN Gandaki Province.",
+    }
   };
 }
 

@@ -101,8 +101,8 @@ export function Footer({ settings }) {
             <ul className="space-y-3 text-sm text-gray-400">
               <li><Link href={`/${language}/bidhan`} className="hover:text-primary transition-colors">{language === 'en' ? 'Bidhan (Constitution)' : 'विधान'}</Link></li>
               <li><Link href={`/${language}/contact`} className="hover:text-primary transition-colors">{language === 'en' ? 'Contact' : 'सम्पर्क'}</Link></li>
-              <li><Link href={`/${language}/privacy`} className="hover:text-primary transition-colors">{language === 'en' ? 'Privacy Policy' : 'गोपनीयता नीति'}</Link></li>
-              <li><Link href={`/${language}/terms`} className="hover:text-primary transition-colors">{language === 'en' ? 'Terms of Service' : 'सेवाका सर्तहरू'}</Link></li>
+              {/* <li><Link href={`/${language}/privacy`} className="hover:text-primary transition-colors">{language === 'en' ? 'Privacy Policy' : 'गोपनीयता नीति'}</Link></li>
+              <li><Link href={`/${language}/terms`} className="hover:text-primary transition-colors">{language === 'en' ? 'Terms of Service' : 'सेवाका सर्तहरू'}</Link></li> */}
             </ul>
           </div>
           {/* Column 5: Contact Us CTA */}

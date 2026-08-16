@@ -21,6 +21,19 @@ export async function generateMetadata({ params }) {
         "x-default": `https://nyfngandaki.org/en/contact`,
       },
     },
+    openGraph: {
+      title: `${dict.contact.title} | NYFN Gandaki`,
+      description: dict.contact.subtitle,
+      url: `https://nyfngandaki.org/${locale}/contact`,
+      type: "website",
+      siteName: "NYFN Gandaki",
+      locale: locale === "np" ? "ne_NP" : "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${dict.contact.title} | NYFN Gandaki`,
+      description: dict.contact.subtitle,
+    }
   };
 }
 

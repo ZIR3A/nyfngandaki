@@ -52,6 +52,10 @@ export async function generateMetadata({ params }) {
       title: seo.ogTitle?.[locale] || seo.title?.[locale],
       description: seo.ogDescription?.[locale] || seo.description?.[locale],
       images: seo.ogImage?.url ? [{ url: seo.ogImage.url }] : [],
+      url: `https://nyfngandaki.org/${locale}/about`,
+      type: "website",
+      siteName: "NYFN Gandaki",
+      locale: locale === "np" ? "ne_NP" : "en_US",
     },
     twitter: {
       card: 'summary_large_image',

@@ -32,6 +32,14 @@ export async function generateMetadata({ params }) {
       title: locale === "np" ? "राष्ट्रिय युवा संघ नेपाल | गण्डकी प्रदेश" : "NYFN Gandaki | National Youth Federation Nepal",
       description: locale === "np" ? "राष्ट्रिय युवा संघ नेपाल (NYFN) गण्डकी प्रदेशको आधिकारिक वेबसाइट" : "Official Website of National Youth Federation Nepal (NYFN) Gandaki Province",
       url: `https://nyfngandaki.org/${locale}`,
+      type: "website",
+      siteName: "NYFN Gandaki",
+      locale: locale === "np" ? "ne_NP" : "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: locale === "np" ? "राष्ट्रिय युवा संघ नेपाल | गण्डकी प्रदेश" : "NYFN Gandaki | National Youth Federation Nepal",
+      description: locale === "np" ? "राष्ट्रिय युवा संघ नेपाल (NYFN) गण्डकी प्रदेशको आधिकारिक वेबसाइट" : "Official Website of National Youth Federation Nepal (NYFN) Gandaki Province",
     }
   };
 }

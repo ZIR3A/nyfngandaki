@@ -20,7 +20,7 @@ function CommitteeSection({ committee, isNepali }) {
     if (isCentralCommittee) {
       // Province Incharge is the main person on central committee. 
       // Strictly avoid 'sub incharge', 'sahaincharge', etc.
-      return posLower === "incharge" || posLower === "province incharge" || posLower === "provience incharge";
+      return posLower === "incharge" || posLower === "province incharge" || posLower === "province incharge";
     } else {
       // For province or other committees, President is usually the main person
       return posLower === "president";
@@ -42,7 +42,7 @@ function CommitteeSection({ committee, isNepali }) {
     if (m.position_id?.weight === 1 || m.position_id?.displayGroup === "featured") return true;
     
     // If President is already mainLeader, feature the strict Incharge here, or vice versa
-    return posLower === "president" || posLower === "incharge" || posLower === "province incharge" || posLower === "provience incharge";
+    return posLower === "president" || posLower === "incharge" || posLower === "province incharge" || posLower === "province incharge";
   });
   
   const restMembers = members.filter(m => 

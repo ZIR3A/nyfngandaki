@@ -55,6 +55,8 @@ export async function generateMetadata({ params }) {
       description,
       type: "profile",
       url: `https://nyfngandaki.org/${locale}/members/${slug}`,
+      siteName: "NYFN Gandaki",
+      locale: locale === "np" ? "ne_NP" : "en_US",
       images: [
         {
           url: member.photo || "/og-image-default.jpg",

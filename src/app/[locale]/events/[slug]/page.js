@@ -30,6 +30,21 @@ export async function generateMetadata({ params }) {
           "x-default": `https://nyfngandaki.org/en/events/${slug}`,
         },
       },
+      openGraph: {
+        title: `${event.seoTitle || title} | NYFN Gandaki Events`,
+        description: (summary || description)?.substring(0, 160),
+        url: `https://nyfngandaki.org/${locale}/events/${slug}`,
+        type: "article",
+        siteName: "NYFN Gandaki",
+        locale: locale === "np" ? "ne_NP" : "en_US",
+        images: event.coverImage ? [event.coverImage] : [],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${event.seoTitle || title} | NYFN Gandaki Events`,
+        description: (summary || description)?.substring(0, 160),
+        images: event.coverImage ? [event.coverImage] : [],
+      }
     };
   } catch (error) {
     return { title: "Events | NYFN Gandaki" };
