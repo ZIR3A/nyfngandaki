@@ -1,6 +1,6 @@
 export function generateSEO({ title, description, url, locale = "en", image }) {
   const baseTitle = "NYFN Gandaki Province";
-  
+
   // Handle if title is an object (localized) or a string
   let resolvedTitle = baseTitle;
   if (title) {
@@ -29,13 +29,7 @@ export function generateSEO({ title, description, url, locale = "en", image }) {
       description: resolvedDescription,
       url: url || "https://nyfngandaki.org",
       siteName: baseTitle,
-      images: [
-        {
-          url: image || "/images/og-default.jpg",
-          width: 1200,
-          height: 630,
-        },
-      ],
+      images: ["/brand-logo.png"],
       locale: locale === "np" ? "ne_NP" : "en_US",
       type: "website",
     },
@@ -43,7 +37,7 @@ export function generateSEO({ title, description, url, locale = "en", image }) {
       card: "summary_large_image",
       title: resolvedTitle,
       description: resolvedDescription,
-      images: [image || "/images/og-default.jpg"],
+      images: ["/brand-logo.png"],
     },
   };
 }

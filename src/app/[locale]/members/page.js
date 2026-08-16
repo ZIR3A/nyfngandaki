@@ -20,11 +20,13 @@ export async function generateMetadata({ params }) {
       type: "website",
       siteName: "NYFN Gandaki",
       locale: locale === "np" ? "ne_NP" : "en_US",
+      images: ["/brand-logo.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: locale === "np" ? "सदस्य निर्देशिका | NYFN Gandaki" : "Members Directory | NYFN Gandaki",
       description: locale === "np" ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशका सदस्यहरूको विवरण" : "Directory of NYFN Gandaki Province Members",
+      images: ["/brand-logo.png"],
     }
   };
 }

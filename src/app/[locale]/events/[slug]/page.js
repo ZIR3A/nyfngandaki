@@ -37,13 +37,13 @@ export async function generateMetadata({ params }) {
         type: "article",
         siteName: "NYFN Gandaki",
         locale: locale === "np" ? "ne_NP" : "en_US",
-        images: event.coverImage ? [event.coverImage] : [],
+        images: event.coverImage ? [event.coverImage] : ["/brand-logo.png"],
       },
       twitter: {
         card: "summary_large_image",
         title: `${event.seoTitle || title} | NYFN Gandaki Events`,
         description: (summary || description)?.substring(0, 160),
-        images: event.coverImage ? [event.coverImage] : [],
+        images: event.coverImage ? [event.coverImage] : ["/brand-logo.png"],
       }
     };
   } catch (error) {

@@ -15,8 +15,8 @@ export async function generateMetadata({ params }) {
   const { locale } = await params;
   return {
     title: locale === "np" ? "कार्यक्रमहरू | NYFN Gandaki" : "Events | NYFN Gandaki",
-    description: locale === "np" 
-      ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशद्वारा आयोजित आगामी र विगतका कार्यक्रमहरू अन्वेषण गर्नुहोस्।" 
+    description: locale === "np"
+      ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशद्वारा आयोजित आगामी र विगतका कार्यक्रमहरू अन्वेषण गर्नुहोस्।"
       : "Explore upcoming and past events organized by NYFN Gandaki Province.",
     alternates: {
       canonical: `https://nyfngandaki.org/${locale}/events`,
@@ -28,20 +28,22 @@ export async function generateMetadata({ params }) {
     },
     openGraph: {
       title: locale === "np" ? "कार्यक्रमहरू | NYFN Gandaki" : "Events | NYFN Gandaki",
-      description: locale === "np" 
-        ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशद्वारा आयोजित आगामी र विगतका कार्यक्रमहरू अन्वेषण गर्नुहोस्।" 
+      description: locale === "np"
+        ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशद्वारा आयोजित आगामी र विगतका कार्यक्रमहरू अन्वेषण गर्नुहोस्।"
         : "Explore upcoming and past events organized by NYFN Gandaki Province.",
       url: `https://nyfngandaki.org/${locale}/events`,
       type: "website",
       siteName: "NYFN Gandaki",
       locale: locale === "np" ? "ne_NP" : "en_US",
+      images: ["/brand-logo.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: locale === "np" ? "कार्यक्रमहरू | NYFN Gandaki" : "Events | NYFN Gandaki",
-      description: locale === "np" 
-        ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशद्वारा आयोजित आगामी र विगतका कार्यक्रमहरू अन्वेषण गर्नुहोस्।" 
+      description: locale === "np"
+        ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशद्वारा आयोजित आगामी र विगतका कार्यक्रमहरू अन्वेषण गर्नुहोस्।"
         : "Explore upcoming and past events organized by NYFN Gandaki Province.",
+      images: ["/brand-logo.png"],
     }
   };
 }
@@ -49,18 +51,18 @@ export async function generateMetadata({ params }) {
 export default async function EventsPage({ params, searchParams }) {
   const { locale } = await params;
   const validLocales = ["en", "np"];
-  
+
   if (!validLocales.includes(locale)) {
     notFound();
   }
 
   const dict = await getDictionary(locale);
   const resolvedSearchParams = await searchParams;
-  
+
   const search = resolvedSearchParams?.search || "";
   const status = resolvedSearchParams?.status || "";
   const categorySlug = resolvedSearchParams?.category || "";
-  
+
   // We use Promise.all to fetch multiple sections concurrently for max performance
   const [gridData, featuredEventsData, categoriesData, stats] = await Promise.all([
     // 1. Grid Data (Paginated, Filtered)
@@ -72,19 +74,19 @@ export default async function EventsPage({ params, searchParams }) {
       category: categorySlug,
       isPublic: true // Only fetch published events if we add that flag in the future
     }),
-    
+
     // 2. Featured Event (Always try to get the most recent Upcoming/Ongoing event)
     eventService.getEvents({
       page: 1,
       limit: 1,
-      status: "Upcoming", 
+      status: "Upcoming",
       // If we had an explicit 'isFeatured' flag we would query it here. 
       // For now we just get the newest upcoming event.
     }),
-    
+
     // 3. Categories for the filter dropdown
     eventService.getCategories(),
-    
+
     // 4. Global Event Stats
     eventService.getEventStats()
   ]);
@@ -94,7 +96,7 @@ export default async function EventsPage({ params, searchParams }) {
   const featuredEvent = featuredEventsData.events[0] ? JSON.parse(JSON.stringify(featuredEventsData.events[0])) : null;
   const rawCategories = Array.isArray(categoriesData) ? categoriesData : (categoriesData?.categories || []);
   const categories = JSON.parse(JSON.stringify(rawCategories));
-  
+
   const statsPills = [
     {
       value: stats.total,
@@ -142,10 +144,10 @@ export default async function EventsPage({ params, searchParams }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Hero Section */}
-      <InternalPageHero 
+      <InternalPageHero
         title={locale === "np" ? "हाम्रा कार्यक्रमहरू" : "Our Events"}
-        subtitle={locale === "np" 
-          ? "राष्ट्रिय युवा संघ नेपाल, गण्डकी प्रदेश कमिटीद्वारा आयोजित कार्यक्रम तथा गतिविधिहरू।" 
+        subtitle={locale === "np"
+          ? "राष्ट्रिय युवा संघ नेपाल, गण्डकी प्रदेश कमिटीद्वारा आयोजित कार्यक्रम तथा गतिविधिहरू।"
           : "Discover upcoming youth summits, community services, and activities across Gandaki Province."}
         breadcrumbItems={[
           { label: locale === "np" ? "गृहपृष्ठ" : "Home", href: `/${locale}` },
@@ -157,7 +159,7 @@ export default async function EventsPage({ params, searchParams }) {
       />
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 space-y-24">
-        
+
         {/* Featured Event Section */}
         {featuredEvent && !search && !status && !categorySlug && (
           <section className="animate-in fade-in slide-in-from-bottom-8 duration-700">
@@ -184,7 +186,7 @@ export default async function EventsPage({ params, searchParams }) {
                 {locale === "np" ? "सबै कार्यक्रमहरू" : "Explore All Events"}
               </h3>
             </div>
-            
+
             {/* Filter Controls */}
             <div className="w-full lg:w-auto">
               <EventControls categories={categories} locale={locale} dictionaries={dict.events?.controls} />
@@ -197,9 +199,9 @@ export default async function EventsPage({ params, searchParams }) {
               {events.map((event) => (
                 <EventCard key={event._id} event={event} locale={locale} />
               ))}
-              
+
               {/* Infinite Scroll / Load More Client Component */}
-              <LoadMoreEvents 
+              <LoadMoreEvents
                 initialPage={pagination.page}
                 totalPages={pagination.totalPages}
                 searchParams={{ search, status, category: categorySlug }}
@@ -215,8 +217,8 @@ export default async function EventsPage({ params, searchParams }) {
                 {locale === "np" ? "कुनै कार्यक्रम भेटिएन" : "No events found"}
               </h3>
               <p className="text-slate-500 dark:text-slate-400 max-w-md">
-                {locale === "np" 
-                  ? "तपाईंको खोजीसँग मेल खाने कुनै कार्यक्रमहरू फेला परेनन्। कृपया अर्को फिल्टर प्रयास गर्नुहोस्।" 
+                {locale === "np"
+                  ? "तपाईंको खोजीसँग मेल खाने कुनै कार्यक्रमहरू फेला परेनन्। कृपया अर्को फिल्टर प्रयास गर्नुहोस्।"
                   : "We couldn't find any events matching your current filters. Try adjusting your search criteria."}
               </p>
             </div>

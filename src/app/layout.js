@@ -21,13 +21,17 @@ export const metadata = {
     siteName: "NYFN Gandaki",
     locale: "en_US",
     type: "website",
+    images: ["/brand-logo.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "NYFN Gandaki Province",
     description: "Official Website of NYFN Gandaki",
+    images: ["/brand-logo.png"],
   },
 };
+
+import { Analytics } from "@vercel/analytics/react";
 
 export default function RootLayout({ children }) {
   return (
@@ -41,6 +45,7 @@ export default function RootLayout({ children }) {
         >
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster position="bottom-right" richColors />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>

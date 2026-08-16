@@ -51,7 +51,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: seo.ogTitle?.[locale] || seo.title?.[locale],
       description: seo.ogDescription?.[locale] || seo.description?.[locale],
-      images: seo.ogImage?.url ? [{ url: seo.ogImage.url }] : [],
+      images: seo.ogImage?.url ? [{ url: seo.ogImage.url }] : [{ url: "/brand-logo.png" }],
       url: `https://nyfngandaki.org/${locale}/about`,
       type: "website",
       siteName: "NYFN Gandaki",
@@ -61,7 +61,7 @@ export async function generateMetadata({ params }) {
       card: 'summary_large_image',
       title: seo.ogTitle?.[locale],
       description: seo.ogDescription?.[locale],
-      images: seo.ogImage?.url ? [seo.ogImage.url] : [],
+      images: seo.ogImage?.url ? [seo.ogImage.url] : ["/brand-logo.png"],
     }
   };
 }

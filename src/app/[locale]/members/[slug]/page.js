@@ -59,7 +59,7 @@ export async function generateMetadata({ params }) {
       locale: locale === "np" ? "ne_NP" : "en_US",
       images: [
         {
-          url: member.photo || "/og-image-default.jpg",
+          url: member.photo || "/brand-logo.png",
           width: 800,
           height: 800,
           alt: name,
@@ -70,7 +70,7 @@ export async function generateMetadata({ params }) {
       card: "summary_large_image",
       title,
       description,
-      images: [member.photo || "/og-image-default.jpg"],
+      images: [member.photo || "/brand-logo.png"],
     },
   };
 }

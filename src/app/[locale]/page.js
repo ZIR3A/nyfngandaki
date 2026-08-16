@@ -12,10 +12,10 @@ import { LeadershipMessageService } from "@/services/LeadershipMessageService";
 
 export async function generateMetadata({ params }) {
   const { locale = "en" } = await params;
-  
+
   return {
-    title: locale === "np" 
-      ? "राष्ट्रिय युवा संघ नेपाल | गण्डकी प्रदेश" 
+    title: locale === "np"
+      ? "राष्ट्रिय युवा संघ नेपाल | गण्डकी प्रदेश"
       : "NYFN Gandaki | National Youth Federation Nepal – Gandaki Province",
     description: locale === "np"
       ? "राष्ट्रिय युवा संघ नेपाल (NYFN) गण्डकी प्रदेशको आधिकारिक वेबसाइट। यहाँ हाम्रा गतिविधिहरू, कार्यक्रमहरू, र सदस्यहरूको जानकारी पाउनुहोस्।"
@@ -35,11 +35,13 @@ export async function generateMetadata({ params }) {
       type: "website",
       siteName: "NYFN Gandaki",
       locale: locale === "np" ? "ne_NP" : "en_US",
+      images: ["/brand-logo.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: locale === "np" ? "राष्ट्रिय युवा संघ नेपाल | गण्डकी प्रदेश" : "NYFN Gandaki | National Youth Federation Nepal",
       description: locale === "np" ? "राष्ट्रिय युवा संघ नेपाल (NYFN) गण्डकी प्रदेशको आधिकारिक वेबसाइट" : "Official Website of National Youth Federation Nepal (NYFN) Gandaki Province",
+      images: ["/brand-logo.png"],
     }
   };
 }
@@ -47,7 +49,7 @@ export async function generateMetadata({ params }) {
 export default async function Home({ params }) {
   // Extract locale from params or default to 'en'
   const { locale = "en" } = await params;
-  
+
   let featuredMembers = [];
   let settings = null;
   let chairperson = null;
@@ -121,11 +123,11 @@ export default async function Home({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <HomeClient 
-        locale={locale} 
+      <HomeClient
+        locale={locale}
         settings={settings}
         chairperson={chairperson}
-        featuredMembers={featuredMembers} 
+        featuredMembers={featuredMembers}
         activities={activities}
         events={events}
         resources={resources}

@@ -28,11 +28,13 @@ export async function generateMetadata({ params }) {
       type: "website",
       siteName: "NYFN Gandaki",
       locale: locale === "np" ? "ne_NP" : "en_US",
+      images: ["/brand-logo.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: `${dict.contact.title} | NYFN Gandaki`,
       description: dict.contact.subtitle,
+      images: ["/brand-logo.png"],
     }
   };
 }

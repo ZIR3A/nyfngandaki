@@ -65,7 +65,7 @@ export function Footer({ settings }) {
             <ul className="space-y-3 text-sm text-gray-400">
               <li><Link href={`/${language}/about`} className="hover:text-primary transition-colors">{language === 'en' ? 'About Us' : 'हाम्रो बारेमा'}</Link></li>
               <li><Link href={`/${language}/members`} className="hover:text-primary transition-colors">{language === 'en' ? 'Members' : 'सदस्यहरू'}</Link></li>
-              <li><Link href={`/${language}/districts`} className="hover:text-primary transition-colors">{language === 'en' ? 'Districts' : 'जिल्लाहरू'}</Link></li>
+              {/* <li><Link href={`/${language}/districts`} className="hover:text-primary transition-colors">{language === 'en' ? 'Districts' : 'जिल्लाहरू'}</Link></li> */}
               <li><Link href={`/${language}/events`} className="hover:text-primary transition-colors">{language === 'en' ? 'Events' : 'कार्यक्रमहरू'}</Link></li>
             </ul>
           </div>

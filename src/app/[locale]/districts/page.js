@@ -24,11 +24,13 @@ export async function generateMetadata({ params }) {
       type: "website",
       siteName: "NYFN Gandaki",
       locale: locale === "np" ? "ne_NP" : "en_US",
+      images: ["/brand-logo.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: locale === "np" ? "जिल्ला कमिटीहरू | NYFN Gandaki" : "District Committees | NYFN Gandaki",
       description: locale === "np" ? "गण्डकी प्रदेशका ११ वटै जिल्लाहरूमा हाम्रो बलियो उपस्थिति।" : "Our strong grassroots presence across all 11 districts of Gandaki Province.",
+      images: ["/brand-logo.png"],
     }
   };
 }
@@ -36,9 +38,9 @@ export async function generateMetadata({ params }) {
 export default async function DistrictCommitteesPage({ params }) {
   const { locale } = await params;
   const isNepali = locale === "np";
-  
+
   await connectToDatabase();
-  
+
   // Fetch active districts
   const districtsData = await District.find({ status: "Active" })
     .sort({ displayOrder: 1, name: 1 })
@@ -52,7 +54,7 @@ export default async function DistrictCommitteesPage({ params }) {
 
   const mappedDistricts = districtsData.map(district => {
     const stat = memberCounts.find(m => m._id?.toString() === district._id.toString());
-    
+
     return {
       id: district._id.toString(),
       slug: district.slug,
@@ -88,7 +90,7 @@ export default async function DistrictCommitteesPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <PageHeader 
+      <PageHeader
         title={isNepali ? "जिल्ला कमिटीहरू" : "District Committees"}
         subtitle={isNepali ? "गण्डकी प्रदेशका ११ वटै जिल्लाहरूमा हाम्रो बलियो उपस्थिति।" : "Our strong grassroots presence across all 11 districts of Gandaki Province."}
         breadcrumbItems={[
