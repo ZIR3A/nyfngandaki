@@ -26,7 +26,8 @@ export async function generateMetadata({ params }) {
         canonical: `https://nyfngandaki.org/${locale}/events/${slug}`,
         languages: {
           en: `https://nyfngandaki.org/en/events/${slug}`,
-          np: `https://nyfngandaki.org/np/events/${slug}`,
+          ne: `https://nyfngandaki.org/np/events/${slug}`,
+          "x-default": `https://nyfngandaki.org/en/events/${slug}`,
         },
       },
     };
@@ -80,8 +81,65 @@ export default async function EventDetailPage({ params }) {
   const safeEvent = JSON.parse(JSON.stringify(event));
   const safeRelatedEvents = JSON.parse(JSON.stringify(relatedEvents));
 
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": isNepali ? "गृहपृष्ठ" : "Home",
+          "item": `https://nyfngandaki.org/${locale}`
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": isNepali ? "कार्यक्रमहरू" : "Events",
+          "item": `https://nyfngandaki.org/${locale}/events`
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": title,
+          "item": `https://nyfngandaki.org/${locale}/events/${slug}`
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": title,
+      "description": description,
+      "url": `https://nyfngandaki.org/${locale}/events/${slug}`,
+      "image": event.coverImage || "https://nyfngandaki.org/logo.png",
+      "startDate": event.startDate || new Date().toISOString(),
+      "endDate": event.endDate || event.startDate || new Date().toISOString(),
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "location": {
+        "@type": "Place",
+        "name": event.location || (isNepali ? "गण्डकी प्रदेश" : "Gandaki Province"),
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": event.location || (isNepali ? "गण्डकी" : "Gandaki"),
+          "addressCountry": "NP"
+        }
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "National Youth Federation Nepal (NYFN) Gandaki",
+        "url": "https://nyfngandaki.org"
+      }
+    }
+  ];
+
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-[#0A0F1C]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero */}
       <EventDetailHero event={safeEvent} locale={locale} />
       

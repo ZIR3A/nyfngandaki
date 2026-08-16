@@ -1,7 +1,9 @@
 import { MemberService } from "@/services/MemberService";
 import { eventService } from "@/features/events/services/eventService";
 
-export default async function sitemap() {
+export const dynamic = "force-dynamic";
+
+export async function GET() {
   const baseUrl = "https://nyfngandaki.org";
   const locales = ["en", "np"];
   
@@ -27,7 +29,8 @@ export default async function sitemap() {
         alternates: {
           languages: {
             en: `${baseUrl}/en${route === "/" ? "" : route}`,
-            np: `${baseUrl}/np${route === "/" ? "" : route}`,
+            ne: `${baseUrl}/np${route === "/" ? "" : route}`,
+            "x-default": `${baseUrl}/en${route === "/" ? "" : route}`,
           },
         },
       });
@@ -49,7 +52,8 @@ export default async function sitemap() {
               alternates: {
                 languages: {
                   en: `${baseUrl}/en/members/${member.slug}`,
-                  np: `${baseUrl}/np/members/${member.slug}`,
+                  ne: `${baseUrl}/np/members/${member.slug}`,
+                  "x-default": `${baseUrl}/en/members/${member.slug}`,
                 },
               },
             });
@@ -77,7 +81,8 @@ export default async function sitemap() {
               alternates: {
                 languages: {
                   en: `${baseUrl}/en/events/${event.slug}`,
-                  np: `${baseUrl}/np/events/${event.slug}`,
+                  ne: `${baseUrl}/np/events/${event.slug}`,
+                  "x-default": `${baseUrl}/en/events/${event.slug}`,
                 },
               },
             });
@@ -89,5 +94,33 @@ export default async function sitemap() {
     console.error("Error fetching events for sitemap", error);
   }
 
-  return sitemapUrls;
+  // Generate XML
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
+
+  sitemapUrls.forEach((item) => {
+    xml += `  <url>\n`;
+    const lastModDate = item.lastModified ? new Date(item.lastModified) : new Date();
+    const isoDate = isNaN(lastModDate.getTime()) ? new Date().toISOString() : lastModDate.toISOString();
+    
+    xml += `    <loc>${item.url}</loc>\n`;
+    xml += `    <lastmod>${isoDate}</lastmod>\n`;
+    xml += `    <changefreq>${item.changeFrequency}</changefreq>\n`;
+    xml += `    <priority>${item.priority}</priority>\n`;
+    
+    if (item.alternates && item.alternates.languages) {
+      Object.entries(item.alternates.languages).forEach(([lang, href]) => {
+        xml += `    <xhtml:link rel="alternate" hreflang="${lang}" href="${href}" />\n`;
+      });
+    }
+    xml += `  </url>\n`;
+  });
+
+  xml += `</urlset>`;
+
+  return new Response(xml, {
+    headers: {
+      "Content-Type": "application/xml",
+      "Cache-Control": "public, max-age=0, must-revalidate",
+    },
+  });
 }

@@ -22,7 +22,8 @@ export async function generateMetadata({ params }) {
       canonical: `https://nyfngandaki.org/${locale}/events`,
       languages: {
         en: `https://nyfngandaki.org/en/events`,
-        np: `https://nyfngandaki.org/np/events`,
+        ne: `https://nyfngandaki.org/np/events`,
+        "x-default": `https://nyfngandaki.org/en/events`,
       },
     },
   };
@@ -98,8 +99,31 @@ export default async function EventsPage({ params, searchParams }) {
     }
   ];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": locale === "np" ? "गृहपृष्ठ" : "Home",
+        "item": `https://nyfngandaki.org/${locale}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": locale === "np" ? "कार्यक्रमहरू" : "Events",
+        "item": `https://nyfngandaki.org/${locale}/events`
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-[#0A0F1C]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <InternalPageHero 
         title={locale === "np" ? "हाम्रा कार्यक्रमहरू" : "Our Events"}

@@ -13,7 +13,8 @@ export async function generateMetadata({ params }) {
       canonical: `https://nyfngandaki.org/${locale}/districts`,
       languages: {
         en: `https://nyfngandaki.org/en/districts`,
-        np: `https://nyfngandaki.org/np/districts`,
+        ne: `https://nyfngandaki.org/np/districts`,
+        "x-default": `https://nyfngandaki.org/en/districts`,
       },
     },
   };
@@ -49,8 +50,31 @@ export default async function DistrictCommitteesPage({ params }) {
     };
   });
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": isNepali ? "गृहपृष्ठ" : "Home",
+        "item": `https://nyfngandaki.org/${locale}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": isNepali ? "जिल्ला कमिटीहरू" : "District Committees",
+        "item": `https://nyfngandaki.org/${locale}/districts`
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <PageHeader 
         title={isNepali ? "जिल्ला कमिटीहरू" : "District Committees"}
         subtitle={isNepali ? "गण्डकी प्रदेशका ११ वटै जिल्लाहरूमा हाम्रो बलियो उपस्थिति।" : "Our strong grassroots presence across all 11 districts of Gandaki Province."}

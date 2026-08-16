@@ -44,7 +44,8 @@ export async function generateMetadata({ params }) {
       canonical: seo.canonicalUrl || `https://nyfngandaki.org/${locale}/about`,
       languages: {
         en: "https://nyfngandaki.org/en/about",
-        np: "https://nyfngandaki.org/np/about",
+        ne: "https://nyfngandaki.org/np/about",
+        "x-default": "https://nyfngandaki.org/en/about",
       },
     },
     openGraph: {
@@ -81,17 +82,37 @@ export default async function AboutPage({ params }) {
   const rawAboutMessages = await LeadershipMessageService.getAboutMessages();
   const aboutMessages = JSON.parse(JSON.stringify(rawAboutMessages));
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "AboutPage",
-    "name": seoData?.title?.[locale] || "About NYFN Gandaki",
-    "description": seoData?.description?.[locale] || "",
-    "publisher": {
-      "@type": "Organization",
-      "name": "National Youth Federation Nepal (NYFN) Gandaki",
-      "logo": "https://gandaki.nyfn.org.np/logo.png"
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "name": seoData?.title?.[locale] || "About NYFN Gandaki",
+      "description": seoData?.description?.[locale] || "",
+      "publisher": {
+        "@type": "Organization",
+        "name": "National Youth Federation Nepal (NYFN) Gandaki",
+        "logo": "https://nyfngandaki.org/logo.png"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": locale === 'np' ? "गृहपृष्ठ" : "Home",
+          "item": `https://nyfngandaki.org/${locale}`
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": locale === 'np' ? "हाम्रो बारेमा" : "About Us",
+          "item": `https://nyfngandaki.org/${locale}/about`
+        }
+      ]
     }
-  };
+  ];
 
   return (
     <main className="w-full flex flex-col min-h-screen bg-white dark:bg-slate-950">

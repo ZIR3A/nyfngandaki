@@ -24,7 +24,8 @@ export async function generateMetadata({ params }) {
       canonical: `https://nyfngandaki.org/${locale}`,
       languages: {
         en: "https://nyfngandaki.org/en",
-        np: "https://nyfngandaki.org/np",
+        ne: "https://nyfngandaki.org/np",
+        "x-default": "https://nyfngandaki.org/en",
       },
     },
     openGraph: {
@@ -85,15 +86,26 @@ export default async function Home({ params }) {
     console.error("Error fetching homepage data:", error);
   }
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "National Youth Federation Nepal (NYFN) Gandaki",
-    "alternateName": "NYFN Gandaki",
-    "url": "https://nyfngandaki.org",
-    "logo": "https://nyfngandaki.org/logo.png",
-    "description": "National Youth Federation Nepal (NYFN) Gandaki Province Committee."
-  };
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://nyfngandaki.org/#website",
+      "url": `https://nyfngandaki.org/${locale}`,
+      "name": locale === "np" ? "राष्ट्रिय युवा संघ नेपाल | गण्डकी प्रदेश" : "NYFN Gandaki | National Youth Federation Nepal",
+      "inLanguage": locale === "np" ? "ne" : "en"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://nyfngandaki.org/#organization",
+      "name": "National Youth Federation Nepal (NYFN) Gandaki",
+      "alternateName": "NYFN Gandaki",
+      "url": "https://nyfngandaki.org",
+      "logo": "https://nyfngandaki.org/logo.png",
+      "description": "National Youth Federation Nepal (NYFN) Gandaki Province Committee."
+    }
+  ];
 
   return (
     <main className="flex-1">

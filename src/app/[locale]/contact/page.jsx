@@ -13,6 +13,14 @@ export async function generateMetadata({ params }) {
   return {
     title: `${dict.contact.title} | NYFN Gandaki`,
     description: dict.contact.subtitle,
+    alternates: {
+      canonical: `https://nyfngandaki.org/${locale}/contact`,
+      languages: {
+        en: `https://nyfngandaki.org/en/contact`,
+        ne: `https://nyfngandaki.org/np/contact`,
+        "x-default": `https://nyfngandaki.org/en/contact`,
+      },
+    },
   };
 }
 
@@ -21,8 +29,31 @@ export default async function ContactPage({ params }) {
   const dict = await getDictionary(locale);
   const settings = await SiteSettingService.getSettings();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": locale === "np" ? "गृहपृष्ठ" : "Home",
+        "item": `https://nyfngandaki.org/${locale}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": dict.contact.title,
+        "item": `https://nyfngandaki.org/${locale}/contact`
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <InternalPageHero 
         title={dict.contact.intro.heading}
         subtitle={dict.contact.intro.description}

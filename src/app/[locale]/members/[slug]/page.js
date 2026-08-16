@@ -46,7 +46,8 @@ export async function generateMetadata({ params }) {
       canonical: `https://nyfngandaki.org/${locale}/members/${slug}`,
       languages: {
         en: `https://nyfngandaki.org/en/members/${slug}`,
-        np: `https://nyfngandaki.org/np/members/${slug}`,
+        ne: `https://nyfngandaki.org/np/members/${slug}`,
+        "x-default": `https://nyfngandaki.org/en/members/${slug}`,
       },
     },
     openGraph: {
@@ -87,8 +88,60 @@ export default async function MemberProfilePage({ params }) {
     ? await getRelated(member.district._id, member._id) 
     : [];
 
+  // Resolve basic strings for JSON-LD
+  const name = isNepali ? member.name?.np || member.name?.en : member.name?.en;
+  let position = "";
+  if (member.position_id && member.position_id.name) {
+    position = isNepali ? member.position_id.name.np || member.position_id.name.en : member.position_id.name.en;
+  } else if (member.position) {
+    position = isNepali ? member.position.np || member.position.en : member.position.en;
+  }
+
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": isNepali ? "गृहपृष्ठ" : "Home",
+          "item": `https://nyfngandaki.org/${locale}`
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": isNepali ? "सदस्य निर्देशिका" : "Members Directory",
+          "item": `https://nyfngandaki.org/${locale}/members`
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": name,
+          "item": `https://nyfngandaki.org/${locale}/members/${slug}`
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": name,
+      "jobTitle": position,
+      "url": `https://nyfngandaki.org/${locale}/members/${slug}`,
+      "image": member.photo || "https://nyfngandaki.org/logo.png",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "National Youth Federation Nepal (NYFN) Gandaki"
+      }
+    }
+  ];
+
   return (
     <main className="w-full">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <MemberProfileLayout 
         member={member} 
         relatedMembers={relatedMembers} 
