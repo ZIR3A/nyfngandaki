@@ -9,6 +9,13 @@ export async function generateMetadata({ params }) {
   return {
     title: locale === "np" ? "जिल्ला कमिटीहरू | NYFN Gandaki" : "District Committees | NYFN Gandaki",
     description: locale === "np" ? "गण्डकी प्रदेशका ११ वटै जिल्लाहरूमा हाम्रो बलियो उपस्थिति।" : "Our strong grassroots presence across all 11 districts of Gandaki Province.",
+    alternates: {
+      canonical: `https://nyfngandaki.org/${locale}/districts`,
+      languages: {
+        en: `https://nyfngandaki.org/en/districts`,
+        np: `https://nyfngandaki.org/np/districts`,
+      },
+    },
   };
 }
 

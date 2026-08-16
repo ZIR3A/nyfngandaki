@@ -135,6 +135,7 @@ export default function InteractiveDistrictMap({ dictionary, districts = [] }) {
                         src={selectedDistrict.coverImage} 
                         alt="District cover" 
                         fill 
+                        sizes="(max-width: 768px) 100vw, 400px"
                         className="object-cover" 
                       />
                     </div>

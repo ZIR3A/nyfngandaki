@@ -17,6 +17,7 @@ export default function EventDetailHero({ event, locale }) {
               src={event.coverImage} 
               alt={title || "Event Cover"} 
               fill
+              sizes="100vw"
               className="object-cover object-center" 
               priority
             />

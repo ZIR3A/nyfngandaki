@@ -8,8 +8,25 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const notoSansDevanagari = Noto_Sans_Devanagari({ subsets: ["devanagari"], weight: ["400", "500", "600", "700"], variable: "--font-noto-sans-devanagari" });
 
 export const metadata = {
-  title: "NYFN Gandaki Province",
-  description: "Official Website of NYFN Gandaki"
+  metadataBase: new URL("https://nyfngandaki.org"),
+  title: {
+    template: "%s | NYFN Gandaki",
+    default: "NYFN Gandaki Province",
+  },
+  description: "Official Website of NYFN Gandaki",
+  openGraph: {
+    title: "NYFN Gandaki Province",
+    description: "Official Website of NYFN Gandaki",
+    url: "https://nyfngandaki.org",
+    siteName: "NYFN Gandaki",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NYFN Gandaki Province",
+    description: "Official Website of NYFN Gandaki",
+  },
 };
 
 export default function RootLayout({ children }) {

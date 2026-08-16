@@ -41,7 +41,11 @@ export async function generateMetadata({ params }) {
     description: seo.description?.[locale] || '',
     keywords: seo.keywords?.[locale] || '',
     alternates: {
-      canonical: seo.canonicalUrl || `https://gandaki.nyfn.org.np/${locale}/about`,
+      canonical: seo.canonicalUrl || `https://nyfngandaki.org/${locale}/about`,
+      languages: {
+        en: "https://nyfngandaki.org/en/about",
+        np: "https://nyfngandaki.org/np/about",
+      },
     },
     openGraph: {
       title: seo.ogTitle?.[locale] || seo.title?.[locale],

@@ -11,10 +11,22 @@ import EventCard from "@/features/events/components/public/EventCard";
 import EventControls from "@/features/events/components/public/EventControls";
 import LoadMoreEvents from "@/features/events/components/public/LoadMoreEvents";
 
-export const metadata = {
-  title: "Events | NYFN Gandaki",
-  description: "Explore upcoming and past events organized by NYFN Gandaki Province.",
-};
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
+  return {
+    title: locale === "np" ? "कार्यक्रमहरू | NYFN Gandaki" : "Events | NYFN Gandaki",
+    description: locale === "np" 
+      ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशद्वारा आयोजित आगामी र विगतका कार्यक्रमहरू अन्वेषण गर्नुहोस्।" 
+      : "Explore upcoming and past events organized by NYFN Gandaki Province.",
+    alternates: {
+      canonical: `https://nyfngandaki.org/${locale}/events`,
+      languages: {
+        en: `https://nyfngandaki.org/en/events`,
+        np: `https://nyfngandaki.org/np/events`,
+      },
+    },
+  };
+}
 
 export default async function EventsPage({ params, searchParams }) {
   const { locale } = await params;

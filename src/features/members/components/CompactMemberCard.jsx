@@ -27,6 +27,7 @@ export function CompactMemberCard({ member, isNepali }) {
                 src={member.photo || "/placeholder.jpg"} 
                 alt={name} 
                 fill
+                sizes="80px"
                 className="object-cover object-top" 
               />
             </div>

@@ -5,6 +5,13 @@ export async function generateMetadata({ params }) {
   return {
     title: locale === "np" ? "सदस्य निर्देशिका | NYFN Gandaki" : "Members Directory | NYFN Gandaki",
     description: locale === "np" ? "राष्ट्रिय युवा संघ नेपाल गण्डकी प्रदेशका सदस्यहरूको विवरण" : "Directory of NYFN Gandaki Province Members",
+    alternates: {
+      canonical: `https://nyfngandaki.org/${locale}/members`,
+      languages: {
+        en: `https://nyfngandaki.org/en/members`,
+        np: `https://nyfngandaki.org/np/members`,
+      },
+    },
   };
 }
 

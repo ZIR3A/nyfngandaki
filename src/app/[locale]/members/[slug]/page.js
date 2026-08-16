@@ -42,11 +42,18 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://nyfngandaki.org/${locale}/members/${slug}`,
+      languages: {
+        en: `https://nyfngandaki.org/en/members/${slug}`,
+        np: `https://nyfngandaki.org/np/members/${slug}`,
+      },
+    },
     openGraph: {
       title,
       description,
       type: "profile",
-      url: `https://gandaki.nyfn.org.np/${locale}/members/${slug}`,
+      url: `https://nyfngandaki.org/${locale}/members/${slug}`,
       images: [
         {
           url: member.photo || "/og-image-default.jpg",

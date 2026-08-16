@@ -84,6 +84,7 @@ export default function EventGallery({ images = [], videos = [], locale }) {
                   src={item.url} 
                   alt={title || "Event Gallery Image"} 
                   fill
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
                 />
               )}
@@ -133,6 +134,7 @@ export default function EventGallery({ images = [], videos = [], locale }) {
                 src={mediaItems[currentIndex].url} 
                 alt="Gallery Preview" 
                 fill
+                sizes="100vw"
                 className="object-contain" 
               />
             )}

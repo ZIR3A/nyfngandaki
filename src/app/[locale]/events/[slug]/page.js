@@ -22,6 +22,13 @@ export async function generateMetadata({ params }) {
     return {
       title: `${event.seoTitle || title} | NYFN Gandaki Events`,
       description: (summary || description)?.substring(0, 160),
+      alternates: {
+        canonical: `https://nyfngandaki.org/${locale}/events/${slug}`,
+        languages: {
+          en: `https://nyfngandaki.org/en/events/${slug}`,
+          np: `https://nyfngandaki.org/np/events/${slug}`,
+        },
+      },
     };
   } catch (error) {
     return { title: "Events | NYFN Gandaki" };

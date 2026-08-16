@@ -10,6 +10,31 @@ import { DistrictService } from "@/services/DistrictService";
 import { BannerService } from "@/services/BannerService";
 import { LeadershipMessageService } from "@/services/LeadershipMessageService";
 
+export async function generateMetadata({ params }) {
+  const { locale = "en" } = await params;
+  
+  return {
+    title: locale === "np" 
+      ? "राष्ट्रिय युवा संघ नेपाल | गण्डकी प्रदेश" 
+      : "NYFN Gandaki | National Youth Federation Nepal – Gandaki Province",
+    description: locale === "np"
+      ? "राष्ट्रिय युवा संघ नेपाल (NYFN) गण्डकी प्रदेशको आधिकारिक वेबसाइट। यहाँ हाम्रा गतिविधिहरू, कार्यक्रमहरू, र सदस्यहरूको जानकारी पाउनुहोस्।"
+      : "Official Website of National Youth Federation Nepal (NYFN) Gandaki Province. Discover our activities, events, and members.",
+    alternates: {
+      canonical: `https://nyfngandaki.org/${locale}`,
+      languages: {
+        en: "https://nyfngandaki.org/en",
+        np: "https://nyfngandaki.org/np",
+      },
+    },
+    openGraph: {
+      title: locale === "np" ? "राष्ट्रिय युवा संघ नेपाल | गण्डकी प्रदेश" : "NYFN Gandaki | National Youth Federation Nepal",
+      description: locale === "np" ? "राष्ट्रिय युवा संघ नेपाल (NYFN) गण्डकी प्रदेशको आधिकारिक वेबसाइट" : "Official Website of National Youth Federation Nepal (NYFN) Gandaki Province",
+      url: `https://nyfngandaki.org/${locale}`,
+    }
+  };
+}
+
 export default async function Home({ params }) {
   // Extract locale from params or default to 'en'
   const { locale = "en" } = await params;
@@ -60,8 +85,22 @@ export default async function Home({ params }) {
     console.error("Error fetching homepage data:", error);
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "National Youth Federation Nepal (NYFN) Gandaki",
+    "alternateName": "NYFN Gandaki",
+    "url": "https://nyfngandaki.org",
+    "logo": "https://nyfngandaki.org/logo.png",
+    "description": "National Youth Federation Nepal (NYFN) Gandaki Province Committee."
+  };
+
   return (
     <main className="flex-1">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <HomeClient 
         locale={locale} 
         settings={settings}
