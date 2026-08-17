@@ -62,6 +62,15 @@ function resolveDistrict(member, isNepali) {
   return null;
 }
 
+function resolveDepartment(member, isNepali) {
+  if (member.department_id?.name) {
+    return isNepali
+      ? member.department_id.name.np || member.department_id.name.en
+      : member.department_id.name.en;
+  }
+  return null;
+}
+
 function buildProfileUrl(member, isNepali) {
   return `/${isNepali ? "np" : "en"}/members/${member.slug || member._id}`;
 }
@@ -321,11 +330,12 @@ export function MemberCard({ member, isNepali, hideActions = false, noShadow = f
   const [showQR, setShowQR] = useState(false);
   const [showShare, setShowShare] = useState(false);
 
-  const name     = resolveName(member, isNepali);
-  const position = resolvePosition(member, isNepali);
-  const district = resolveDistrict(member, isNepali);
-  const href     = buildProfileUrl(member, isNepali);
-  const color    = getPositionColor(position);
+  const name       = resolveName(member, isNepali);
+  const position   = resolvePosition(member, isNepali);
+  const department = resolveDepartment(member, isNepali);
+  const district   = resolveDistrict(member, isNepali);
+  const href       = buildProfileUrl(member, isNepali);
+  const color      = getPositionColor(position);
 
   return (
     <>
@@ -367,9 +377,16 @@ export function MemberCard({ member, isNepali, hideActions = false, noShadow = f
               {name}
             </h3>
 
+            {/* Department Tag */}
+            {department && (
+              <span className="inline-block mt-0.5 mb-1.5 px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 uppercase tracking-wide">
+                {department}
+              </span>
+            )}
+
             {/* District */}
             {district && (
-              <p className="flex items-center justify-center gap-1 mt-1 text-[13px] text-gray-500 dark:text-gray-400 font-medium">
+              <p className="flex items-center justify-center gap-1 mt-0.5 text-[13px] text-gray-500 dark:text-gray-400 font-medium">
                 <MapPin className="w-3.5 h-3.5 shrink-0" />
                 <span className="line-clamp-1">{district}</span>
               </p>
@@ -418,11 +435,12 @@ export function FeaturedLeaderCard({ member, isNepali }) {
   const [showQR, setShowQR] = useState(false);
   const [showShare, setShowShare] = useState(false);
 
-  const name     = resolveName(member, isNepali);
-  const position = resolvePosition(member, isNepali);
-  const district = resolveDistrict(member, isNepali);
-  const href     = buildProfileUrl(member, isNepali);
-  const color    = getPositionColor(position);
+  const name       = resolveName(member, isNepali);
+  const position   = resolvePosition(member, isNepali);
+  const department = resolveDepartment(member, isNepali);
+  const district   = resolveDistrict(member, isNepali);
+  const href       = buildProfileUrl(member, isNepali);
+  const color      = getPositionColor(position);
 
   return (
     <>
@@ -462,6 +480,14 @@ export function FeaturedLeaderCard({ member, isNepali }) {
             <h3 className="text-2xl sm:text-[28px] font-black text-[#0f172a] dark:text-white group-hover:text-[#1546B0] dark:group-hover:text-blue-400 transition-colors tracking-tight leading-tight mb-1">
               {name}
             </h3>
+
+            {/* Department Tag */}
+            {department && (
+              <span className="inline-block mt-1 mb-2 px-3 py-1 rounded text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 uppercase tracking-wide">
+                {department}
+              </span>
+            )}
+
             {district && (
               <p className="text-[15px] font-bold text-slate-500 dark:text-slate-400">
                 {district}

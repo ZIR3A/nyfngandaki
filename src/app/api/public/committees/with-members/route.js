@@ -45,23 +45,11 @@ export async function GET() {
           return s;
         });
 
-        // Group members by department
-        const executiveMembers = serializedMembers.filter(m => !m.department_id);
-        const departmentsWithMembers = activeDepartments.map(dept => {
-          const deptMembers = serializedMembers.filter(m => m.department_id && m.department_id._id === dept._id.toString());
-          return {
-            ...dept,
-            _id: dept._id.toString(),
-            committee_id: dept.committee_id.toString(),
-            members: deptMembers
-          };
-        }).filter(dept => dept.members.length > 0);
-
         results.push({
           ...committee,
           _id: committee._id.toString(),
-          members: executiveMembers,
-          departments: departmentsWithMembers
+          members: serializedMembers, // Provide all members in the main array
+          departments: [] // Disable segregated department rendering in UI
         });
       }
     }

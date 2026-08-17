@@ -16,6 +16,11 @@ export function MemberProfileLayout({ member, relatedMembers, isNepali }) {
   } else if (member.position) {
     position = isNepali ? member.position.np || member.position.en : member.position.en;
   }
+
+  let department = "";
+  if (member.department_id && member.department_id.name) {
+    department = isNepali ? member.department_id.name.np || member.department_id.name.en : member.department_id.name.en;
+  }
   
   const biography = isNepali ? member.biography?.np || member.biography?.en : member.biography?.en;
   const districtName = member.district?.name ? (isNepali ? member.district.name.np || member.district.name.en : member.district.name.en) : null;
@@ -85,6 +90,12 @@ export function MemberProfileLayout({ member, relatedMembers, isNepali }) {
           <div className="flex-1 text-center md:text-left flex flex-col justify-center h-full pt-2">
             <h1 className="text-3xl md:text-5xl font-black text-foreground">{name}</h1>
             <p className="text-xl md:text-2xl font-bold text-primary mt-2">{position}</p>
+            
+            {department && (
+              <p className="text-md md:text-lg font-semibold text-slate-500 mt-1 uppercase tracking-wide">
+                {department}
+              </p>
+            )}
             
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-6">
                   <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold border ${orgLevel === 'Central' ? 'bg-red-50 text-red-700 border-red-100' : (orgLevel === 'Province' || orgLevel === 'PROVINCE') ? 'bg-purple-50 text-purple-700 border-purple-100' : 'bg-orange-50 text-orange-700 border-orange-100'}`}>
