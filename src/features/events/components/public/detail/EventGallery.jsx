@@ -104,61 +104,15 @@ export default function EventGallery({ images = [], videos = [], locale }) {
 
             <div className="w-full md:flex-1 relative h-[65vh] md:h-[80vh] flex items-center justify-center">
               {mediaItems[currentIndex].mediaType === 'video' ? (
-                mediaItems[currentIndex].url?.includes('drive.google.com') ? (
-                  <div className="w-full h-full relative overflow-hidden bg-black md:rounded-lg md:shadow-2xl">
-                    {/* Mobile scaling hack: Google Drive player clips controls if width < 450px and height is tall. */}
-                    {/* We render it at 500px wide, and scale it down to fit the mobile screen. */}
-                    <div className="block md:hidden absolute top-1/2 left-1/2 w-[500px] h-full origin-center -translate-x-1/2 -translate-y-1/2 scale-[0.75] sm:scale-[0.85]">
-                       <iframe 
-                        src={`${mediaItems[currentIndex].url?.replace('/view', '/preview')}${mediaItems[currentIndex].url?.includes('?') ? '&' : '?'}autoplay=1`} 
-                        className="w-full h-full border-0" 
-                        allow="autoplay; fullscreen; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    
-                    {/* Desktop normal view */}
-                    <iframe 
-                      src={`${mediaItems[currentIndex].url?.replace('/view', '/preview')}${mediaItems[currentIndex].url?.includes('?') ? '&' : '?'}autoplay=1`} 
-                      className="hidden md:block w-full h-full border-0 bg-black" 
-                      allow="autoplay; fullscreen; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                ) : (
-                  <div className="w-full h-full max-w-4xl rounded-lg overflow-hidden shadow-2xl flex items-center justify-center">
-                    <VideoJsPlayer 
-                      options={{
-                        autoplay: true,
-                        controls: true,
-                        responsive: true,
-                        fill: true,
-                        controlBar: {
-                          playToggle: true,
-                          progressControl: true,
-                          fullscreenToggle: true,
-                          
-                          volumePanel: false,
-                          currentTimeDisplay: false,
-                          timeDivider: false,
-                          durationDisplay: false,
-                          remainingTimeDisplay: false,
-                          customControlSpacer: false,
-                          playbackRateMenuButton: false,
-                          chaptersButton: false,
-                          descriptionsButton: false,
-                          subsCapsButton: false,
-                          audioTrackButton: false,
-                          pictureInPictureToggle: false,
-                        },
-                        sources: [{
-                          src: mediaItems[currentIndex].url,
-                          type: 'video/mp4'
-                        }]
-                      }} 
-                    />
-                  </div>
-                )
+                <div className="w-full h-full relative overflow-hidden bg-black md:rounded-lg md:shadow-2xl">
+                  {/* Normal iframe height to show Google Drive controls on all screens */}
+                  <iframe 
+                    src={`${mediaItems[currentIndex].url?.replace('/view', '/preview')}${mediaItems[currentIndex].url?.includes('?') ? '&' : '?'}autoplay=1&controls=0&?background=0`} 
+                    className="absolute top-0 left-0 w-full h-full border-0 bg-black pointer-events-auto" 
+                    allow="autoplay; fullscreen;"
+                    allowFullScreen={false}
+                  />
+                </div>
               ) : (
                 <Image 
                   src={mediaItems[currentIndex].url} 
