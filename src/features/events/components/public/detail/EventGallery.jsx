@@ -10,10 +10,6 @@ export default function EventGallery({ images = [], videos = [], locale }) {
   
   // Combine all media items for a unified gallery experience
   const mediaItems = [...videos.map(v => ({...v, mediaType: 'video'})), ...images.map(i => ({...i, mediaType: 'image'}))];
-  
-  // Touch state for swipe
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
 
   if (mediaItems.length === 0) return null;
 
@@ -36,29 +32,6 @@ export default function EventGallery({ images = [], videos = [], locale }) {
     setCurrentIndex((prev) => (prev === 0 ? mediaItems.length - 1 : prev - 1));
   };
 
-  const handleTouchStart = (e) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-    
-    if (isLeftSwipe) {
-      nextImage();
-    }
-    if (isRightSwipe) {
-      prevImage();
-    }
-  };
-
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -69,11 +42,19 @@ export default function EventGallery({ images = [], videos = [], locale }) {
           return (
             <div 
               key={`media-${index}`} 
+              role="button"
+              tabIndex={0}
               className="relative aspect-square rounded-2xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900"
               onClick={() => openLightbox(index)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  openLightbox(index);
+                }
+              }}
             >
               {isVideo ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900">
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 pointer-events-none">
                   <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
                     <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
                   </div>
@@ -99,11 +80,10 @@ export default function EventGallery({ images = [], videos = [], locale }) {
       {/* Lightbox Overlay */}
       {lightboxOpen && (
         <div 
-          className="fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-xl flex items-center justify-center opacity-100 animate-in fade-in duration-200"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center opacity-100 animate-in fade-in duration-200"
         >
+          {/* Background Layer separated to fix iOS Safari iframe touch bug */}
+          <div className="absolute inset-0 bg-slate-900/95 backdrop-blur-xl -z-10" />
           
           <button 
             onClick={closeLightbox}
@@ -112,44 +92,111 @@ export default function EventGallery({ images = [], videos = [], locale }) {
             <X className="w-6 h-6" />
           </button>
 
-          {mediaItems.length > 1 && (
-            <button 
-              onClick={prevImage}
-              className="absolute left-6 z-50 p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors hidden md:block"
-            >
-              <ChevronLeft className="w-8 h-8" />
-            </button>
-          )}
+          <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-7xl h-full py-12 md:py-8 px-0 md:px-8">
+            {mediaItems.length > 1 && (
+              <button 
+                onClick={prevImage}
+                className="hidden md:block shrink-0 z-50 p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors mr-6"
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </button>
+            )}
 
-          <div className="relative w-full max-w-5xl aspect-video mx-4 flex items-center justify-center">
-            {mediaItems[currentIndex].mediaType === 'video' ? (
-              <iframe 
-                src={mediaItems[currentIndex].url?.replace('/view', '/preview')} 
-                className="w-full h-full border-0 rounded-lg shadow-2xl" 
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              <Image 
-                src={mediaItems[currentIndex].url} 
-                alt="Gallery Preview" 
-                fill
-                sizes="100vw"
-                className="object-contain" 
-              />
+            <div className="w-full md:flex-1 relative h-[65vh] md:h-[80vh] flex items-center justify-center">
+              {mediaItems[currentIndex].mediaType === 'video' ? (
+                mediaItems[currentIndex].url?.includes('drive.google.com') ? (
+                  <div className="w-full h-full relative overflow-hidden bg-black md:rounded-lg md:shadow-2xl">
+                    {/* Mobile scaling hack: Google Drive player clips controls if width < 450px and height is tall. */}
+                    {/* We render it at 500px wide, and scale it down to fit the mobile screen. */}
+                    <div className="block md:hidden absolute top-1/2 left-1/2 w-[500px] h-full origin-center -translate-x-1/2 -translate-y-1/2 scale-[0.75] sm:scale-[0.85]">
+                       <iframe 
+                        src={`${mediaItems[currentIndex].url?.replace('/view', '/preview')}${mediaItems[currentIndex].url?.includes('?') ? '&' : '?'}autoplay=1`} 
+                        className="w-full h-full border-0" 
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                    
+                    {/* Desktop normal view */}
+                    <iframe 
+                      src={`${mediaItems[currentIndex].url?.replace('/view', '/preview')}${mediaItems[currentIndex].url?.includes('?') ? '&' : '?'}autoplay=1`} 
+                      className="hidden md:block w-full h-full border-0 bg-black" 
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full h-full max-w-4xl rounded-lg overflow-hidden shadow-2xl flex items-center justify-center">
+                    <VideoJsPlayer 
+                      options={{
+                        autoplay: true,
+                        controls: true,
+                        responsive: true,
+                        fill: true,
+                        controlBar: {
+                          playToggle: true,
+                          progressControl: true,
+                          fullscreenToggle: true,
+                          
+                          volumePanel: false,
+                          currentTimeDisplay: false,
+                          timeDivider: false,
+                          durationDisplay: false,
+                          remainingTimeDisplay: false,
+                          customControlSpacer: false,
+                          playbackRateMenuButton: false,
+                          chaptersButton: false,
+                          descriptionsButton: false,
+                          subsCapsButton: false,
+                          audioTrackButton: false,
+                          pictureInPictureToggle: false,
+                        },
+                        sources: [{
+                          src: mediaItems[currentIndex].url,
+                          type: 'video/mp4'
+                        }]
+                      }} 
+                    />
+                  </div>
+                )
+              ) : (
+                <Image 
+                  src={mediaItems[currentIndex].url} 
+                  alt="Gallery Preview" 
+                  fill
+                  sizes="100vw"
+                  className="object-contain px-4 md:px-0" 
+                />
+              )}
+            </div>
+
+            {mediaItems.length > 1 && (
+              <button 
+                onClick={nextImage}
+                className="hidden md:block shrink-0 z-50 p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors ml-6"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </button>
+            )}
+
+            {/* Mobile Navigation controls below media */}
+            {mediaItems.length > 1 && (
+               <div className="flex md:hidden items-center justify-center gap-8 mt-8">
+                 <button onClick={prevImage} className="p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors">
+                    <ChevronLeft className="w-6 h-6" />
+                 </button>
+                 <span className="text-white/80 font-medium text-lg">
+                    {currentIndex + 1} / {mediaItems.length}
+                 </span>
+                 <button onClick={nextImage} className="p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors">
+                    <ChevronRight className="w-6 h-6" />
+                 </button>
+               </div>
             )}
           </div>
 
-          {mediaItems.length > 1 && (
-            <button 
-              onClick={nextImage}
-              className="absolute right-6 z-50 p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors hidden md:block"
-            >
-              <ChevronRight className="w-8 h-8" />
-            </button>
-          )}
-
-          <div className="absolute bottom-6 left-0 w-full text-center text-white/80 font-medium">
+          {/* Desktop counter */}
+          <div className="hidden md:block absolute bottom-6 left-0 w-full text-center text-white/80 font-medium">
             {currentIndex + 1} / {mediaItems.length}
           </div>
         </div>

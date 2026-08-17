@@ -11,8 +11,8 @@ export default function LeadershipMessagesSection({ dictionary, messages = [] })
 
   const dict = dictionary?.home?.chairperson || {};
 
-  // Display at most 3 messages on the homepage
-  const displayMessages = messages.slice(0, 3);
+  // Display all messages without limiting
+  const displayMessages = messages;
 
   // Helper for determining grid columns to center items if < 3
   const gridColumns = displayMessages.length === 1 
@@ -53,24 +53,6 @@ export default function LeadershipMessagesSection({ dictionary, messages = [] })
             />
           ))}
         </div>
-        
-        {messages.length > 3 && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-16 text-center"
-          >
-            <Link 
-              href={`/${dictionary?.locale || 'en'}/about#leadership-messages`} 
-              className="inline-flex items-center text-[#153E90] dark:text-blue-400 font-semibold hover:text-[#D81E27] dark:hover:text-red-400 transition-colors group"
-            >
-              {dictionary?.common?.viewAll || "View All Messages"}
-              <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
-            </Link>
-          </motion.div>
-        )}
       </div>
     </section>
   );

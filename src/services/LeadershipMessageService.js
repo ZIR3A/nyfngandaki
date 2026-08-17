@@ -103,9 +103,8 @@ export class LeadershipMessageService {
     const messages = await LeadershipMessage.find({
       deleted_at: null,
       status: "published",
-      homepage_visible: true,
     })
-      .sort({ featured: -1, display_order: 1, published_at: -1 })
+      .sort({ display_order: 1, published_at: -1 })
       .populate({
         path: "member_id",
         populate: [
