@@ -23,6 +23,11 @@ export const metadata = {
     type: "website",
     images: ["/brand-logo.png"],
   },
+  icons: {
+    icon: "/brand-logo.png",
+    shortcut: "/brand-logo.png",
+    apple: "/brand-logo.png",
+  },
   twitter: {
     card: "summary_large_image",
     title: "NYFN Gandaki Province",
