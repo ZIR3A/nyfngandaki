@@ -36,9 +36,9 @@ export default function LoadMoreEvents({
       const data = await res.json();
       
       if (data.success) {
-        setEvents(prev => [...prev, ...data.data.events]);
+        setEvents(prev => [...prev, ...data.data]);
         setPage(nextPage);
-        setHasMore(nextPage < data.data.pagination.totalPages);
+        setHasMore(nextPage < data.pagination.totalPages);
       }
     } catch (error) {
       console.error("Failed to load more events:", error);

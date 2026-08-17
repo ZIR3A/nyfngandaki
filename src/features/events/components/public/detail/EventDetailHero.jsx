@@ -21,7 +21,7 @@ export default function EventDetailHero({ event, locale }) {
               className="object-cover object-center" 
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C]/90 via-[#0A0F1C]/50 to-[#0A0F1C]/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/80 to-[#0A0F1C]/40" />
           </>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-[#1546B0]/20 to-[#0A0F1C]" />
@@ -49,12 +49,7 @@ export default function EventDetailHero({ event, locale }) {
           
           {event.category && (
             <div 
-              className="px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border"
-              style={{ 
-                backgroundColor: `${event.category.color}30`, 
-                color: event.category.color,
-                borderColor: `${event.category.color}50` 
-              }}
+              className="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#1546B0] text-white border border-[#2D63D8] shadow-sm"
             >
               {isNepali && event.category.name?.np ? event.category.name.np : event.category.name?.en}
             </div>
