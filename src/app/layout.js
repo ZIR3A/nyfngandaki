@@ -34,6 +34,9 @@ export const metadata = {
     description: "Official Website of NYFN Gandaki",
     images: ["/brand-logo.png"],
   },
+  other: {
+    "google-adsense-account": "ca-pub-1933988685009702",
+  },
 };
 
 import { Analytics } from "@vercel/analytics/react";
